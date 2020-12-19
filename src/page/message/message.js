@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Tag } from 'antd'
 
-function Login() {
+export default function Message() {
 
     return(
         <h1>
-            LOGIN TEST            
+            MESSAGE TEST            
         </h1>
     )
 }
 
-export default Login
+
