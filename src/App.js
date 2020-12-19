@@ -2,95 +2,50 @@ import './App.css'
 import React, { useEffect, useRef, useState } from 'react'
 import useChat from './useChat'
 import { Button, Input, message, Tag } from 'antd'
+import {
+    Router, Route, Redirect, Switch,
+} from 'react-router-dom';
+import NotFound from './page/404';
+import { rootRouter } from './router/rootRouter';
+import { history as browserHistory } from './common/history';
+import { syncHistoryWithStore } from 'mobx-react-router';
+import { routerStore } from './store/routerStore';
+const history = syncHistoryWithStore(browserHistory, routerStore);
 
 function App() {
-  const { status, opened, messages, sendMessage, clearMessages } = useChat()
-
-  const [username, setUsername] = useState('')
-  const [body, setBody] = useState('')
-
-  const bodyRef = useRef(null)
-
-  const displayStatus = (s) => {
-    if (s.msg) {
-      const { type, msg } = s
-      const content = {
-        content: msg,
-        duration: 0.5
-      }
-
-      switch (type) {
-        case 'success':
-          message.success(content)
-          break
-        case 'info':
-          message.info(content)
-          break
-        case 'danger':
-        default:
-          message.error(content)
-          break
-      }
-    }
-  }
-
-  useEffect(() => {
-    displayStatus(status)
-  }, [status])
 
   return (
-    <div className="App">
-      <div className="App-title">
-        <h1>Simple Chat</h1>
-        <Button type="primary" danger onClick={clearMessages}>
-          Clear
-        </Button>
-      </div>
-      <div className="App-messages">
-        {messages.length === 0 ? (
-          <p style={{ color: '#ccc' }}>
-            {opened? 'No messages...' : 'Loading...'}
-          </p>
-        ) : (
-          messages.map(({ name, body }, i) => (
-            <p className="App-message" key={i}>
-              <Tag color="blue">{name}</Tag> {body}
-            </p>
-          ))
-        )}
-      </div>
-      <Input
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        style={{ marginBottom: 10 }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            bodyRef.current.focus()
-          }
-        }}
-      ></Input>
-      <Input.Search
-        rows={4}
-        value={body}
-        ref={bodyRef}
-        enterButton="Send"
-        onChange={(e) => setBody(e.target.value)}
-        placeholder="Type a message here..."
-        onSearch={(msg) => {
-          if (!msg || !username) {
-            displayStatus({
-              type: 'error',
-              msg: 'Please enter a username and a message body.'
-            })
-            return
-          }
+    <Router history={history}>
 
-          sendMessage({ name: username, body: msg })
-          setBody('')
-        }}
-      ></Input.Search>
-    </div>
+    <Switch>
+      <Redirect exact from="/" to="/login" />
+      <Route
+        path="/"
+        children={({ match }) => {
+          console.log("match:",match);
+          // if (!match.params) {
+          //   console.log("NO match.params");
+          //   return <Redirect to="/login" />;
+          // }
+          // eslint-disable-next-line prefer-destructuring
+          return (
+            <Switch>
+              {
+                rootRouter.map(({ path, component, ...otherProps }) => {
+                  return(
+                    <Route path={path} component={component} {...otherProps} key={path} />
+                    )
+                })
+              }
+              <Route path="*" component={NotFound} />
+            </Switch>
+          );
+        }} 
+      />
+      <Route path="*" component={NotFound} />
+    </Switch>      
+    </Router> 
+
   )
 }
 
