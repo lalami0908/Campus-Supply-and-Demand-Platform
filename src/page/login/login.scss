@@ -66,7 +66,7 @@
             background: #e8f3f9 url(https://web4.cc.ntu.edu.tw/s/login/v1/images/web2_04.gif) top center no-repeat;
 
             p {
-                margin-top:60p;
+                margin-top:60px;
                 padding-top:60px;
                 padding-right:10px;
                 padding-left:10px;
@@ -78,12 +78,17 @@
             margin: 0 110px 0px 305px;
             padding: 0 20px 0 20px;
             height:421px;
+            width: 449px;
             line-height: 1.6em;
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             background: #d6cebb url(https://web4.cc.ntu.edu.tw/s/login/v1/images/web2_03.gif) top center repeat-y;            
             h2 {
                 font-size: 1.5em;
                 margin: 0 0 0.5em 0;
+                font-style: italic;
             }        
             h3 {
                 font-size: 1em;
@@ -106,27 +111,27 @@
             }     
             .ant-form{
                 width: 380px;
-                .login-form-button  {
-                    padding-top: 15px;
-                    .ant-form-item-children{
-                    display: flex;
-                        width: 100%;
-                        justify-content: space-between; 
-                        align-items: center;
-                        .ant-btn{
-                            width: 113px;
-                            border-radius: 22px;
-                            height: 45px;
-                        }
+            }
+            .login-form-button  {
+                padding-top: 15px;
+                .ant-form-item-children{
+                display: flex;
+                    width: 100%;
+                    height: 45px;
+                    justify-content: space-between; 
+                    align-items: center;
+                    .ant-btn{
+                        width: 113px;
+                        border-radius: 22px;
+                        height: 45px;
                     }
                 }
-                .ant-input{
-                    height: 45px;
-                    border-radius: 22px;
-                    border-color: #ccd0d3;
-                } 
             }
-
+            .ant-input{
+                height: 45px;
+                border-radius: 22px;
+                border-color: #ccd0d3;
+            } 
         }            
         .footer {
             margin: 0 auto;

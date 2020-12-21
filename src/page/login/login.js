@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form, Input, Icon, Checkbox } from 'antd'
 import './login.scss';
 // import {userStore} from '../../store/userStore'
+
 export default function Login() {
 
     const handleLogin = (values)=>{
         //TODO
     }
-
+    const footerURL = require("../../assets/sd.jpg");
     return(
         <div className="login-body">   
             <div className="wrap">
@@ -35,7 +36,7 @@ export default function Login() {
                     </p>
                 </div>
                 <div className="footer">
-                
+                    <img src={footerURL} alt="" />
                 </div>
             </div>
         </div>
