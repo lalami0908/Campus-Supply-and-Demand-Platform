@@ -1,7 +1,8 @@
-import express from 'express';
+// import express from 'express';
+const express = require("express");
 const router = express.Router();
-import bodyParser from 'body-parser';
-import cors from 'cors' 
+// import bodyParser from 'body-parser';
+// import cors from 'cors' 
 
 
 router.post('/users', (req, res) => { 
@@ -17,4 +18,4 @@ router.post('/users', (req, res) => {
 
 
 
-export default router
+module.exports = router

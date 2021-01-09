@@ -62,7 +62,7 @@ function LoginForm(props){
         <Form onSubmit={handleSubmit} className="login-form">
             <Form.Item>
                 {
-                    getFieldDecorator('userName', {
+                    getFieldDecorator('NTUID', {
                         rules: [
                             {
                                 required: true,
@@ -78,7 +78,7 @@ function LoginForm(props){
                 }
             </Form.Item>
             <Form.Item>
-                {getFieldDecorator('passWord', {
+                {getFieldDecorator('password', {
                     rules: [{ required: true, message: '请输入密码!' }],
                     initialValue: '',
                 })(

@@ -1,11 +1,12 @@
-import express from 'express';
+// import express from 'express';
+const express = require("express");
 const router = express.Router();
 
 function checkIDlegal(NTUID){
-
+    console.log("NTUID:",NTUID)
     //TODO: 檢查DB 是否重複註冊
-     
-    if(typeof NTUID !== String || NTUID.length!==9 || ){
+    let re = /[rRbBdD][0-9]{2}[0-9AB][0-9]{5}/;
+    if(typeof NTUID !== "string" || NTUID.length!==9 || !NTUID.match(re) ){
         return false
     }
 
@@ -13,10 +14,13 @@ function checkIDlegal(NTUID){
 }
 
 //先註冊
-router.post('/login/register', (req, res) => { 
-    console.log('request:',req);
-    let check = checkIDlegal(req.query.NTUID)
-    res.send(`register ${check?"SUCCESS":"FAILED"}`);
+router.post('/register', (req, res) => { 
+    console.log('Got body:', req.body);
+    // console.log('request:',req);
+    let check = checkIDlegal(req.body.NTUID);
+    let resstr = `register ${check?"SUCCESS":"FAILED"}`;
+    console.log('response:',resstr);
+    res.send(resstr);
     
 
 });
@@ -28,4 +32,4 @@ router.post('/login', (req, res) => {
 
 });
 
-export default router
+module.exports = router;

@@ -3,6 +3,6 @@ export const BASE_URL = 'http://localhost:4000/';
 // 註冊
 export const REGISTER = '/login/register';
 // 登入
-export const LOGIN = '/login';
+export const LOGIN = '/login/login';
 // 重設密碼
 export const RESET_PASSWORD = '/login/resetPassword';
