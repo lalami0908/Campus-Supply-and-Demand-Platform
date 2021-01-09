@@ -8,10 +8,19 @@
     "server": "nodemon server.js"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "cors": "^2.8.5",
     "dotenv-defaults": "^2.0.1",
     "express": "^4.17.1",
-    "mongoose": "^5.11.5"
+    "mongoose": "^5.11.5",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/register": "^7.12.10",
+    "babel-loader": "^8.2.2"
   }
 }

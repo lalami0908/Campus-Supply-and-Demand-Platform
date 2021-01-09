@@ -23,6 +23,7 @@ const db = mongoose.connection;
 
 import homeRouter from './routes/home.js'; 
 import usersRouter from './routes/users.js';
+import loginRouter from './routes/login';
 
 
 const app = express();
@@ -32,7 +33,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use('/', homeRouter);
 app.use('/users', usersRouter);
-
+app.use('/login',loginRouter);
 
 app.post('/users', (req, res) => { 
 	res.send('POST HTTP method on users resource');

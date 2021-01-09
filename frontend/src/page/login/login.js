@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form, Input, Icon, Checkbox } from 'antd'
 import './login.scss';
+import  {register, login, resetPassword} from '../../axios'
 // import {userStore} from '../../store/userStore'
 
+
+//TESTING
 export default function Login() {
 
-    const handleLogin = (values)=>{
-        //TODO
+    async function handleLogin(values){
+        console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
+        let res = await register(values)
+        console.log(`register response: ${res}`)
     }
     const footerURL = require("../../assets/sd.jpg");
     return(
@@ -91,8 +96,8 @@ function LoginForm(props){
                 })(
                     <>
                         <Checkbox>記住用戶名和密碼</Checkbox>
-                        <Button type="primary" htmlType="submit">
-                            登录<Icon type="arrow-right" />
+                        <Button className="login-button" type="primary" htmlType="submit">
+                            登入<Icon type="arrow-right" />
                         </Button>
                     </>,
                 )}

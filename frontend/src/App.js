@@ -1,6 +1,5 @@
 import './App.css'
 import React, { useEffect, useRef, useState } from 'react'
-import useChat from './useChat'
 import { Button, Input, message, Tag } from 'antd'
 import {
     Router, Route, Redirect, Switch,

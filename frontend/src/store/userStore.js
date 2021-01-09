@@ -4,7 +4,7 @@ import { flow, action, observable } from 'mobx';
 import { navigate, navigate2Login } from '../common/utils';
 import {
     CREDENTIAL_LOGIN,
-} from '../common/api';
+} from '../common/APIpath';
 import { RESOURCE } from '../common/fetch';
 import { Message } from '../common/message';
 // import { appStore } from './appStore';
