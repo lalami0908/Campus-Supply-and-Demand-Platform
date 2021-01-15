@@ -6,18 +6,18 @@ const instance = axios.create({ baseURL: BASE_URL })
 export const register = async (credential) => {//credential:{NTU_ID, password}
   console.log('frontend credential:',credential)
   const {
-    data: { msg }
+    data: { register }
   } = await instance.post(REGISTER, credential)
-  console.log('post return data:',msg)
-  return msg
+  console.log('post return data:',register)
+  return register
 }
 //TODO
 export const login = async (credential) => {
   const {
-    data: { msg }
-  } = await instance.post(LOGIN, { params: { credential }})
+    data: { login }
+  } = await instance.post(LOGIN, { params: { login }})
 
-  return msg
+  return login
 }
 
 //TODO

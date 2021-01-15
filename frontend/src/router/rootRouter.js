@@ -15,9 +15,10 @@ export const rootRouter = [
         }),
     },
     {
-        path: `/${ROUTE_PRE_FIX}`,
+        path: `/home`,
         component: Loadable({
-            loader: () => import('../layout/basicLayout'),
+            loader: () => import('../page/home/home.js'),
+            // loader: () => import('../layout/basicLayout'),
             loading: () => <SDLoading />,
         }),
     },

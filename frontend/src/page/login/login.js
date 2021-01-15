@@ -1,17 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Form, Input, Icon, Checkbox } from 'antd'
 import './login.scss';
-import  {register, login, resetPassword} from '../../axios'
+import  {register, login, resetPassword,genPost} from '../../axios'
 // import {userStore} from '../../store/userStore'
+import { navigate } from '../../common/utils';
 
 
-//TESTING
 export default function Login() {
 
     async function handleLogin(values){
         console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
         let res = await register(values)
-        console.log(`register response: ${res}`)
+        // let res = await genPost()
+        
+        console.log('res:',res)
+        console.log(`register response: ${JSON.stringify(res)}`)
+        if(res.registered){
+            navigate('/home');
+        }
     }
     const footerURL = require("../../assets/sd.jpg");
     return(

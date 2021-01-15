@@ -1,20 +1,12 @@
-import numeral from 'numeral';
 import queryString from 'query-string';
-import { toJS } from 'mobx';
-import { Modal } from 'antd';
-import diff from 'deep-diff';
 import { routerStore } from '../store/routerStore';
-import { ROUTE_PRE_FIX } from './constant';
-// import { RESOIURCE_UPLOAD } from './api';
-import { RESOURCE } from './fetch';
-import { PERMISSION } from './permission';
-import { userStore } from '../store/userStore';
 
 // js跳轉頁面
 export function navigate(path, params) {
+    console.log(`navigate to path:${path},param:${JSON.stringify(params)}`)
     const query = queryString.stringify(params);
     routerStore.push({
-        pathname: `/tw/${ROUTE_PRE_FIX}${path}`,
+        pathname: `${path}`,
         search: query && `?${query}`,
     });
 }
@@ -29,7 +21,7 @@ export function getUrlParams() {
 // eslint-disable-next-line camelcase
 export function navigate2Login(params) {
     routerStore.push({
-        pathname: '/tw/login',
+        pathname: '/login',
         state: params,
     });
 }

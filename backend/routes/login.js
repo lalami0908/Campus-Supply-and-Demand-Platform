@@ -20,7 +20,8 @@ router.post('/register', (req, res) => {
     let check = checkIDlegal(req.body.NTUID);
     let resstr = `register ${check?"SUCCESS":"FAILED"}`;
     console.log('response:',resstr);
-    res.send(resstr);
+    // res.send(resstr);
+    res.json({register:{token:"testing-WUYQASBK981y3jasbdGI",registered:check}});
     
 
 });
