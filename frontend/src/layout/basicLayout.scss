@@ -1,0 +1,93 @@
+#basicLayout {
+    padding: 0 40px 30px 30px;
+    .layout-header {
+      display: flex;
+      align-items: center;
+      padding:0 30px 10px 24px;
+      .left {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        .header-menu-fold {
+          user-select: none;
+          cursor: pointer;
+          img {
+            width: 18px;
+          }
+          :active {
+            opacity: .8;
+          }
+          &.active {
+            img {
+              transform: rotate(180deg);
+            }
+          }
+        }
+        .tab{
+          margin-left: 20px;
+          background: none;
+        }
+        .logo {
+          user-select: none;
+          width: 80px;
+          margin-left: 15px;
+          img {
+            width: 100%;
+          }
+        }
+      }
+  
+      .right {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        position: relative;
+        .headerName {
+          cursor: pointer;
+        }
+        .loginout {
+          width: 100%;
+          text-align: right;
+        }
+      }
+      .header-text {
+        font-size: 16px;
+        line-height: 1.5em;
+        margin-left: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        p {
+          line-height: 1em;
+          margin: 0;
+        }
+        p:nth-child(1) {
+          margin-bottom: 5px;
+        }
+        .en-header{
+          font-size: 14px;
+        }
+      }
+      .header-item{
+        display: flex;
+        margin-left: auto;
+      }
+    }
+    .ant-layout-sider{
+      border-radius: 4px;
+      overflow: auto;
+      position: relative;
+    }
+    .ant-layout-content {
+      position: relative;
+      background: unset !important;
+    }
+    .layout-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      // bottom: 0;
+    }
+  }

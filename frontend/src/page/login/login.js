@@ -14,6 +14,7 @@ export default function Login() {
         // console.log(`register response: ${JSON.stringify(res)}`)
         // console.log("here");
         
+
          // *** 按下登入後打登入
         // login
         let res = await login(values)
@@ -40,7 +41,7 @@ export default function Login() {
         //     // 註冊失敗停在此頁
         // }
     }
-    const footerURL = require("../../assets/sd.jpg");
+    const footerURL = require("../../assets/images/sd.jpg");
     return(
         <div className="login-body">   
             <div className="wrap">
