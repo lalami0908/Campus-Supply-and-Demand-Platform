@@ -9,7 +9,7 @@ import { rootRouter } from './router/rootRouter';
 import { history as browserHistory } from './common/history';
 import { syncHistoryWithStore } from 'mobx-react-router';
 import { routerStore } from './store/routerStore';
-// const history = syncHistoryWithStore(browserHistory, routerStore);
+const history = syncHistoryWithStore(browserHistory, routerStore);
 
 function App() {
 
