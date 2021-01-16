@@ -12,14 +12,8 @@ passport.use(
             passwordField: 'user[password]',
         },
         async (NTUID, password, done) => {
-            console.log("passport.js ");
-            console.log(NTUID, password);
-
             User.findOne({ NTUID }).then((user) =>{
-                console.log("finduser");
-
                 if(!user || !user.validatePassword(password)) {
-                    console.log("validatePasswordFail");
                     return done(null, false, { errors: { 'NTUID or password': 'is invalid' } });
                 }
                 return done(null, user);

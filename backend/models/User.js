@@ -38,6 +38,7 @@ const UsersSchema = new Schema({
     
     demanderScore: [Number],
     SupplierScore: [Number],
+    
 });
 
 

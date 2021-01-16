@@ -17,29 +17,29 @@ export default function Login() {
 
          // *** 按下登入後打登入
         // login
-        let res = await login(values)
-        if(res.success){
-            localStorage.setItem('token', res.user.token)
-            localStorage.setItem('NTUID', res.user.NTUID)
-            localStorage.setItem('userId', res.user._id)  
-            navigate('/home');
-        } else {
-            alert(res.msg);
-        }
-
-        // *** 按下登入後打註冊
-        // register
-        // let res = await register(values)
-        // alert(res.msg);
-        // if(res.success){  
-        //     // 註冊成功也直接導向主頁
+        // let res = await login(values)
+        // if(res.success){
         //     localStorage.setItem('token', res.user.token)
         //     localStorage.setItem('NTUID', res.user.NTUID)
         //     localStorage.setItem('userId', res.user._id)  
         //     navigate('/home');
         // } else {
-        //     // 註冊失敗停在此頁
+        //     alert(res.msg);
         // }
+
+        // *** 按下登入後打註冊
+        // register
+        let res = await register(values)
+        alert(res.msg);
+        if(res.success){  
+            // 註冊成功也直接導向主頁
+            localStorage.setItem('token', res.user.token)
+            localStorage.setItem('NTUID', res.user.NTUID)
+            localStorage.setItem('userId', res.user._id)  
+            navigate('/home');
+        } else {
+            // 註冊失敗停在此頁
+        }
     }
     const footerURL = require("../../assets/images/sd.jpg");
     return(

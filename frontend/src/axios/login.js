@@ -6,19 +6,20 @@ const instance = axios.create({ baseURL: BASE_URL })
 
 export const register = async (credential) => {  //credential:{NTU_ID, password}
   console.log('frontend credential:',credential)
+  console.log("registerAxios");
   
   const {
     data: { registerResult }
-  } = await instance.post( REGISTER, credential )
+  } = await instance.post( REGISTER, credential ).catch((err) => console.error(err));
   console.log('post return data:',registerResult)
   return registerResult
 }
 //TODO
 export const login = async (loginInfo) => {
-  console.log("login");
+  console.log("loginAxios");
   const {
     data: { loginResult }
-  } = await instance.post( LOGIN,  { user: loginInfo} )
+  } = await instance.post( LOGIN,  { user: loginInfo} ).catch((err) => console.error(err));
   console.log("loginResult", loginResult);
   return loginResult
 }

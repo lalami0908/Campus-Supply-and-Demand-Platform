@@ -21,7 +21,7 @@ function checkIDlegal(NTUID){
 }
 
 //先註冊
-router.post('/register', (req, res) => {     // req.body:  NTUID, password
+router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
     console.log('registerRoute'); 
     console.log('Got body:', req.body); 
 
@@ -32,33 +32,35 @@ router.post('/register', (req, res) => {     // req.body:  NTUID, password
         return res.json({ registerResult:{ success: false, msg: '註冊錯誤：密碼為必填' }});
     }
     
-    // 已經註冊了
+ 
     User.find({ 'NTUID': req.body.NTUID }).then((user) => {
         if (user.length != 0){
+             // 已經註冊了
             return res.json({ registerResult:{ success:false, msg:'註冊錯誤：帳號已經註冊'}})
+        } else {
+            // 尚未註冊
+            // 檢查ＩＤ合法性
+            let IDlegal = checkIDlegal(req.body.NTUID);
+            if (!IDlegal){
+                return res.json({ registerResult: { success:false, msg:'註冊錯誤：學號不合法'}})
+            }
+            
+            const newUser = new User({ NTUID : req.body.NTUID });
+            newUser.setPassword(req.body.password);
+        
+            // 如果註冊後倒回登入頁面
+            // newUser.save()
+            //     .then((user) => { 
+            //         return res.json({ registerResult: { success: true, msg:'註冊成功！'} })
+            // });
+        
+            // 註冊後直接進入主頁
+            newUser.save().then((user) => { 
+                user.token = user.generateJwt();
+                return res.json({ registerResult: { success: true, msg:'註冊成功！', user: user.toAuthJson()} })
+            });
         }
     });
-
-    // 檢查ＩＤ合法性
-    let IDlegal = checkIDlegal(req.body.NTUID);
-    if (!IDlegal){
-        return res.json({ registerResult: { success:false, msg:'註冊錯誤：學號不合法'}})
-    }
-
-    // let resstr = `register ${IDlegal?"SUCCESS":"FAILED"}`;
-    // console.log('response:',resstr);
-    // console.log("setPasswordRoute");
-
-    const newUser = new User({ NTUID : req.body.NTUID });
-    newUser.setPassword(req.body.password);
-  
-    // TODO: 回傳註冊成功
-    newUser.save()
-        .then(() => { return res.json({ registerResult: { success: true, msg:'註冊成功！'} })
-    });
-    
-    // res.status(200).json({register:{token:"testing-WUYQASBK981y3jasbdGI",registered:check, success:true}});
-
 });
 
 //登入
@@ -87,17 +89,12 @@ router.post('/login', auth.optional, (req, res, next) => {  // req.body:  NTUID,
     
     // 驗證
     return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-        console.log("passport.authenticate");
-        console.log(err);
-        console.log(passportUser);
-
+    
         if(err) {
-            console.log("authenticate_err");
             return res.json({loginResult: { success: false, msg:'登入失敗：發生不明錯誤，請洽系統管理員'}});
         }
 
         if(passportUser) {
-            console.log('passportUser');
             const user = passportUser;
             user.token = passportUser.generateJwt();
             return res.json({loginResult:{ user: user.toAuthJson(), success: true }});

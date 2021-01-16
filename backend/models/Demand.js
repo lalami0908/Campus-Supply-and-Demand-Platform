@@ -13,7 +13,7 @@ const Schema = mongoose.Schema
 // view the demand detail (inProcess)
 //             view: the supplies
 //             confirm: check the supply
-// history (isClosed): score
+// history (isOpen): score
 
 // edit the demand
 // delete the demand
@@ -42,8 +42,9 @@ const DemandSchema = new Schema({
 
     views: Number, // Method: add when someone vist
 
-    isClosed: Boolean, // Method: demander close post
+    isOpen: Boolean, // Method: demander close post
     needSupplyCnt: Number,
+
     confirmTransaction: [String], //supply_id // Method: set score for the confirmed supply
 
 });
