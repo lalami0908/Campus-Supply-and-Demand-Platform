@@ -3,21 +3,24 @@ import {BASE_URL, REGISTER, LOGIN, RESET_PASSWORD} from '../common/APIpath'
 
 const instance = axios.create({ baseURL: BASE_URL })
 
-export const register = async (credential) => {//credential:{NTU_ID, password}
+
+export const register = async (credential) => {  //credential:{NTU_ID, password}
   console.log('frontend credential:',credential)
+  
   const {
-    data: { register }
-  } = await instance.post(REGISTER, credential)
-  console.log('post return data:',register)
-  return register
+    data: { registerResult }
+  } = await instance.post( REGISTER, credential )
+  console.log('post return data:',registerResult)
+  return registerResult
 }
 //TODO
-export const login = async (credential) => {
+export const login = async (loginInfo) => {
+  console.log("login");
   const {
-    data: { login }
-  } = await instance.post(LOGIN, { params: { login }})
-
-  return login
+    data: { loginResult }
+  } = await instance.post( LOGIN,  { user: loginInfo} )
+  console.log("loginResult", loginResult);
+  return loginResult
 }
 
 //TODO

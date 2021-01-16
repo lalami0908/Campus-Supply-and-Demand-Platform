@@ -6,9 +6,10 @@ import App from './App'
 import 'antd/dist/antd.css'
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode> cause warning
+  <React.Fragment>
     <App />
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById('root')
 )
 

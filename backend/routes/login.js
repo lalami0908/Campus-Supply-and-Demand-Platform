@@ -2,9 +2,16 @@
 const express = require("express");
 const router = express.Router();
 
+// const User = require('./models/User')
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
+
+const passport = require('passport');
+const auth = require('../config/auth');
+
 function checkIDlegal(NTUID){
     console.log("NTUID:",NTUID)
-    //TODO: 檢查DB 是否重複註冊
+    
     let re = /[rRbBdD][0-9]{2}[0-9AB][0-9]{5}/;
     if(typeof NTUID !== "string" || NTUID.length!==9 || !NTUID.match(re) ){
         return false
@@ -14,23 +21,91 @@ function checkIDlegal(NTUID){
 }
 
 //先註冊
-router.post('/register', (req, res) => { 
-    console.log('Got body:', req.body);
-    // console.log('request:',req);
-    let check = checkIDlegal(req.body.NTUID);
-    let resstr = `register ${check?"SUCCESS":"FAILED"}`;
-    console.log('response:',resstr);
-    // res.send(resstr);
-    res.json({register:{token:"testing-WUYQASBK981y3jasbdGI",registered:check}});
+router.post('/register', (req, res) => {     // req.body:  NTUID, password
+    console.log('registerRoute'); 
+    console.log('Got body:', req.body); 
+
+    if(!req.body.NTUID) {
+        return res.json({ registerResult:{ success: false, msg: '註冊錯誤：學號為必填'}});
+    }
+    if(!req.body.password) {
+        return res.json({ registerResult:{ success: false, msg: '註冊錯誤：密碼為必填' }});
+    }
     
+    // 已經註冊了
+    User.find({ 'NTUID': req.body.NTUID }).then((user) => {
+        if (user.length != 0){
+            return res.json({ registerResult:{ success:false, msg:'註冊錯誤：帳號已經註冊'}})
+        }
+    });
+
+    // 檢查ＩＤ合法性
+    let IDlegal = checkIDlegal(req.body.NTUID);
+    if (!IDlegal){
+        return res.json({ registerResult: { success:false, msg:'註冊錯誤：學號不合法'}})
+    }
+
+    // let resstr = `register ${IDlegal?"SUCCESS":"FAILED"}`;
+    // console.log('response:',resstr);
+    // console.log("setPasswordRoute");
+
+    const newUser = new User({ NTUID : req.body.NTUID });
+    newUser.setPassword(req.body.password);
+  
+    // TODO: 回傳註冊成功
+    newUser.save()
+        .then(() => { return res.json({ registerResult: { success: true, msg:'註冊成功！'} })
+    });
+    
+    // res.status(200).json({register:{token:"testing-WUYQASBK981y3jasbdGI",registered:check, success:true}});
 
 });
 
 //登入
-router.post('/login', (req, res) => { 
-    
-    
+router.post('/login', auth.optional, (req, res, next) => {  // req.body:  NTUID, password
+    const { user } = req.body;
 
+    console.log('loginRoute'); 
+    console.log('Got body:', req.body); 
+    console.log('Got user:', user); 
+
+    // 繞過前端的必填才有可能到這裡
+    if(!user.NTUID) {
+        return res.json( { loginResult: { success: false, msg: '登入錯誤：學號為必填'} } );
+    }
+    if(!user.password) {
+        return res.json( { loginResult: { success: false, msg: '登入錯誤：密碼為必填' } } );
+    }
+    
+    // 還沒註冊
+    User.find({ 'NTUID': user.NTUID }).then((findUser) => {
+        if (findUser.length == 0){
+            return res.json({ loginResult: { success: false, msg:'使用者尚未註冊，請先註冊'} });
+        }
+    });
+
+    
+    // 驗證
+    return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
+        console.log("passport.authenticate");
+        console.log(err);
+        console.log(passportUser);
+
+        if(err) {
+            console.log("authenticate_err");
+            return res.json({loginResult: { success: false, msg:'登入失敗：發生不明錯誤，請洽系統管理員'}});
+        }
+
+        if(passportUser) {
+            console.log('passportUser');
+            const user = passportUser;
+            user.token = passportUser.generateJwt();
+            return res.json({loginResult:{ user: user.toAuthJson(), success: true }});
+        }
+    
+        return res.json({ loginResult: { success:false, msg:'登入失敗：密碼錯誤'} } );
+      })(req, res, next);
+    
 });
 
 module.exports = router;
