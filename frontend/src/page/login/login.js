@@ -16,10 +16,13 @@ export default function Login() {
         console.log('res:',res)
         console.log(`register response: ${JSON.stringify(res)}`)
         if(res.registered){
+            //server return login token?
+            // localStorage.setItem('token', res.loginToken);
+            // localStorage.setItem('loginName', values.NTUID);
             navigate('/home');
         }
     }
-    const footerURL = require("../../assets/sd.jpg");
+    const footerURL = require("../../assets/images/sd.jpg");
     return(
         <div className="login-body">   
             <div className="wrap">

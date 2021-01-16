@@ -15,10 +15,10 @@ export const rootRouter = [
         }),
     },
     {
-        path: `/home`,
+        path: '/home',
         component: Loadable({
-            loader: () => import('../page/home/home.js'),
-            // loader: () => import('../layout/basicLayout'),
+            // loader: () => import('../page/home/home.js'),
+            loader: () => import('../layout/basicLayout'),
             loading: () => <SDLoading />,
         }),
     },
@@ -26,11 +26,8 @@ export const rootRouter = [
 
 export const layoutRouter = [
     {
-        path: '/home',
-        forceRefresh: true,
-        component: Loadable({
-            loader: () => import('../page/home/home'),
-            loading: () => <SDLoading />,
-        }),
+        defaultPath: '/home',
+        path: '',
+        router: adminRouter,
     },
 ];
