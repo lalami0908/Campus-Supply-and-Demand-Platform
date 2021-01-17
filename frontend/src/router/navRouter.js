@@ -61,16 +61,44 @@ export const adminRouter = [
         ],
     },
     {
-        key: 'personal',
+        key: 'personalArea',
         name: '個人專區',
-        exact: true,
         icon: '',
-        path: '/personal',
-        component: Loadable({
-            loader: () => import('../page/personal/personal'),
-            loading: () => <SDLoading />,
-        }),
+        routes: [
+            {
+                key: 'personalInfo',
+                name: '個人資料',
+                path: '/personal/personalInfo',
+                exact: true,
+                component: Loadable({
+                    loader: () => import('../page/personal/personal'),
+                    loading: () => <SDLoading />,
+                }),
+            },
+            {
+                key: 'ownDemand',
+                name: '你的需求',
+                path: '/personal/ownDemand',
+                exact: true,
+                component: Loadable({
+                    loader: () => import('../page/personal/ownDemand'),
+                    loading: () => <SDLoading />,
+                }),
+            },
+            {
+                key: 'ownSupply',
+                name: '你的接單',
+                path: '/personal/ownSupply',
+                exact: true,
+                component: Loadable({
+                    loader: () => import('../page/personal/ownSupply'),
+                    loading: () => <SDLoading />,
+                }),
+            },
+            
+        ],
     },
+
 
 ];
 

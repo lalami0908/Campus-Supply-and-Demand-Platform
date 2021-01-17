@@ -44,6 +44,8 @@ const DemandSchema = new Schema({
 
     isOpen: Boolean, // Method: demander close post
     needSupplyCnt: Number,
+    supplyList: [String],
+
 
     confirmTransaction: [String], //supply_id // Method: set score for the confirmed supply
 

@@ -199,7 +199,7 @@ function SwitchLayout(props){
 }
 
 SwitchLayout.propTypes = {
-    lan: propTypes.string.isRequired,
+    // lan: propTypes.string.isRequired,
     router: propTypes.array.isRequired,
     permission: propTypes.oneOfType([
         propTypes.string,
