@@ -10,7 +10,7 @@ import {
 import './basicLayout.scss';
 import { ROUTE_PRE_FIX } from '../common/constant';
 import { layoutRouter } from '../router/rootRouter';
-// import propTypes from 'prop-types';
+import propTypes from 'prop-types';
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 export default function BasicLayout(props){
@@ -33,11 +33,14 @@ export default function BasicLayout(props){
             <Switch>
                 {
                 // 記錄當前的路由
-                    layoutRouter.map(({ path, router }) => (
-                        <Route key={path} path={`/${props.lan}/${ROUTE_PRE_FIX}${path}`}>
+                    layoutRouter.map(({ path, router }) => {
+                        console.log(`path:${JSON.stringify(path)}, router:${JSON.stringify(router)}`)
+                        console.log('props.location:',props.location)
+                        return(
+                        <Route key={path} path={`${path}`}>
                             <SwitchLayout history={props.history} location={props.location} path={path} key={path} permission={props.permission} router={router} lan={props.lan} />
                         </Route>
-                    ))
+                    )})
                 }
             </Switch>
         </Layout>
@@ -83,11 +86,14 @@ function SwitchLayout(props){
     };
 
     function  gotoUrl(item, contentPath){
-        const { history, location, lan } = props;
+        const { history, location } = props;
+        console.log('history:',history)
+        console.log('location:',location)
         // eslint-disable-next-line no-param-reassign
         item.path = item.path.split(':')[0];
         if (location.pathname !== item.path) {
-            history.push(`/${lan}/${ROUTE_PRE_FIX + contentPath}${item.path}`);
+            console.log('contentPath:',contentPath)
+            history.push(`/${ROUTE_PRE_FIX + contentPath}${item.path}`);
         }
     };
 
@@ -169,9 +175,9 @@ function SwitchLayout(props){
                     <Menu
                         mode="inline"
                         theme="dark"
-                        selectedKeys={this.state.selectedKeys}
+                        selectedKeys={selectedKeys}
                         // menu收起時，不再自動打開選中項
-                        {...(props.collapsed ? {} : { openKeys: this.state.openKeys })}
+                        {...(props.collapsed ? {} : { openKeys: openKeys })}
                         style={{ height: '100%', borderRight: 0 }}
                         onOpenChange={onToggle}
                         key={`${props.collapsed}`}
@@ -187,13 +193,13 @@ function SwitchLayout(props){
     
 }
 
-// SwitchLayout.propTypes = {
-//     lan: propTypes.string.isRequired,
-//     router: propTypes.array.isRequired,
-//     permission: propTypes.oneOfType([
-//         propTypes.string,
-//         propTypes.arrayOf(propTypes.string),
-//     ]),
-//     path: propTypes.string.isRequired,
-// };
+SwitchLayout.propTypes = {
+    lan: propTypes.string.isRequired,
+    router: propTypes.array.isRequired,
+    permission: propTypes.oneOfType([
+        propTypes.string,
+        propTypes.arrayOf(propTypes.string),
+    ]),
+    path: propTypes.string.isRequired,
+};
 

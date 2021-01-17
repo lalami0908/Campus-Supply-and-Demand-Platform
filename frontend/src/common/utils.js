@@ -1,12 +1,12 @@
 import queryString from 'query-string';
 import { routerStore } from '../store/routerStore';
-
+import { ROUTE_PRE_FIX } from '../common/constant';
 // js跳轉頁面
 export function navigate(path, params) {
     console.log(`navigate to path:${path},param:${JSON.stringify(params)}`)
     const query = queryString.stringify(params);
     routerStore.push({
-        pathname: `${path}`,
+        pathname: `${ROUTE_PRE_FIX}${path}`,
         search: query && `?${query}`,
     });
 }

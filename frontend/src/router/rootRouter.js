@@ -15,7 +15,7 @@ export const rootRouter = [
         }),
     },
     {
-        path: '/home',
+        path: `/${ROUTE_PRE_FIX}`,
         component: Loadable({
             // loader: () => import('../page/home/home.js'),
             loader: () => import('../layout/basicLayout'),
@@ -26,8 +26,9 @@ export const rootRouter = [
 
 export const layoutRouter = [
     {
-        defaultPath: '/home',
+        defaultPath: '/admin/role',
         path: '',
+        // name: '系统管理',
         router: adminRouter,
-    },
+    }
 ];

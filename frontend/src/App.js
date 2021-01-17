@@ -9,6 +9,7 @@ import { rootRouter } from './router/rootRouter';
 import { history as browserHistory } from './common/history';
 import { syncHistoryWithStore } from 'mobx-react-router';
 import { routerStore } from './store/routerStore';
+import { ROUTE_PRE_FIX } from './common/constant';//testing
 const history = syncHistoryWithStore(browserHistory, routerStore);
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   return (
     <Router history={browserHistory}>
       <Switch>
-        <Redirect exact from="/" to="/login" />
+        <Redirect exact from="/" to={`${ROUTE_PRE_FIX}/home`} />
         <Route
           path="/"
           children={({ match }) => {
