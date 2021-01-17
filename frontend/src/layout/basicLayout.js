@@ -10,23 +10,27 @@ import {
 import './basicLayout.scss';
 import { ROUTE_PRE_FIX } from '../common/constant';
 import { layoutRouter } from '../router/rootRouter';
+import ContentLayout from './contentLayout';
 import propTypes from 'prop-types';
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 export default function BasicLayout(props){
-
+    const [showLoginOut, setShowLoginOut] = useState(false)
+    const logoUrl = require('../assets/images/logo.png');
+    console.log('logoUrl:',logoUrl)
     return (
         <Layout id="basicLayout">
             <Header className="layout-header">
                 <div className="left">
-                    <div className="logo"><img alt="" src={require('../assets/images/logo.png')} /></div>
+                    <div className="logo"><img alt="logo" src='./logo.png' /></div>
+                     
                     <div className="header-text">
-                        <span style={{ fontSize: 14 }}>天才小布丁</span>
-                        <p>滿滿的大平台</p>
+                        <span style={{ fontSize: 14 }}>你有需求</span>
+                        <p>台大人幫你</p>
                     </div>
 
                     <div className="header-item">
-                        <LoginOut onCancel={() =>{}} onSubmit={navigate2Login} />
+                        <LoginOut onCancel={() =>{}} onSubmit={navigate2Login} visible={showLoginOut} />
                     </div>
                 </div>
             </Header>
@@ -38,7 +42,7 @@ export default function BasicLayout(props){
                         console.log('props.location:',props.location)
                         return(
                         <Route key={path} path={`${path}`}>
-                            <SwitchLayout history={props.history} location={props.location} path={path} key={path} permission={props.permission} router={router} lan={props.lan} />
+                            <SwitchLayout history={props.history} location={props.location} path={path} key={path} permission={props.permission} router={router} />
                         </Route>
                     )})
                 }
@@ -58,6 +62,7 @@ const LoginOut = function (props) {
 };
 
 function SwitchLayout(props){
+    console.log('switch props:',props)
     const [openKeys, setOpenKeys]  = useState([])
     const [selectedKeys, setSelectedKeys]  = useState([])
 
@@ -187,7 +192,7 @@ function SwitchLayout(props){
                         }
                     </Menu>
                 </Sider>
-                {/* <ContentLayout selectedKeys={this.state.selectedKeys} lan={props.lan} router={props.router} contentPath={props.path} /> */}
+                <ContentLayout selectedKeys={selectedKeys} lan={props.lan} router={props.router} contentPath={props.path} />
             </Layout>
         );
     

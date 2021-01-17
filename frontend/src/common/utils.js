@@ -19,9 +19,9 @@ export function getUrlParams() {
 
 // js返回登入頁面
 // eslint-disable-next-line camelcase
-export function navigate2Login(params) {
+export function navigate2Login() {
     routerStore.push({
         pathname: '/login',
-        state: params,
+        // state: params,
     });
 }
