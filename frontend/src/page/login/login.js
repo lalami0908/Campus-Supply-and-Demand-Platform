@@ -125,7 +125,7 @@ function LoginForm(props){
                     <>
                         <Checkbox>記住用戶名和密碼</Checkbox>
                         <Button className="login-button" type="primary" htmlType="submit">
-                            登入<Icon type="arrow-right" />
+                            註冊<Icon type="arrow-right" />
                         </Button>
                     </>,
                 )}

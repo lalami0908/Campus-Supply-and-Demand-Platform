@@ -5,10 +5,31 @@
     background-repeat: no-repeat;
         
 }
+
 .carousel-display{
-    width: 100vw;
-    height: 70vh;
+    width: 85vw;
+    height: 77vh;
     background-image: url('../../assets/images/ntu.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+}
+.home-footer{
+    position: relative;
+
+    .others{
+        background-image: url('../../assets/images/footer.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: relative;
+        top: 2vh;
+        width: 85vw;
+        height: 20vh;
+        color: yellow;
+        font-size: 3vh;
+        .notice-text{
+            position: relative;
+            top: 2vh;    
+            left: 8vw;        
+        }
+    }
 }

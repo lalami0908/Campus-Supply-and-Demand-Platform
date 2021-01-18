@@ -15,3 +15,5 @@ export const GET_TAG_POSTS = '/post/getTagPosts';
 export const ADD_NEW_POST = '/post/addNewPost';
 // 更改一張需求單
 export const UPDATE_YOUR_POST = '/post/updateYourPost';
+// 需求單接單
+export const SUPPLY_POST = '/post/supplyPost';

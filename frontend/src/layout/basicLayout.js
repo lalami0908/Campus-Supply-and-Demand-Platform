@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     Layout, Menu, Icon, ConfigProvider,
 } from 'antd';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'antd';
 import { navigate2Login } from '../common/utils';
 import {
     Route, Switch,
@@ -16,7 +16,7 @@ import logoUrl from '../assets/images/logo.png'
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 export default function BasicLayout(props){
-    const [showLoginOut, setShowLoginOut] = useState(false)
+    // const [showLoginOut, setShowLoginOut] = useState(false)
     return (
         <Layout id="basicLayout">
             <Header className="layout-header">
@@ -27,13 +27,9 @@ export default function BasicLayout(props){
                     <span style={{ fontSize: 14 }}>你有需求</span>
                     <p className="typing">讓台大人幫你</p>
                 </div>
-                <div>TEST
-                    <Modal onCancel={props.onCancel} onOk={props.onSubmit} visible={props.visible} title="退出登錄" okText="確認" cancelText="取消">
-                        <p>確認退出當前登錄嗎</p>
-                    </Modal>
-                </div>
-                <div className="loginout-item">
-                    <LoginOut onCancel={() =>{}} onSubmit={navigate2Login} visible={showLoginOut} />
+
+                <div className="loginout-button">
+                    <LoginOut onSubmit={navigate2Login}>登出</LoginOut>
                 </div>
 
             </Header>
@@ -57,10 +53,27 @@ export default function BasicLayout(props){
 
 // 彈框-退出登錄
 const LoginOut = function (props) {
+    const [visible, setVisible] = useState(false)
+    const showModal = () => {
+        console.log('logout')
+        setVisible(true)
+    };
+    const handleOk = () => {
+        setVisible(false);
+        props.onSubmit()
+    };
+    const handleCancel = () => {
+        setVisible(false)
+    };
     return (
-        <Modal onCancel={props.onCancel} onOk={props.onSubmit} visible={props.visible} title="退出登錄" okText="確認" cancelText="取消">
-            <p>確認退出當前登錄嗎</p>
-        </Modal>
+        <>
+            <Button type="primary" onClick={showModal}>
+                離開我們
+            </Button>
+            <Modal onCancel={handleCancel} onOk={handleOk} visible={visible} title="484不小心按到" okText="確認" cancelText="取消">
+                <p>確認退出當前登錄嗎</p>
+            </Modal>
+        </>
     );
 };
 
