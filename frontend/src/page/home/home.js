@@ -1,61 +1,83 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Tag } from 'antd'
 // import Carousel from 'react-grid-carousel'
-import Carousel from './Carousel'
-// import '../test.css'
+// import Carousel from './Carousel'
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import './home.scss'
+
+import MyCarousel from './components/MyCarousel'
+import Marquee from "react-smooth-marquee"
+import want1 from '../../assets/images/test_wanted/test_wanted_1.jpg'
+import want2 from '../../assets/images/test_wanted/test_wanted_2.jpg'
+import want3 from '../../assets/images/test_wanted/test_wanted_3.jpg'
+import want4 from '../../assets/images/test_wanted/test_wanted_4.jpg'
+import want5 from '../../assets/images/test_wanted/test_wanted_5.jpg'
+import want6 from '../../assets/images/test_wanted/test_wanted_6.jpg'
+import want7 from '../../assets/images/test_wanted/test_wanted_7.jpg'
+const post = [
+  {
+    src: want1,
+    altText: 'Wanted 1',
+    caption: ''
+  },
+  {
+    src: want2,
+    altText: 'Wanted 2',
+    caption: ''
+  },
+  {
+    src: want3,
+    altText: 'Wanted 3',
+    caption: ''
+  },
+  {
+    src: want4,
+    altText: 'Wanted 4',
+    caption: ''
+  },
+  {
+    src: want5,
+    altText: 'Wanted 5',
+    caption: ''
+  },
+  {
+    src: want6,
+    altText: 'Wanted 6',
+    caption: ''
+  },
+  {
+    src: want7,
+    altText: 'Wanted 7',
+    caption: ''
+  }
+];
 
 function Home() {
+  const testFolder = '../../assets/images/test_wanted/';
 
-  function genItems(){
-    const testFolder = '../../assets/images/test_wanted/';
+  useEffect(()=>{
+    //這邊要從後端動態拿post資料
 
-    return(
-            <>
-              {         
-                [1,2,3,4,5,6,7].forEach(num => {
-                  console.log(num);
-                  return(
-                    <Carousel.Item>
-                      <img width="100%" src={`${testFolder}`+'test_wanted_'+ num +'.jpg'} />
-                    </Carousel.Item>
-                  )
-                })
-              }
-            </>
-    )
-  }
+    let now = Date.now();
+    const today = new Date(now);
+    console.log('now:',now)
+    console.log('today:',today.toDateString())
+  },[])
+
 
   return(
     <>
-      <div style={{
-        backgroundImage: 'url(`../../assets/images/test_wanted/test_wanted_2.jpg`)',
-        height: '10vh',
-        width: '10vw'
-      }}>
-
+      <div className="carousel-display">
+        <MyCarousel posts={post}/>
       </div>
-      <img width="100%" src={require("../../assets/images/test_wanted/test_wanted_2.jpg")} />
-      <img width="100%" src="../../assets/images/test_wanted/test_wanted_3.jpg" />
-      <img width="100%" src="../../assets/images/test_wanted/test_wanted_4.jpg" />
+      <div className="home-footer">
+          <Marquee>
+            <a href='https://www.facebook.com/groups/NTU.Head?sorting_setting=CHRONOLOGICAL'>我們同時也致力於關心校園大小時事，並永遠跟您一同站在世界的最前線，點選連結即可前往最可靠的第一手消息來源.........</a>
+          </Marquee>
+      </div>
     </>
-
-    // <Carousel cols={2} rows={1} gap={10} loop>
-    //   <Carousel.Item>
-    //     <img width="100%" src="../../assets/images/test_wanted/test_wanted_1.jpg" />
-    //   </Carousel.Item>
-    //   <Carousel.Item>
-    //     <img width="100%" src="../../assets/images/test_wanted/test_wanted_2.jpg" />
-    //   </Carousel.Item>
-    //   <Carousel.Item>
-    //     <img width="100%" src="../../assets/images/test_wanted/test_wanted_3.jpg" />
-    //   </Carousel.Item>
-
-    //   {/* {
-    //     genItems()
-
-    //   } */}
-    // </Carousel>
-
+    
   //hard to fix them QQ
   //   <div class="hot_list">
   //   <div class="hot_banner_box">

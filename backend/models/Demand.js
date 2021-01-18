@@ -23,28 +23,32 @@ const Schema = mongoose.Schema
 //
 
 const DemandSchema = new Schema({
-    _id: String,
-    host: String, // user_id
+
 
     // Method: post a demand after login  
     // user access control
+
+    //Client端送來的資訊
     title: String,
-    subTitle: String,
+    // subTitle: String,
     content: String, 
     deadline: Date,
-    price: Number,
-
+    pay: String, //price: Number, (不限制以金錢回報)
+    imgPath: String,
     category: String,
-    tag: String, // auto-complete dropDown list (?) // choose block
-
-    postDate: Date,
-    updateDate: Date, // Method: edit post
-
-    views: Number, // Method: add when someone vist
-
-    isOpen: Boolean, // Method: demander close post
     needSupplyCnt: Number,
 
+    //Server端接收到新需求單時需補上的資訊
+    _id: String,
+    host: String, // user_id
+    postDate: Date,
+    updateDate: Date, // Method: edit post
+    tag: Number,//熱門、最新、緊急、高報酬...(對應search頁面的tags) 可用linux存rwx權限的二進位方式來存// auto-complete dropDown list (?) // choose block
+    views: Number, // Method: add when someone vist
+    state: String, //'onDemand'|'onMatching'|'onComplete'
+    isOpen: Boolean, // Method: demander close post
+    
+    //what?
     confirmTransaction: [String], //supply_id // Method: set score for the confirmed supply
 
 });

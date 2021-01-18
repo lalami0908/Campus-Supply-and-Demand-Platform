@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
-    Layout, Menu, Icon, Modal, ConfigProvider,
+    Layout, Menu, Icon, ConfigProvider,
 } from 'antd';
-
+import { Button, Modal } from 'react-bootstrap';
 import { navigate2Login } from '../common/utils';
 import {
     Route, Switch,
@@ -12,27 +12,30 @@ import { ROUTE_PRE_FIX } from '../common/constant';
 import { layoutRouter } from '../router/rootRouter';
 import ContentLayout from './contentLayout';
 import propTypes from 'prop-types';
+import logoUrl from '../assets/images/logo.png'
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 export default function BasicLayout(props){
     const [showLoginOut, setShowLoginOut] = useState(false)
-    const logoUrl = require('../assets/images/logo.png');
-    console.log('logoUrl:',logoUrl)
     return (
         <Layout id="basicLayout">
             <Header className="layout-header">
-                <div className="left">
-                    <div className="logo"><img alt="logo" src='./logo.png' /></div>
-                     
-                    <div className="header-text">
-                        <span style={{ fontSize: 14 }}>你有需求</span>
-                        <p>台大人幫你</p>
-                    </div>
 
-                    <div className="header-item">
-                        <LoginOut onCancel={() =>{}} onSubmit={navigate2Login} visible={showLoginOut} />
-                    </div>
+                <div className="logo"><img alt="logo" src={logoUrl}/></div>
+                     
+                <div className="header-text">
+                    <span style={{ fontSize: 14 }}>你有需求</span>
+                    <p className="typing">讓台大人幫你</p>
                 </div>
+                <div>TEST
+                    <Modal onCancel={props.onCancel} onOk={props.onSubmit} visible={props.visible} title="退出登錄" okText="確認" cancelText="取消">
+                        <p>確認退出當前登錄嗎</p>
+                    </Modal>
+                </div>
+                <div className="loginout-item">
+                    <LoginOut onCancel={() =>{}} onSubmit={navigate2Login} visible={showLoginOut} />
+                </div>
+
             </Header>
             <Switch>
                 {

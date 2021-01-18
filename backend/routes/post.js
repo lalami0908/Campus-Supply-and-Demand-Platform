@@ -19,9 +19,13 @@ router.post('/addNewPost', (req, res) => {
 	console.log(req.body.text);
 });
 
+router.get('/getAllPosts', (req, res) => { 
+    res.send('getAllPosts');
+    //TODO 抓DB資料
+	console.log(req.body.text);
+});
 
-
-router.post('/updateYourPost', (req, res) => { 
+router.put('/updateYourPost', (req, res) => { 
 	res.send('test3');
 	console.log(req.body.text);
 });

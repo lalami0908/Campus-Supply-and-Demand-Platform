@@ -24,7 +24,7 @@ export const adminRouter = [
                 path: '/search/hot',
                 exact: true,
                 component: Loadable({
-                    loader: () => import('../page/search'),
+                    loader: () => import('../page/search/search'),
                     loading: () => <SDLoading />,
                 }),
             },
@@ -34,7 +34,7 @@ export const adminRouter = [
                 path: '/search/current',
                 exact: true,
                 component: Loadable({
-                    loader: () => import('../page/search'),
+                    loader: () => import('../page/search/search'),
                     loading: () => <SDLoading />,
                 }),
             },
@@ -44,7 +44,7 @@ export const adminRouter = [
                 path: '/search/highPayment',
                 exact: true,
                 component: Loadable({
-                    loader: () => import('../page/search'),
+                    loader: () => import('../page/search/search'),
                     loading: () => <SDLoading />,
                 }),
             },
@@ -54,7 +54,7 @@ export const adminRouter = [
                 name: '熱門用戶',
                 exact: true,
                 component: Loadable({
-                    loader: () => import('../page/search'),
+                    loader: () => import('../page/search/search'),
                     loading: () => <SDLoading />,
                 }),
             },
