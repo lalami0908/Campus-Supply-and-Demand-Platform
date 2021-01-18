@@ -9,6 +9,9 @@
 # production
 /build
 
+# upload
+/public/uploads
+
 # misc
 .env
 .DS_Store
