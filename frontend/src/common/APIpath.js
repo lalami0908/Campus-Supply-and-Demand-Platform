@@ -7,10 +7,12 @@ export const REGISTER = '/login/register';
 export const LOGIN = '/login/login';
 // 重設密碼
 export const RESET_PASSWORD = '/login/resetPassword';
-// 拿取所有需求單
+// 拿取所有需求單(除了自己刊登的)
 export const GET_ALL_POSTS = '/post/getAllPosts';
-// 拿取特定標籤的需求單
+// 拿取特定標籤的需求單(除了自己刊登的)
 export const GET_TAG_POSTS = '/post/getTagPosts';
+// 拿取特定用戶刊登的需求單
+export const GET_USER_POSTS = '/post/getUserPosts';
 // 新增一張需求單
 export const ADD_NEW_POST = '/post/addNewPost';
 // 更改一張需求單

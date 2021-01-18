@@ -30,7 +30,7 @@ export const adminRouter = [
             },
             {
                 key: 'current',
-                name: '近期',
+                name: '近期刊登',
                 path: '/search/current',
                 exact: true,
                 component: Loadable({
@@ -49,9 +49,19 @@ export const adminRouter = [
                 }),
             },
             {
-                key: 'vip',
-                path: '/search/vip',
-                name: '熱門用戶',
+                key: 'urgent',
+                path: '/search/urgent',
+                name: '緊急任務',
+                exact: true,
+                component: Loadable({
+                    loader: () => import('../page/search/search'),
+                    loading: () => <SDLoading />,
+                }),
+            },
+            {
+                key: 'all',
+                path: '/search/all',
+                name: '所有',
                 exact: true,
                 component: Loadable({
                     loader: () => import('../page/search/search'),

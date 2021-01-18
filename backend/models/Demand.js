@@ -31,12 +31,12 @@ const DemandSchema = new Schema({
     //Client端送來的資訊
     title: String,
     // subTitle: String,
-    description: String, 
+    content: String, 
     deadline: Date,
-    pay: String, //price: Number, (不限制以金錢回報)
+    price: Number, //(以金錢方式以外回報的可以打在content)
     imgPath: String,
     category: String,//食衣住行育樂其它?
-    needSupplyCnt: Number,
+    needSupplyCnt: Number,//default: 1
 
     //Server端接收到新需求單時需補上的資訊
     _id: String,

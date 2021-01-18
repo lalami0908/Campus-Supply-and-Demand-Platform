@@ -5,7 +5,7 @@ import { Button, Input, message, Tag } from 'antd'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import './home.scss'
-
+import {getAll} from '../../axios'
 import MyCarousel from './components/MyCarousel'
 import Marquee from "react-smooth-marquee"
 import want1 from '../../assets/images/test_wanted/test_wanted_1.jpg'
@@ -22,8 +22,8 @@ const post = [
     name: '魯夫',
     title: '我想要有人教我微積分',
     postDate: 'Mon Jan 18 2021',
-    description: '拜託啦我快被當第二次了嗚嗚嗚嗚',
-    pay: '一個溫暖的擁抱',
+    content: '拜託啦我快被當第二次了嗚嗚嗚嗚，',
+    price: 1000,
     postID: 'e213dfdfcxcvbgfj',
     caption: ''
   },
@@ -33,8 +33,8 @@ const post = [
     name: '革命軍-薩波',
     title: '我想要喝台大牛奶',
     postDate: 'Wen Jan 13 2021',
-    pay: '任選一首歌唱給妳聽',
-    description: '幫我外送宿舍',
+    price: 0,
+    content: '幫我外送宿舍,如果願意幫忙我我可以任選一首歌唱給妳聽',
     postID: 'asdaseqweqqeeqw',
     caption: ''
   },
@@ -42,10 +42,10 @@ const post = [
     src: want3,
     altText: 'Wanted 3',
     name: '香吉士',
-    title: '有人可以幫忙寫Web final的網頁前後端嗎',
+    title: '徵網頁寫手',
     postDate: 'Tue Jan 5 2021',
-    pay: '公道價1000',
-    description: 'github帳號給我',
+    price: 81000,
+    content: '有人可以幫忙寫Web final的網頁前後端嗎，github帳號給我，公道價',
     postID: 'sadhqwiudhqwdh',
     caption: ''
   }//,
@@ -76,6 +76,7 @@ function Home() {
 
   useEffect(()=>{
     //這邊要從後端動態拿post資料
+    // const post = getAll()
 
     let now = Date.now();
     const today = new Date(now);
