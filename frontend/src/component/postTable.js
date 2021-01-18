@@ -36,7 +36,7 @@ const tableIcons = {
     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-  };
+};
 
 export default function PostTable(props) {
 
@@ -61,27 +61,27 @@ export default function PostTable(props) {
     // }]);
    
     const mockData = [{
-        title: "title",
-        subTitle: "subTitle",
-        content: "123",
+        title: "title1",
+        content: "content1",
+        price: 200,
         postDate: new Date(),
         deadline: new Date(),
-        needSupplyCnt: 5,
+        needSupplyCnt: 4,
         supplyCnt: 3,
     },{
-        title: "title",
-        subTitle: "subTitle",
-        content: "123",
+        title: "title2",
+        content: "content2",
+        price: 123,
         postDate: new Date(),
         deadline: new Date(),
         needSupplyCnt: 5,
-        supplyCnt: 3,
+        supplyCnt: 2,
     }];
 
     const  columns =  [
         { title: '需求標題', field: 'title'},
-        { title: '需求內容', field: 'subTitle' },
-        { title: '需求金額', field: 'content', type: 'numeric' },
+        { title: '需求內容', field: 'content' },
+        { title: '需求金額', field: 'price', type: 'numeric' },
         { title: '申請時間', field: 'postDate', type:"datetime"},
         { title: '截止時間', field: 'deadline', type:"datetime"},
         { title: '需求人數', field: 'needSupplyCnt', type:"numeric"},
