@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS, GET_TAG_POSTS, UPDATE_YOUR_POST,SUPPLY_POST} from '../common/APIpath'
+import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS, GET_TAG_POSTS, UPDATE_YOUR_POST,SUPPLY_POST} from '../common/APIpath'
 
 const instance = axios.create({ baseURL: BASE_URL })
 const imageInstance = axios.create({ baseURL: BASE_URL,  headers: {'Content-Type': 'multipart/form-data' } })
@@ -15,21 +15,30 @@ export const addNewPost = async (newPost) => {  //content:{NTU_ID, password}
   return addNewPostResult
 }
 //TODO
-export const getTag = async (tag) => {
+export const getTag = async (tag,name) => {
   console.log("get Tag Posts");
   const {
     data: { tagPosts }
-  } = await instance.get( GET_TAG_POSTS, tag).catch((err) => console.error(err));
+  } = await instance.get( GET_TAG_POSTS, {tag:tag,name:name}).catch((err) => console.error(err));
   console.log("tagPosts:", tagPosts);
   return tagPosts
 }
+//TODO
+export const getUserPost = async (name) => {
+  console.log("get user Posts");
+  const {
+    data: { userPosts }
+  } = await instance.get( GET_USER_POSTS, name).catch((err) => console.error(err));
+  console.log("userPosts:", userPosts);
+  return userPosts
+}
 
 //TODO
-export const getAll = async () => {
+export const getAll = async (name) => {
   console.log("getAllPosts");
   const {
     data: { allPosts }
-  } = await instance.get( GET_ALL_POSTS).catch((err) => console.error(err));
+  } = await instance.get( GET_ALL_POSTS, name).catch((err) => console.error(err));
   console.log("allPosts:", allPosts);
   return allPosts
 }
