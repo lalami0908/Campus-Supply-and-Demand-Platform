@@ -15,3 +15,9 @@ export const GET_TAG_POSTS = '/post/getTagPosts';
 export const ADD_NEW_POST = '/post/addNewPost';
 // 更改一張需求單
 export const UPDATE_YOUR_POST = '/post/updateYourPost';
+
+/*===================================================================*/
+// 上傳照片
+export const UPLOAD_IMAGE_ACTION = 'http://localhost:4000/post/uploadImage';
+
+export const DELETE_IMAGE_ACTION = 'http://localhost:4000/post/deleteImage';
