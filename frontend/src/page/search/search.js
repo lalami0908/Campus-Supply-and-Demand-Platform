@@ -30,7 +30,6 @@ function Search(props) {
             </h1>
             <br></br>
             <h2>-的需求單搜尋結果</h2>
-
             {/* 搬一個PostTable過來 */}
         </>
     )
