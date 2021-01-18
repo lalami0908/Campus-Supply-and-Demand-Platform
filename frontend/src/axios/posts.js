@@ -13,30 +13,30 @@ export const addNewPost = async (content) => {  //content:{NTU_ID, password}
   return postResult
 }
 //TODO
-export const getTag = async (tag,name) => {
+export const getTag = async (tag,NTUID) => {
   console.log("get Tag Posts");
   const {
     data: { tagPosts }
-  } = await instance.get( GET_TAG_POSTS, {tag:tag,name:name}).catch((err) => console.error(err));
+  } = await instance.get( GET_TAG_POSTS, {tag:tag,NTUID:NTUID}).catch((err) => console.error(err));
   console.log("tagPosts:", tagPosts);
   return tagPosts
 }
 //TODO
-export const getUserPost = async (name) => {
+export const getUserPost = async (NTUID) => {
   console.log("get user Posts");
   const {
     data: { userPosts }
-  } = await instance.get( GET_USER_POSTS, name).catch((err) => console.error(err));
+  } = await instance.get( GET_USER_POSTS, NTUID).catch((err) => console.error(err));
   console.log("userPosts:", userPosts);
   return userPosts
 }
 
 //TODO
-export const getAll = async (name) => {
+export const getAll = async (NTUID) => {
   console.log("getAllPosts");
   const {
     data: { allPosts }
-  } = await instance.get( GET_ALL_POSTS, name).catch((err) => console.error(err));
+  } = await instance.get( GET_ALL_POSTS, NTUID).catch((err) => console.error(err));
   console.log("allPosts:", allPosts);
   return allPosts
 }

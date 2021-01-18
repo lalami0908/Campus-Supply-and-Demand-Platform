@@ -7,7 +7,7 @@ export function navigate(path, params) {
     const query = queryString.stringify(params);
     routerStore.push({
         pathname: `${ROUTE_PRE_FIX}${path}`,
-        search: query && `?${query}`,
+        // search: query && `?${query}`,
     });
 }
 

@@ -40,7 +40,7 @@ const DemandSchema = new Schema({
 
     //Server端接收到新需求單時需補上的資訊
     _id: String,
-    host: String, // user_id
+    NTUID: String, // user_id
     name: String, // user name (顯示給其它人看的)
     postDate: Date,
     updateDate: Date, // Method: edit post

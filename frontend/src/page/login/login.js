@@ -1,46 +1,61 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Form, Input, Icon, Checkbox } from 'antd'
+import { Button, Form, Input, Icon, Checkbox, Modal } from 'antd'
 import './login.scss';
 import  {register, login, resetPassword,genPost} from '../../axios'
 // import {userStore} from '../../store/userStore'
 import { navigate } from '../../common/utils';
 
+async function handleLogin(values){
+    console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
+    let res = await login(values)
+    alert(res.msg);
+    console.log('res:',res)
+    if(res.success){  
+        // 登入成功直接導向主頁
+        localStorage.setItem('token', res.user.token)
+        localStorage.setItem('NTUID', res.user.NTUID)
+        localStorage.setItem('userId', res.user._id)  
+        navigate('/home');
+    } 
+    // 登入失敗停在此頁
+}
+async function handleRegister(values){
+    console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
+    // console.log('res:',res)
+    // console.log(`register response: ${JSON.stringify(res)}`)
+    // console.log("here");
+    
+
+     // *** 按下登入後打登入
+    // login
+    // let res = await login(values)
+    // if(res.success){
+    //     localStorage.setItem('token', res.user.token)
+    //     localStorage.setItem('NTUID', res.user.NTUID)
+    //     localStorage.setItem('userId', res.user._id)  
+    //     navigate('/home');
+    // } else {
+    //     alert(res.msg);
+    // }
+
+    // *** 按下登入後打註冊
+    // register
+    let res = await register(values)
+    alert(res.msg);
+    if(res.success){  
+        // 註冊成功也直接導向主頁
+        localStorage.setItem('token', res.user.token)
+        localStorage.setItem('NTUID', res.user.NTUID)
+        localStorage.setItem('userId', res.user._id)  
+        navigate('/home');
+    } else {
+        // 註冊失敗停在此頁
+    }
+}
 
 export default function Login() {
 
-    async function handleLogin(values){
-        console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
-        // console.log('res:',res)
-        // console.log(`register response: ${JSON.stringify(res)}`)
-        // console.log("here");
-        
 
-         // *** 按下登入後打登入
-        // login
-        // let res = await login(values)
-        // if(res.success){
-        //     localStorage.setItem('token', res.user.token)
-        //     localStorage.setItem('NTUID', res.user.NTUID)
-        //     localStorage.setItem('userId', res.user._id)  
-        //     navigate('/home');
-        // } else {
-        //     alert(res.msg);
-        // }
-
-        // *** 按下登入後打註冊
-        // register
-        let res = await register(values)
-        alert(res.msg);
-        if(res.success){  
-            // 註冊成功也直接導向主頁
-            localStorage.setItem('token', res.user.token)
-            localStorage.setItem('NTUID', res.user.NTUID)
-            localStorage.setItem('userId', res.user._id)  
-            navigate('/home');
-        } else {
-            // 註冊失敗停在此頁
-        }
-    }
     const footerURL = require("../../assets/images/sd.jpg");
     return(
         <div className="login-body">   
@@ -61,8 +76,10 @@ export default function Login() {
                     <br></br>
                     <br></br>
                     <WrappedLoginForm
-                        onSubmit={values => handleLogin(values)}//TODO:handleLogin
+                        onSubmit={values => handleLogin(values)}
+                        text={'登入'}
                     />
+                    <Register/>
                     <hr></hr>
                     <p>
 
@@ -77,6 +94,7 @@ export default function Login() {
 }
 
 function LoginForm(props){
+    console.log('LoginForm.props:',props)
     const handleSubmit = (e) => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
@@ -86,6 +104,7 @@ function LoginForm(props){
         });
     };
     const { getFieldDecorator } = props.form;
+    const text = props.text;
     return (
         <Form onSubmit={handleSubmit} className="login-form">
             <Form.Item>
@@ -94,13 +113,13 @@ function LoginForm(props){
                         rules: [
                             {
                                 required: true,
-                                message: '請輸入用戶名！',
+                                message: '請輸入合法台大學號！',
                             },
                         ],
                     })(
                         <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="用戶名"
+                            placeholder="NTU學號"
                         />,
                     )
                 }
@@ -117,6 +136,8 @@ function LoginForm(props){
                     />,
                 )}
             </Form.Item>
+            {
+            // (!props.fromRegister)&&(
             <Form.Item className="login-form-button">
                 {getFieldDecorator('remember', {
                     valuePropName: 'checked',
@@ -125,15 +146,45 @@ function LoginForm(props){
                     <>
                         <Checkbox>記住用戶名和密碼</Checkbox>
                         <Button className="login-button" type="primary" htmlType="submit">
-                            註冊<Icon type="arrow-right" />
-                        </Button>
+                            {text}<Icon type="arrow-right" />
+                        </Button>                        
                     </>,
                 )}
-            </Form.Item>
+            </Form.Item>//)
+            }
         </Form>
     );
 }
 
 const WrappedLoginForm = Form.create({ name: 'login' })(LoginForm);
+
+// 彈框-註冊
+const Register = function (props) {
+    const [visible, setVisible] = useState(false)
+
+    const showModal = () => {
+        console.log('register')
+        setVisible(true)
+    };
+    const handleOk = () => {
+        setVisible(false);
+    };
+    const handleCancel = () => {
+        setVisible(false)
+    };
+    return (
+        <>
+            <Button type="primary" onClick={showModal}>
+                註冊
+            </Button>
+            <Modal onCancel={handleCancel} onOk={handleOk} visible={visible} title="目前僅開放台大生註冊" okText="確認" cancelText="取消">
+                <WrappedLoginForm
+                    onSubmit={values => handleRegister(values)}
+                    text={'註冊'}
+                />
+            </Modal>
+        </>
+    );
+};
 
 // export default Login

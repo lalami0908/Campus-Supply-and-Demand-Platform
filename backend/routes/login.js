@@ -97,7 +97,7 @@ router.post('/login', auth.optional, (req, res, next) => {  // req.body:  NTUID,
         if(passportUser) {
             const user = passportUser;
             user.token = passportUser.generateJwt();
-            return res.json({loginResult:{ user: user.toAuthJson(), success: true }});
+            return res.json({loginResult:{ user: user.toAuthJson(), success: true, msg:'登入成功' }});
         }
     
         return res.json({ loginResult: { success:false, msg:'登入失敗：密碼錯誤'} } );
