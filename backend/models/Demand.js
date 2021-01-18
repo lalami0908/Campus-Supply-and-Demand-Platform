@@ -47,8 +47,10 @@ const DemandSchema = new Schema({
     views: Number, // Method: add when someone vist
     state: String, //'onDemand'|'onMatching'|'onComplete'
     isOpen: Boolean, // Method: demander close post
-    
-    //what?
+    needSupplyCnt: Number,
+    supplyList: [String],
+
+
     confirmTransaction: [String], //supply_id // Method: set score for the confirmed supply
 
 });

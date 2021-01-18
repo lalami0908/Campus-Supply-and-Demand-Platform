@@ -1,43 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Input, message, Tag } from 'antd'
-import { PopupboxManager, PopupboxContainer } from 'react-popupbox';
+import { Button, Input, message, Tag ,Layout, Menu, Icon, Modal } from 'antd'
 import "react-popupbox/dist/react-popupbox.css"
-function Personal() {
-    console.log('test Personal')
-    const saveDemand = () =>  {
-        // 要打後端
-        PopupboxManager.close()
-    }
-    const openPopupbox = () =>  {
-        const content = (
-          <div>
-            <span>需求單參數</span>
-            <button onClick={ saveDemand }>新增</button>
-          </div>
-        )
-  
-        PopupboxManager.open({
-          content,
-          config: {
-            titleBar: {
-              enable: true,
-              text: '新增需求單'
-            },
-            fadeIn: true,
-            fadeInSpeed: 500
-          }
-        })
-      }
+
+
+
+function Personal(props) {
+
+
 
     return(
         <div>
-            <div>
-                <button onClick={ openPopupbox }>新增需求單</button>
-                <PopupboxContainer />
-            </div>
-            <h1>
-                Personal TEST            
-            </h1>
+          <h1>personal info test</h1> 
         </div>
     )
 
