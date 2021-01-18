@@ -1,5 +1,5 @@
 #basicLayout {
-    padding: 0 40px 30px 30px;
+    padding: 0 5px 5px 5px;
     background-image: url('../assets/images/bg.jpg');
     height: 100vh;
     .layout-header {
@@ -46,6 +46,11 @@
         width: 10vw;
         height: 10vh;
 
+      }
+
+      .loginout-button{
+        position: absolute;
+        right: 5vw;
       }
     }
     .ant-layout-sider{
