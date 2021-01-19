@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState,ussEffect } from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 
@@ -40,26 +40,6 @@ const tableIcons = {
 
 export default function PostTable(props) {
 
-    const [data, setData] = React.useState([]);
-
-    // setData([{
-    //     title: "title",
-    //     subTitle: "subTitle",
-    //     content: "123",
-    //     postDate: new Date(),
-    //     deadline: new Date(),
-    //     needSupplyCnt: 5,
-    //     supplyCnt: 3,
-    // },{
-    //     title: "title",
-    //     subTitle: "subTitle",
-    //     content: "123",
-    //     postDate: new Date(),
-    //     deadline: new Date(),
-    //     needSupplyCnt: 5,
-    //     supplyCnt: 3,
-    // }]);
-   
     const mockData = [{
         title: "title1",
         content: "content1",
@@ -111,25 +91,35 @@ export default function PostTable(props) {
     return (
         <div className = "materialTable">
           <br/><br/>
-            
-            <MaterialTable
-            title={props.title}
-            columns={columns}
-            data={mockData}
-            icons={tableIcons}
-            editable={{
-                onRowAdd: (newData) => {
+            {
+                (props.editable)?(            
+                <MaterialTable
+                    title={props.title}
+                    columns={columns}
+                    data={props.postdata}//改成 props.postdata
+                    icons={tableIcons}
+                    editable={{
+                        onRowAdd: (newData) => {
+        
+                            
+                        },
+                        onRowUpdate: (newData, oldData) =>{
+                        
+                        },
+                        onRowDelete: (oldData) =>{
+                       
+                        },
+                    }}
+                />):(
+                    <MaterialTable
+                    title={props.title}
+                    columns={columns}
+                    data={mockData}//改成 props.postdata
+                    icons={tableIcons}
+                    />  
+                )
+            }
 
-                    
-                },
-                onRowUpdate: (newData, oldData) =>{
-                
-                },
-                onRowDelete: (oldData) =>{
-               
-                },
-            }}
-            />
         </div>
     )
 }

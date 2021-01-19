@@ -2,10 +2,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import { Card, Button, Modal, Form, Input, Radio, Upload ,message, Icon} from 'antd';
+import { Card, Button, Modal, Form, Input, Radio, Upload ,message, Icon, Select, InputNumber} from 'antd';
 import  UploadImage   from './UploadImage';
 import { BASE_URL, UPLOAD_IMAGE_ACTION, DELETE_IMAGE_ACTION } from '../common/APIpath';
 import  { addNewPost } from '../axios'
+const { Option } = Select;
 const { Item } = Form
 
 
@@ -72,6 +73,35 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
         </div>
         );
 
+        const selectCategory = (
+          // <select>
+          //   <option>請選擇你最愛的寵物</option>
+          //   <option>Dog</option>
+          //   <option>Cat</option>
+          //   <option>Hamster</option>
+          //   <option>Parrot</option>
+          //   <option>Spider</option>
+          //   <option>Goldfish</option>
+          // </select>
+          <Select
+            showSearch
+            // style={{ width: 400 }}
+            placeholder="請挑選類別"
+            // optionFilterProp="children"
+            // filterOption={(input, option) =>
+            //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            // }
+          >
+            <Option value="Food">食</Option>
+            <Option value="Clothing">衣</Option>
+            <Option value="Housing">住</Option>
+            <Option value="Transportation">行</Option>
+            <Option value="Education">育</Option>
+            <Option value="Entertainment">樂</Option>
+            <Option value="Other">其他</Option>
+          </Select>
+          );
+
       return (
         // <div key={ Math.random()}>
         <div id="Modal">
@@ -94,13 +124,42 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 </Form.Item>
 
                 <Form.Item label="內容">
-                {getFieldDecorator('description')(<Input type="textarea" />)}
+                {getFieldDecorator('content', {
+                    rules: [{ required: true, message: '內容為必填' }],
+                })(<Input type="textarea" />)}
+                </Form.Item>
+
+                <Form.Item label="截止日期">
+                {getFieldDecorator('deadline', {
+                    rules: [{ required: false, message: '截止日期為必填' }],
+                })(<Input type="date" />)}
+                </Form.Item>
+
+                <Form.Item label="類別">
+                {getFieldDecorator('category', {
+                    rules: [{ required: false, message: '類別為必選' }],
+                })(selectCategory)}
+                </Form.Item>
+
+                <Form.Item label="價格">
+                {getFieldDecorator('price', {
+                    rules: [{ required: false, message: '不含價格填零' }],
+                })(<InputNumber min={0}  initialValue={0}  />)}
+                </Form.Item>
+
+                <Form.Item label="需求人數">
+                {getFieldDecorator('needSupplyCnt', {
+                    rules: [{ required: false, message: '需求人數為必填' }],
+                })(<InputNumber min={1} max={5} initialValue={1}  />)}
                 </Form.Item>
 
                 <Form.Item label="圖片上傳">
                 {getFieldDecorator('fileList',{onChange:this.handleChange}
                 )(<UploadImage isInit={true}></UploadImage>)}
                 </Form.Item>
+
+                
+
             </Form>
           </Card> 
         </Modal>
@@ -109,6 +168,12 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     }
   },
 );
+
+async function asyncAddNewPost(values){
+  let res = await addNewPost(values);
+  // 前端顯示是新增結果
+  alert(res.msg);
+}
 
 class CreateNewPostForm extends React.Component {
   state = {
@@ -122,27 +187,25 @@ class CreateNewPostForm extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false });
   };
-
   handleCreate = () => {
+
     // call axios
     const { form } = this.formRef.props;
-    form.validateFields((err, values) => {
+    form.validateFields ((err, values) => {
       if (err) {
         return;
+      } else {
+        values['NTUID'] = localStorage.getItem('NTUID');
+        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', form);
+
+        form.resetFields();
+        this.setState({ visible: false });
+ 
+        asyncAddNewPost(values);
+        this.props.handleAddNewPostAndRefreshTable();
       }
-
-      console.log('Received values of form: ', values);
-      console.log('Received values of form: ', form);
-      form.resetFields();
-      this.setState({ visible: false });
-      // 送出表單
-      // await' is only allowed within async functions and at the top levels of modules (141:16)
-      let res = addNewPost(values);
-      
-
     });
-
-    ReactDOM.unmountComponentAtNode(document.getElementById('UploadImage'))
   };
 
   saveFormRef = formRef => {

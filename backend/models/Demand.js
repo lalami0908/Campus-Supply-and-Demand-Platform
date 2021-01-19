@@ -39,19 +39,26 @@ const DemandSchema = new Schema({
     needSupplyCnt: Number,//default: 1
 
     //Server端接收到新需求單時需補上的資訊
-    _id: String,
+    // _id: String,
     NTUID: String, // user_id
     name: String, // user name (顯示給其它人看的)
     postDate: Date,
     updateDate: Date, // Method: edit post
+    /*
+      // hot: '熱門', 8
+      // current: '近期刊登', 4
+      // highPayment: '高報酬', 2
+      // urgent: '緊急任務', 1
+    */
     tag: Number,//熱門、最新、緊急、高報酬...(對應search頁面的tags) 可用linux存rwx權限的二進位方式來存// auto-complete dropDown list (?) // choose block
-    views: Number, // Method: add when someone vist
+    // views: Number, // Method: add when someone vist
     state: String, //'onDemand'|'onMatching'|'onComplete'
     isOpen: Boolean, // Method: demander close post
+    supplyCnt: Number,
     supplyList: [String],
 
 
-    confirmTransaction: [String], //supply_id // Method: set score for the confirmed supply
+    // confirmTransaction: [String], //supply_id // Method: set score for the confirmed supply
 
 });
 

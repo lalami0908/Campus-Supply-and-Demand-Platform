@@ -83,26 +83,24 @@ router.post('/login', auth.optional, (req, res, next) => {  // req.body:  NTUID,
     User.find({ 'NTUID': user.NTUID }).then((findUser) => {
         if (findUser.length == 0){
             return res.json({ loginResult: { success: false, msg:'使用者尚未註冊，請先註冊'} });
+        }else {
+             // 驗證
+        passport.authenticate('local', { session: false }, (err, passportUser, info) => {
+        console.log("authenticate");
+            if(err) {
+                return res.json({loginResult: { success: false, msg:'登入失敗：發生不明錯誤，請洽系統管理員'}});
+            }
+    
+            if(passportUser) {
+                const user = passportUser;
+                user.token = passportUser.generateJwt();
+                return res.json({loginResult:{ user: user.toAuthJson(), success: true, msg:'登入成功' }});
+            }
+        
+            return res.json({ loginResult: { success:false, msg:'登入失敗：密碼錯誤'} } );
+          })(req, res, next);
         }
-    });
-
-    
-    // 驗證
-    return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-    
-        if(err) {
-            return res.json({loginResult: { success: false, msg:'登入失敗：發生不明錯誤，請洽系統管理員'}});
-        }
-
-        if(passportUser) {
-            const user = passportUser;
-            user.token = passportUser.generateJwt();
-            return res.json({loginResult:{ user: user.toAuthJson(), success: true, msg:'登入成功' }});
-        }
-    
-        return res.json({ loginResult: { success:false, msg:'登入失敗：密碼錯誤'} } );
-      })(req, res, next);
-    
+    });    
 });
 
 module.exports = router;

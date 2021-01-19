@@ -74,7 +74,7 @@ const post = [
 function Home(props) {
   const testFolder = '../../assets/images/test_wanted/'
   console.log('Home props:',props)
-  let NTUID = window.localStorage.getItem('NTUID')
+  const NTUID = window.localStorage.getItem('NTUID')
   console.log('window.localStorage:',window.localStorage.getItem('NTUID'))
   useEffect(()=>{
     //這邊要從後端動態拿post資料

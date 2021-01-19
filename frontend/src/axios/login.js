@@ -14,7 +14,7 @@ export const register = async (credential) => {  //credential:{NTU_ID, password}
   console.log('post return data:',registerResult)
   return registerResult
 }
-//TODO
+
 export const login = async (loginInfo) => {
   console.log("loginAxios");
   const {

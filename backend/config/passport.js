@@ -14,8 +14,10 @@ passport.use(
         async (NTUID, password, done) => {
             User.findOne({ NTUID }).then((user) =>{
                 if(!user || !user.validatePassword(password)) {
+                    console.log("passportLocalStrategyNOUser");
                     return done(null, false, { errors: { 'NTUID or password': 'is invalid' } });
                 }
+                console.log("passportLocalStrategyGetUser");
                 return done(null, user);
             }).catch(done)
         }

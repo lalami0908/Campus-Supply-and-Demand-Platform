@@ -4,31 +4,32 @@ const Schema = mongoose.Schema
 // Creating a schema, sort of like working with an ORM
 const MessageSchema = new Schema({
 
-	id: {
+	// id: {
+	// 	type: String,
+	// 	required: [true, 'MessageId field is required.']
+    // },'
+    demandId: {
 		type: String,
-		required: [true, 'MessageId field is required.']
-	},
-	chatRoomId: {
+		required: [true, 'demandId field is required.']
+    },
+    NTUID: {
 		type: String,
-		required: [true, 'chatRoomId field is required.']
-	},
-	userId: {
+		required: [true, 'NTUID field is required.']
+    },
+    name: {
 		type: String,
-		required: [true, 'userId field is required.']
-	},
-	// the same
-	name: {
+		required: [true, 'name field is required.']
+    },
+    content: {
 		type: String,
-		required: [true, 'Name field is required.']
-	},
-	body: {
-		type: String,
-		required: [true, 'Body field is required.']
-	},
-	time: {
+		required: [true, 'content field is required.']
+    },
+    msgDate: {
 		type: Date,
-		required: [true, 'Time field is required.']
-	}
+		required: [true, 'msgDate field is required.']
+	},
+
+
 })
 
 // Creating a table within database with the defined schema

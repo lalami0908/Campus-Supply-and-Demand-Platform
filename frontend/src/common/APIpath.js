@@ -21,8 +21,8 @@ export const UPDATE_YOUR_POST = '/post/updateYourPost';
 export const SUPPLY_POST = '/post/supplyPost';
 
 /*===================================================================*/
-// 上傳照片
+// 上傳照片 這裡是用
 export const UPLOAD_IMAGE_ACTION = 'http://localhost:4000/post/uploadImage';
 
-export const DELETE_IMAGE_ACTION = 'http://localhost:4000/post/deleteImage';
+export const DELETE_IMAGE_ACTION = '/post/deleteImage';
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Tag } from 'antd'
 import {getAll, getTag} from '../../axios'
+import PostTable  from '../../component/postTable';
 const tags = {
     hot: '熱門',
     current: '近期刊登',
@@ -10,27 +11,30 @@ const tags = {
 }
 var posts = []
 function Search(props) {
+    const [postdata, setPostdata] = useState([])
     console.log('Search props:',props)
     console.log('Search props.location.pathname:',props.location.pathname)
-    let NTUID = window.localStorage.getItem('NTUID')
+    const NTUID = window.localStorage.getItem('NTUID')
     let paths = props.location.pathname.split('/')
     let tag = paths[paths.length - 1]
-    useEffect(()=>{
-        if(tag==='all'){
-            posts = getAll(NTUID)
-        }else{
-            posts = getTag(tag)
-        }
-    },[])
+    // useEffect(()=>{
+    //     if(tag==='all'){
+    //         postdata = getAll(NTUID)
+    //     }else{
+    //         postdata = getTag(tag)
+    //     }
+    // },[])
     
     return(
         <>
-            <h1>
+            <h1 style={{
+                fontSize: '5vh'
+            }}>
                 {tags[tag]}            
             </h1>
-            <br></br>
             <h2>-的需求單搜尋結果</h2>
             {/* 搬一個PostTable過來 */}
+            <PostTable editable={false} postdata={postdata}/>
         </>
     )
 }
