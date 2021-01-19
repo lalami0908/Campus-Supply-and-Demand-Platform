@@ -11,10 +11,7 @@ import Marquee from "react-smooth-marquee"
 import want1 from '../../assets/images/test_wanted/test_wanted_1.jpg'
 import want2 from '../../assets/images/test_wanted/test_wanted_2.jpg'
 import want3 from '../../assets/images/test_wanted/test_wanted_3.jpg'
-import want4 from '../../assets/images/test_wanted/test_wanted_4.jpg'
-import want5 from '../../assets/images/test_wanted/test_wanted_5.jpg'
-import want6 from '../../assets/images/test_wanted/test_wanted_6.jpg'
-import want7 from '../../assets/images/test_wanted/test_wanted_7.jpg'
+
 const post = [
   {
     src: want1,
@@ -48,27 +45,7 @@ const post = [
     content: '有人可以幫忙寫Web final的網頁前後端嗎，github帳號給我，公道價',
     postID: 'sadhqwiudhqwdh',
     caption: ''
-  }//,
-  // {
-  //   src: want4,
-  //   altText: 'Wanted 4',
-  //   caption: ''
-  // },
-  // {
-  //   src: want5,
-  //   altText: 'Wanted 5',
-  //   caption: ''
-  // },
-  // {
-  //   src: want6,
-  //   altText: 'Wanted 6',
-  //   caption: ''
-  // },
-  // {
-  //   src: want7,
-  //   altText: 'Wanted 7',
-  //   caption: ''
-  // }
+  }
 ];
 
 function Home(props) {

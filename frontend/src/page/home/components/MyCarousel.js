@@ -10,7 +10,7 @@ import { Button, Modal } from 'antd';
 import 'bootstrap/dist/css/bootstrap.css';
 import './MyCarousel.scss'
 import nameURL from '../../../assets/images/name.jpg'
-import  {supply} from '../../../axios'
+import SupplyModal from '../../../component/SupplyModal'
 const MyCarousel = (props) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
@@ -134,41 +134,12 @@ const Details =  (props)=> {
                 }}>{props.item.content}</div>
               </section>
               
-              <Supply/>
+              <SupplyModal postID={props.item.postID}/>
           </Modal>
       </div>
   );
 };
 
-//接單確認
-const Supply = function (props) {
-  const [visible, setVisible] = useState(false)
 
-
-  const showModal = () => {
-      console.log('contract!')
-      setVisible(true)
-  };
-  const handleOk = async() => {
-      setVisible(false);
-      let feedback = await supply(props.postID)
-      console.log('supply feedback:',feedback)
-      
-  };
-  const handleCancel = () => {
-      setVisible(false)
-  };
-
-  return (
-      <>
-          <Button type="primary" onClick={showModal}>
-              交給我了!
-          </Button>
-          <Modal onCancel={handleCancel} onOk={handleOk} visible={visible} title="最後確認" okText="成交!" cancelText="算了QQ">
-              <p>就決定幫他嗎</p>
-          </Modal>
-      </>
-  );
-};
 
 export default MyCarousel;

@@ -1,4 +1,5 @@
 // 所有可呼叫的axios API
 export { register, login, resetPassword} from './login'
-export { addNewPost, getTag, getAll, getUserPost, updatePost , supply} from './post'
-// export { uploadImage, deleteImage} from './post'
+export { addNewPost, getTag, getAll, getUserPost, updatePost } from './post'
+export { supply, getUserSupplies , deleteImage} from './post'
+

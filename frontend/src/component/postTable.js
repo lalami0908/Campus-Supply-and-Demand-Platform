@@ -18,6 +18,8 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
+import SupplyModal from './SupplyModal'
+
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -41,6 +43,7 @@ const tableIcons = {
 export default function PostTable(props) {
 
     const mockData = [{
+        apply: <SupplyModal postID={"mockID-sadasd123o4hasdjlk"}/>,
         title: "title1",
         content: "content1",
         price: 200,
@@ -49,6 +52,7 @@ export default function PostTable(props) {
         needSupplyCnt: 4,
         supplyCnt: 3,
     },{
+        apply: <SupplyModal postID={"mockID-132kzxceawd8931hsa"}/>,
         title: "title2",
         content: "content2",
         price: 123,
@@ -59,10 +63,11 @@ export default function PostTable(props) {
     }];
 
     const  columns =  [
+        { title: '需求標題', field: 'apply'},
         { title: '需求標題', field: 'title'},
         { title: '需求內容', field: 'content' },
-        { title: '需求金額', field: 'price', type: 'numeric' },
-        { title: '申請時間', field: 'postDate', type:"datetime"},
+        { title: '報酬金額', field: 'price', type: 'numeric' },
+        { title: '刊登時間', field: 'postDate', type:"datetime"},
         { title: '截止時間', field: 'deadline', type:"datetime"},
         { title: '需求人數', field: 'needSupplyCnt', type:"numeric"},
         { title: '目前人數', field: 'supplyCnt', type:"numeric"},
@@ -94,9 +99,15 @@ export default function PostTable(props) {
             {
                 (props.editable)?(            
                 <MaterialTable
-                    title={props.title}
-                    columns={columns}
-                    data={props.postdata}//改成 props.postdata
+
+                    // title={props.title}
+                    // columns={columns}
+                    // data={props.postdata}//改成 props.postdata
+
+                    title={'username刊登的需求單'}
+                    columns={columns.slice(1)}
+                   // data={mockData.slice(1)}//改成 props.postdata
+                    data={props.postdata}
                     icons={tableIcons}
                     editable={{
                         onRowAdd: (newData) => {
@@ -112,7 +123,7 @@ export default function PostTable(props) {
                     }}
                 />):(
                     <MaterialTable
-                    title={props.title}
+                    title={'點擊各需求單標題進行接單'}
                     columns={columns}
                     data={mockData}//改成 props.postdata
                     icons={tableIcons}
