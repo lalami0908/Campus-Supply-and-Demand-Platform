@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 // Creating a schema, sort of like working with an ORM
 const MessageSchema = new Schema({
 
-	id: {
+	id: {//直接對應Demand ID?這樣是不是不用chatRoom
 		type: String,
 		required: [true, 'MessageId field is required.']
 	},
@@ -12,12 +12,12 @@ const MessageSchema = new Schema({
 		type: String,
 		required: [true, 'chatRoomId field is required.']
 	},
-	userId: {
+	userId: {//留言者(顯示於server)
 		type: String,
 		required: [true, 'userId field is required.']
 	},
 	// the same
-	name: {
+	name: {//留言者暱稱(顯示在留言板的)
 		type: String,
 		required: [true, 'Name field is required.']
 	},

@@ -4,13 +4,13 @@ const Schema = mongoose.Schema
 
 const SupplySchema = new Schema({
     _id: String,
-    host: String, // NTUID
+    NTUID: String, // 接單者的NTUID
 
     postDate: Date,
     demandId: String, // demand_id
 
     isAccept: Boolean,
-    currentState: String,  // enum: 
+    currentState: String,  // enum: 這個是?
 });
 
 const Supply = mongoose.model('Supply', SupplySchema);

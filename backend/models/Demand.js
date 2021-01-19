@@ -30,24 +30,22 @@ const DemandSchema = new Schema({
 
     //Client端送來的資訊
     title: String,
-    // subTitle: String,
+    NTUID: String, // user_id
     content: String, 
     deadline: Date,
     price: Number, //(以金錢方式以外回報的可以打在content)
-    imgPath: String,
+    imgPath: String, //server端可以存一張default圖底圖讓沒有上傳圖片的作為替代
     category: String,//食衣住行育樂其它?
     needSupplyCnt: Number,//default: 1
 
     //Server端接收到新需求單時需補上的資訊
-    _id: String,
-    NTUID: String, // user_id
-    name: String, // user name (顯示給其它人看的)
+    _id: String,//這個是mongodb會自己建立還是? 總之query時需要傳一個ID給前端讓前端能接單等等
     postDate: Date,
     updateDate: Date, // Method: edit post
     tag: Number,//熱門、最新、緊急、高報酬...(對應search頁面的tags) 可用linux存rwx權限的二進位方式來存// auto-complete dropDown list (?) // choose block
     views: Number, // Method: add when someone vist
     state: String, //'onDemand'|'onMatching'|'onComplete'
-    isOpen: Boolean, // Method: demander close post
+    isOpen: Boolean, // Method: demander close post (再想有沒有需要，可以關掉之後就直接從DB砍了)
     supplyList: [String],
 
 
