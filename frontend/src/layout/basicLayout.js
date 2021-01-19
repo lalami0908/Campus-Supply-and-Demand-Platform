@@ -5,7 +5,7 @@ import {
 import { Button, Modal } from 'antd';
 import { navigate2Login } from '../common/utils';
 import {
-    Route, Switch,
+    Route, Switch,Redirect
 } from 'react-router-dom';
 import './basicLayout.scss';
 import { ROUTE_PRE_FIX } from '../common/constant';
@@ -16,8 +16,16 @@ import logoUrl from '../assets/images/logo.png'
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 export default function BasicLayout(props){
+    console.log('basic localStorage:',localStorage)
+    for (var i = 0; i < localStorage.length; i++){
+        console.log('basic storage:',localStorage.getItem(localStorage.key(i)))
+    }
     // const [showLoginOut, setShowLoginOut] = useState(false)
     return (
+        <>
+        {
+            (localStorage.length===0)&&(<Redirect exact from="/" to='/login' />)
+        }
         <Layout id="basicLayout">
             <Header className="layout-header">
 
@@ -47,6 +55,7 @@ export default function BasicLayout(props){
                 }
             </Switch>
         </Layout>
+        </>
     )
 
 }
@@ -59,7 +68,8 @@ const LoginOut = function (props) {
         setVisible(true)
     };
     const handleOk = () => {
-        setVisible(false);
+        setVisible(false)
+        localStorage.clear()
         props.onSubmit()
     };
     const handleCancel = () => {

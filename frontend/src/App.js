@@ -17,7 +17,7 @@ function App() {
   return (
     <Router history={browserHistory}>
       <Switch>
-        <Redirect exact from="/" to={`${ROUTE_PRE_FIX}/home`} />
+        <Redirect exact from="/" to='/login' />
         <Route
           path="/"
           children={({ match }) => {
