@@ -19,9 +19,6 @@ const MyCarousel = (props) => {
     const [detailsVisible, setDetailsVisible] = useState(false);
     //init: 從後端抓所有的需求單
     useEffect(()=>{
-        // const post = props.posts//後端資料
-    },[])
-    useEffect(()=>{
         setTitle(props.posts[activeIndex].title)
         setName(props.posts[activeIndex].name)
     },[activeIndex])

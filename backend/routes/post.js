@@ -46,24 +46,27 @@ router.post('/addNewPost', (req, res) => {
     //這段用來產生tag (熱門、最新、緊急、高報酬 分別對應8 4 2 1)
     if(newPostForm.NTUID.substring(1, 3)==='09'){//TODO:熱門的判定方法，或留給server黑箱收廣告費好了
       //09優先 友善新生XD
-      newPostForm.tag | 8
+      newPostForm.tag = newPostForm.tag | 8
     }
     //"最新"這個tag應該是留到query時才上，把當天的補上tag再回傳回前端
     // if(){
     //   newPost.tag | 4
     // }
     if(parseInt(Math.abs(newPostForm.postDate - newPostForm.deadline) / 1000 / 60 / 60 / 24)<=3){//3天內
-      newPostForm.tag | 2
+      newPostForm.tag = newPostForm.tag | 2
     }
     if(newPostForm.price > 918){//TODO:之後server端寫個高效能的排序一下，別每次add new就重新排序，例如可以維護一個只跟價格有關的資料結構
-      newPostForm.tag | 1
+      newPostForm.tag = newPostForm.tag | 1
     }
     // newPostForm['tag'] = 4;
 
     var imgPath = [];
+    console.log('newPostForm.fileList:',newPostForm.fileList)
     if(newPostForm.fileList.length > 0){
+      console.log('testing item.url')
       newPostForm.fileList.forEach(function(item, i) {
         imgPath.push(item.url);
+        console.log('item.url:',item.url)
       });
     }
 

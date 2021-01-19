@@ -49,14 +49,15 @@ const post = [
 ];
 
 function Home(props) {
-  const testFolder = '../../assets/images/test_wanted/'
+  const [postdata, setPostdata] = useState(post)
   console.log('Home props:',props)
   const NTUID = window.localStorage.getItem('NTUID')
   console.log('window.localStorage:',window.localStorage.getItem('NTUID'))
-  useEffect(()=>{
+  useEffect(async ()=>{
     //這邊要從後端動態拿post資料
-    // const post = getAll(NTUID)
-
+    // post =  await getAll(NTUID)
+    setPostdata(await getAll(NTUID))
+    console.log('home post:',postdata)
     let now = Date.now();
     const today = new Date(now);
     console.log('now:',now)
@@ -68,7 +69,7 @@ function Home(props) {
     <>
 
       <div className="carousel-display">
-        <MyCarousel posts={post}/>
+        <MyCarousel posts={postdata}/>
       </div>
       <div className="home-footer">
           <Marquee>
