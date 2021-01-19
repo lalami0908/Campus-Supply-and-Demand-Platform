@@ -67,7 +67,8 @@ app.use('/users', usersRouter);
 app.use('/login',loginRouter);
 app.use('/post',postRouter);
 
-
+const path = require('path')
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 
 app.post('/post-test', (req, res) => {
@@ -94,3 +95,11 @@ app.put('/users/:userId', (req, res) => {
 app.listen(port, () =>
 	console.log(`Example app listening on port ${port}!`),
 );
+
+app.use((err, req, res, next) => {
+	console.log(err + '')
+	res.json({
+	  ok: false,
+	  message: '伺服器出現錯誤'
+	})
+})

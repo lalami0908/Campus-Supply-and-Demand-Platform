@@ -5,7 +5,10 @@ import 'antd/dist/antd.css';
 import { Card, Button, Modal, Form, Input, Radio, Upload ,message, Icon} from 'antd';
 import  UploadImage   from './UploadImage';
 import { BASE_URL, UPLOAD_IMAGE_ACTION, DELETE_IMAGE_ACTION } from '../common/APIpath';
+import  { addNewPost } from '../axios'
 const { Item } = Form
+
+
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -13,17 +16,7 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img);
 }
 
-function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-}
+
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
@@ -38,29 +31,32 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     state = {
         loading: false,
         imageUrl: '',
-        fileList: [{ status: '', uid: 0, url: '',}]
+        fileInfoList: [{ status: '', uid: 0, url: '',}]
     };
     
     handleChange = (info) => {  
-        if (info.file.status === 'uploading') {
-          this.setState({ loading: true });
-          return;
-        }
-        if (info.file.status === 'done') {
-          // Get this url from response in real world.
-          getBase64(info.file.originFileObj, imageUrl =>
-            this.setState({
-              imageUrl,
-              loading: false,
-            })
+        // console.log("handleChange", info)
+        this.setState({ fileInfoList: info  })
+      
+        // if (info.file.status === 'uploading') {
+        //   this.setState({ loading: true });
+        //   return;
+        // }
+        // if (info.file.status === 'done') {
+        //   // Get this url from response in real world.
+        //   getBase64(info.file.originFileObj, imageUrl =>
+        //     this.setState({
+        //       imageUrl,
+        //       loading: false,
+        //     })
 
-          );
-          console.log("status", info.file.status);
-          console.log("uid", info.file.uid);
-          console.log("response", info.file.response);
-          console.log("url", info.file.url);
-          console.log("imageUrl", this.state.imageUrl);   
-        }
+        //   );
+        //   console.log("status", info.file.status);
+        //   console.log("uid", info.file.uid);
+        //   console.log("response", info.file.response);
+        //   console.log("url", info.file.url);
+        //   console.log("imageUrl", this.state.imageUrl);   
+        // }
     };
 
     
@@ -76,10 +72,11 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
         </div>
         );
 
- 
-
       return (
+        // <div key={ Math.random()}>
+        <div id="Modal">
         <Modal
+          destroyOnClose={true}
           visible={visible}
           title="新需求"
           okText="新增"
@@ -88,7 +85,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
           onOk={onCreate}
         >
           
-        <Card title='建立屬於你自己的需求'>    
+        <Card title='建立屬於你自己的需求' >    
           <Form layout="vertical">
                 <Form.Item label="標題">
                 {getFieldDecorator('title', {
@@ -101,12 +98,13 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 </Form.Item>
 
                 <Form.Item label="圖片上傳">
-                {getFieldDecorator('fileList',
-                )(<UploadImage></UploadImage>)}
+                {getFieldDecorator('fileList',{onChange:this.handleChange}
+                )(<UploadImage isInit={true}></UploadImage>)}
                 </Form.Item>
             </Form>
           </Card> 
         </Modal>
+        </div>
       );
     }
   },
@@ -137,7 +135,14 @@ class CreateNewPostForm extends React.Component {
       console.log('Received values of form: ', form);
       form.resetFields();
       this.setState({ visible: false });
+      // 送出表單
+      // await' is only allowed within async functions and at the top levels of modules (141:16)
+      let res = addNewPost(values);
+      
+
     });
+
+    ReactDOM.unmountComponentAtNode(document.getElementById('UploadImage'))
   };
 
   saveFormRef = formRef => {

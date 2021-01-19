@@ -6,11 +6,11 @@ const imageInstance = axios.create({ baseURL: BASE_URL,  headers: {'Content-Type
 
 
 
-export const addNewPost = async (newPost) => {  //content:{NTU_ID, password}
+export const addNewPost = async (newPost) => {  //
   console.log('addNewPostAxios',newPost)
   const {
     data: { addNewPostResult }//succeed or not
-  } = await imageInstance.post( ADD_NEW_POST, newPost ).catch((err) => console.error(err));
+  } = await instance.post( ADD_NEW_POST, { newPostForm:  newPost } ).catch((err) => console.error(err));
   console.log('post return data:',addNewPostResult)
   return addNewPostResult
 }

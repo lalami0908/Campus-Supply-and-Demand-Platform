@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const path = require('path')
 
 const Demand = require('../models/Demand')
 const Supply = require('../models/Supply')
 
 
-const path = require('path')
 const multer = require('multer')
 const upload = multer({
   storage: multer.diskStorage({
@@ -24,10 +24,51 @@ const upload = multer({
 
 
 router.post('/addNewPost', (req, res) => { 
-    console.log(req);
-    res.send('test3');
-    
+    console.log("addNewPost");
+    newPostForm: 
+    console.log();
+    const { newPostForm } = req.body;
+    console.log(newPostForm);
+    // 檢查空值
+    if(!newPostForm.title || !newPostForm.content){
+      return res.json({ addNewPostResult:{ success: false, msg: '新增需求失敗'}});
+    } else {
+      //
+       補上表單空值
+      if(!newPostForm.needSupplyCnt){
+        newPostForm.needSupplyCnt = 1;
+      }
+      if(!newPostForm.needSupplyCnt){
+        newPostForm.needSupplyCnt = 1;
+      }
 
+
+      // let newPost = new Demand({ 
+      //   title: payload.name, 
+      //   content: payload.body,
+      //   deadline:
+      //   price:
+      //   imgPath:
+      //   category:
+      //   needSupplyCnt:
+      //   NTUID: 
+      //   name: 
+      //   postDate: new Date(),
+      //   tag
+
+      
+      // });
+      newMessage.save(function (err) {
+          if (err) return handleError(err);
+          // saved!
+      });
+
+    }
+
+
+
+    
+    // return res.json({ addNewPostResult:{ success: true, msg: '新增需求成功'}});
     // let newPost = new Demand({ name: payload.name, body: payload.body });
     //       newMessage.save(function (err) {
     //         if (err) return handleError(err);

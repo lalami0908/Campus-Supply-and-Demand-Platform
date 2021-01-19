@@ -34,7 +34,7 @@ const DemandSchema = new Schema({
     content: String, 
     deadline: Date,
     price: Number, //(以金錢方式以外回報的可以打在content)
-    imgPath: String,
+    imgPath: [String],
     category: String,//食衣住行育樂其它?
     needSupplyCnt: Number,//default: 1
 
