@@ -2,10 +2,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import { Card, Button, Modal, Form, Input, Radio, Upload ,message, Icon} from 'antd';
+import { Card, Button, Modal, Form, Input, Radio, Upload ,message, Icon, Select, InputNumber} from 'antd';
 import  UploadImage   from './UploadImage';
 import { BASE_URL, UPLOAD_IMAGE_ACTION, DELETE_IMAGE_ACTION } from '../common/APIpath';
+import  { addNewPost } from '../axios'
+const { Option } = Select;
 const { Item } = Form
+
+
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -13,17 +17,7 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img);
 }
 
-function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-}
+
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
@@ -38,29 +32,32 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     state = {
         loading: false,
         imageUrl: '',
-        fileList: [{ status: '', uid: 0, url: '',}]
+        fileInfoList: [{ status: '', uid: 0, url: '',}]
     };
     
     handleChange = (info) => {  
-        if (info.file.status === 'uploading') {
-          this.setState({ loading: true });
-          return;
-        }
-        if (info.file.status === 'done') {
-          // Get this url from response in real world.
-          getBase64(info.file.originFileObj, imageUrl =>
-            this.setState({
-              imageUrl,
-              loading: false,
-            })
+        // console.log("handleChange", info)
+        this.setState({ fileInfoList: info  })
+      
+        // if (info.file.status === 'uploading') {
+        //   this.setState({ loading: true });
+        //   return;
+        // }
+        // if (info.file.status === 'done') {
+        //   // Get this url from response in real world.
+        //   getBase64(info.file.originFileObj, imageUrl =>
+        //     this.setState({
+        //       imageUrl,
+        //       loading: false,
+        //     })
 
-          );
-          console.log("status", info.file.status);
-          console.log("uid", info.file.uid);
-          console.log("response", info.file.response);
-          console.log("url", info.file.url);
-          console.log("imageUrl", this.state.imageUrl);   
-        }
+        //   );
+        //   console.log("status", info.file.status);
+        //   console.log("uid", info.file.uid);
+        //   console.log("response", info.file.response);
+        //   console.log("url", info.file.url);
+        //   console.log("imageUrl", this.state.imageUrl);   
+        // }
     };
 
     
@@ -76,10 +73,40 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
         </div>
         );
 
- 
+        const selectCategory = (
+          // <select>
+          //   <option>請選擇你最愛的寵物</option>
+          //   <option>Dog</option>
+          //   <option>Cat</option>
+          //   <option>Hamster</option>
+          //   <option>Parrot</option>
+          //   <option>Spider</option>
+          //   <option>Goldfish</option>
+          // </select>
+          <Select
+            showSearch
+            // style={{ width: 400 }}
+            placeholder="請挑選類別"
+            // optionFilterProp="children"
+            // filterOption={(input, option) =>
+            //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            // }
+          >
+            <Option value="Food">食</Option>
+            <Option value="Clothing">衣</Option>
+            <Option value="Housing">住</Option>
+            <Option value="Transportation">行</Option>
+            <Option value="Education">育</Option>
+            <Option value="Entertainment">樂</Option>
+            <Option value="Other">其他</Option>
+          </Select>
+          );
 
       return (
+        // <div key={ Math.random()}>
+        <div id="Modal">
         <Modal
+          destroyOnClose={true}
           visible={visible}
           title="新需求"
           okText="新增"
@@ -88,7 +115,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
           onOk={onCreate}
         >
           
-        <Card title='建立屬於你自己的需求'>    
+        <Card title='建立屬於你自己的需求' >    
           <Form layout="vertical">
                 <Form.Item label="標題">
                 {getFieldDecorator('title', {
@@ -97,20 +124,56 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 </Form.Item>
 
                 <Form.Item label="內容">
-                {getFieldDecorator('description')(<Input type="textarea" />)}
+                {getFieldDecorator('content', {
+                    rules: [{ required: true, message: '內容為必填' }],
+                })(<Input type="textarea" />)}
+                </Form.Item>
+
+                <Form.Item label="截止日期">
+                {getFieldDecorator('deadline', {
+                    rules: [{ required: false, message: '截止日期為必填' }],
+                })(<Input type="date" />)}
+                </Form.Item>
+
+                <Form.Item label="類別">
+                {getFieldDecorator('category', {
+                    rules: [{ required: false, message: '類別為必選' }],
+                })(selectCategory)}
+                </Form.Item>
+
+                <Form.Item label="價格">
+                {getFieldDecorator('price', {
+                    rules: [{ required: false, message: '不含價格填零' }],
+                })(<InputNumber min={0}  initialValue={0}  />)}
+                </Form.Item>
+
+                <Form.Item label="需求人數">
+                {getFieldDecorator('needSupplyCnt', {
+                    rules: [{ required: false, message: '需求人數為必填' }],
+                })(<InputNumber min={1} max={5} initialValue={1}  />)}
                 </Form.Item>
 
                 <Form.Item label="圖片上傳">
-                {getFieldDecorator('fileList',
-                )(<UploadImage></UploadImage>)}
+                {getFieldDecorator('fileList',{onChange:this.handleChange}
+                )(<UploadImage isInit={true}></UploadImage>)}
                 </Form.Item>
+
+                
+
             </Form>
           </Card> 
         </Modal>
+        </div>
       );
     }
   },
 );
+
+async function asyncAddNewPost(values){
+  let res = await addNewPost(values);
+  // 前端顯示是新增結果
+  alert(res.msg);
+}
 
 class CreateNewPostForm extends React.Component {
   state = {
@@ -124,19 +187,24 @@ class CreateNewPostForm extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false });
   };
-
   handleCreate = () => {
+
     // call axios
     const { form } = this.formRef.props;
-    form.validateFields((err, values) => {
+    form.validateFields ((err, values) => {
       if (err) {
         return;
-      }
+      } else {
+        values['NTUID'] = localStorage.getItem('NTUID');
+        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', form);
 
-      console.log('Received values of form: ', values);
-      console.log('Received values of form: ', form);
-      form.resetFields();
-      this.setState({ visible: false });
+        form.resetFields();
+        this.setState({ visible: false });
+ 
+        asyncAddNewPost(values);
+        this.props.handleAddNewPostAndRefreshTable();
+      }
     });
   };
 

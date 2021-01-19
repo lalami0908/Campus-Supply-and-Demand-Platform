@@ -4,31 +4,28 @@ const Schema = mongoose.Schema
 // Creating a schema, sort of like working with an ORM
 const MessageSchema = new Schema({
 
-	id: {//直接對應Demand ID?這樣是不是不用chatRoom
+    demandId: {//將messages歸到每一張需求單底下的留言板
 		type: String,
-		required: [true, 'MessageId field is required.']
-	},
-	chatRoomId: {
+		required: [true, 'demandId field is required.']
+    },
+    NTUID: {
 		type: String,
-		required: [true, 'chatRoomId field is required.']
-	},
-	userId: {//留言者(顯示於server)
+		required: [true, 'NTUID field is required.']
+    },
+    name: {
 		type: String,
-		required: [true, 'userId field is required.']
-	},
-	// the same
-	name: {//留言者暱稱(顯示在留言板的)
+		required: [true, 'name field is required.']
+    },
+    content: {
 		type: String,
-		required: [true, 'Name field is required.']
-	},
-	body: {
-		type: String,
-		required: [true, 'Body field is required.']
-	},
-	time: {
+		required: [true, 'content field is required.']
+    },
+    msgDate: {
 		type: Date,
-		required: [true, 'Time field is required.']
-	}
+		required: [true, 'msgDate field is required.']
+	},
+
+
 })
 
 // Creating a table within database with the defined schema

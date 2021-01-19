@@ -1,13 +1,16 @@
 const express = require("express");
 const router = express.Router();
+<<<<<<< HEAD
 const mongoose = require('mongoose');
+=======
+const path = require('path')
+>>>>>>> bd2f9fb12e99a9856f44954bbd9a5806f6c99434
 
 // const Demand = require('../models/Demand')
 // const Supply = require('../models/Supply')
 const Demand = mongoose.model('Demand');
 const Supply = mongoose.model('Supply');
 
-const path = require('path')
 const multer = require('multer')
 const upload = multer({
   storage: multer.diskStorage({
@@ -24,50 +27,76 @@ const upload = multer({
 })
 
 
-//重點API:新增需求，根據DemandSchema 收到所需client資訊，補上server所需資訊， 存入DB
-router.post('/addNewPost', async (req, res) => { 
-    console.log(req);
-    res.send('post:addNewPost');
 
-    console.log('Got body:', req.body); 
-    if(!req.body.title || !req.body.NTUID || !req.body.content || !req.body.deadline || !req.body.price || !req.body.category) {
-      return res.json({ registerResult:{ success: false, msg: '刊登失敗：請將需求單資料填完'}});
+router.post('/addNewPost', (req, res) => { 
+    console.log("addNewPost");
+    const { newPostForm } = req.body;
+   
+    // 前端有擋，後端也要檢查空值
+    if(!newPostForm.title || !newPostForm.NTUID || !newPostForm.content || !newPostForm.deadline || !newPostForm.price || !newPostForm.category){
+      return res.json({ addNewPostResult:{ success: false, msg: '新增需求失敗'}});
+    } 
+    //
+    // 補上表單空值
+    if(!newPostForm.needSupplyCnt){
+      newPostForm.needSupplyCnt = 1;
     }
-
-    //以下開始補上server資料
-    let newPost = {...req.body}
-    newPost.postDate = new Date()
-    newPost.tag = 0
-    
+    if(!newPostForm.needSupplyCnt){
+      newPostForm.needSupplyCnt = 1;
+    }
+    // 處理 tag
     //這段用來產生tag (熱門、最新、緊急、高報酬 分別對應8 4 2 1)
-    if(newPost.NTUID.substring(1, 3)==='09'){//TODO:熱門的判定方法，或留給server黑箱收廣告費好了
+    if(newPostForm.NTUID.substring(1, 3)==='09'){//TODO:熱門的判定方法，或留給server黑箱收廣告費好了
       //09優先 友善新生XD
-      newPost.tag | 8
+      newPostForm.tag | 8
     }
-    //"最新"這個tag是留到query時才上，把當天的補上tag再回傳回前端
+    //"最新"這個tag應該是留到query時才上，把當天的補上tag再回傳回前端
     // if(){
     //   newPost.tag | 4
     // }
-    if(parseInt(Math.abs(newPost.postDate - newPost.deadline) / 1000 / 60 / 60 / 24)<=3){//3天內
-      newPost.tag | 2
+    if(parseInt(Math.abs(newPostForm.postDate - newPostForm.deadline) / 1000 / 60 / 60 / 24)<=3){//3天內
+      newPostForm.tag | 2
     }
-    if(newPost.price > 918){//TODO:之後server端寫個高效能的排序一下，別每次add new就重新排序，例如可以維護一個只跟價格有關的資料結構
-      newPost.tag | 1
+    if(newPostForm.price > 918){//TODO:之後server端寫個高效能的排序一下，別每次add new就重新排序，例如可以維護一個只跟價格有關的資料結構
+      newPostForm.tag | 1
     }
-    // updateDate: 讓update API來補
-    // views: 初期不需要，TODO
-    newPost.state = 'onDemand'
-    // newPost.postId = 產生一個亂數 還是mongo有內建? 
+    // newPostForm['tag'] = 4;
 
+    var imgPath = [];
+    if(newPostForm.fileList.length > 0){
+      newPostForm.fileList.forEach(function(item, i) {
+        imgPath.push(item.url);
+      });
+    }
 
-    let mongoRes = await Demand.create(newPost) 
-    console.log('mongoRes:',mongoRes)
-    return res.json({ addNewResult:{ success: true, msg: '刊登成功!', postDate: newPost.postDate, postId:''}});
-    // let newPost = new Demand({ name: payload.name, body: payload.body });
-    //       newMessage.save(function (err) {
-    //         if (err) return handleError(err);
-    //         // saved!
-    //       });
+    let newPost = new Demand({ 
+      title: newPostForm.title, 
+      content: newPostForm.content,
+      deadline: newPostForm.deadline, 
+      price: newPostForm.price,
+      imgPath: imgPath,
+      category: newPostForm.category,
+      needSupplyCnt: newPostForm.needSupplyCnt,
+      NTUID:  newPostForm.NTUID,
+
+      name: newPostForm.name,
+        
+      postDate: new Date(),
+      tag: newPostForm.tag,
+      state: 'onDemand',
+      isOpen: true,
+      supplyCnt: 0,
+      supplyList:[],
+    });
+
+    //  TODO:新增進ＤＢ失敗
+    newPost.save().then((getNewPost) => { 
+      console.log("新增需求成功,新需求: ");
+      console.log(getNewPost);
+      return res.json({ addNewPostResult:{ success: true, msg: '新增需求成功', newPost: getNewPost}});
+    });
+  
+    
 });
 
 router.get('/getAllPosts', (req, res) => { 
@@ -115,6 +144,7 @@ router.get('/supplyPost', (req, res) => {
 
   return res.json({feedback:{ success: true, msg:'應徵成功'}})
 });
+
 // router.post('/uploadImage', (req, res) => { 
 //     console.log(req);
 //     console.log(req.body);
@@ -133,6 +163,7 @@ router.post('/deleteImage', (req, res) => {
 
 router.post('/uploadImage', upload.single('file'), (req, res) => {
     const { file: { filename, path } } = req
+    console.log("uploadImageRoute");
     console.log(req.file);
     res.setHeader('Access-Control-Allow-Headers', 'x-requested-with');
     res.json({

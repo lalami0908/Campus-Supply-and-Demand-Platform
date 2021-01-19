@@ -42,24 +42,6 @@ const tableIcons = {
 
 export default function PostTable(props) {
 
-    // setData([{
-    //     title: "title",
-    //     subTitle: "subTitle",
-    //     content: "123",
-    //     postDate: new Date(),
-    //     deadline: new Date(),
-    //     needSupplyCnt: 5,
-    //     supplyCnt: 3,
-    // },{
-    //     title: "title",
-    //     subTitle: "subTitle",
-    //     content: "123",
-    //     postDate: new Date(),
-    //     deadline: new Date(),
-    //     needSupplyCnt: 5,
-    //     supplyCnt: 3,
-    // }]);
-   
     const mockData = [{
         apply: <SupplyModal postID={"mockID-sadasd123o4hasdjlk"}/>,
         title: "title1",
@@ -117,9 +99,15 @@ export default function PostTable(props) {
             {
                 (props.editable)?(            
                 <MaterialTable
+
+                    // title={props.title}
+                    // columns={columns}
+                    // data={props.postdata}//改成 props.postdata
+
                     title={'username刊登的需求單'}
                     columns={columns.slice(1)}
-                    data={mockData.slice(1)}//改成 props.postdata
+                   // data={mockData.slice(1)}//改成 props.postdata
+                    data={props.postdata}
                     icons={tableIcons}
                     editable={{
                         onRowAdd: (newData) => {
