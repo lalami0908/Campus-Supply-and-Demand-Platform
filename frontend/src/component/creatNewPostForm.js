@@ -25,10 +25,6 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     constructor(props) {
         super(props);
     };
-    // const { fileList, imgNumber,onChange } = this.props;
-    // const list = fileList||[]
-    // const { previewVisible, previewImage } = this.state;
-
     state = {
         loading: false,
         imageUrl: '',
@@ -39,25 +35,6 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
         // console.log("handleChange", info)
         this.setState({ fileInfoList: info  })
       
-        // if (info.file.status === 'uploading') {
-        //   this.setState({ loading: true });
-        //   return;
-        // }
-        // if (info.file.status === 'done') {
-        //   // Get this url from response in real world.
-        //   getBase64(info.file.originFileObj, imageUrl =>
-        //     this.setState({
-        //       imageUrl,
-        //       loading: false,
-        //     })
-
-        //   );
-        //   console.log("status", info.file.status);
-        //   console.log("uid", info.file.uid);
-        //   console.log("response", info.file.response);
-        //   console.log("url", info.file.url);
-        //   console.log("imageUrl", this.state.imageUrl);   
-        // }
     };
 
     
@@ -74,15 +51,6 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
         );
 
         const selectCategory = (
-          // <select>
-          //   <option>請選擇你最愛的寵物</option>
-          //   <option>Dog</option>
-          //   <option>Cat</option>
-          //   <option>Hamster</option>
-          //   <option>Parrot</option>
-          //   <option>Spider</option>
-          //   <option>Goldfish</option>
-          // </select>
           <Select
             showSearch
             // style={{ width: 400 }}
@@ -172,7 +140,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
 async function asyncAddNewPost(values){
   let res = await addNewPost(values);
   // 前端顯示是新增結果
-  alert(res.msg);
+  // alert(res.msg);
 }
 
 class CreateNewPostForm extends React.Component {
