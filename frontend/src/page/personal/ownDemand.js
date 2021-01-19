@@ -21,10 +21,10 @@ function OwnDemand() {
     // let resdata = queryPost(NTUID) //async function
     // setPostdata(resdata)
 
-    // useEffect(()=>{
-    //     let resdata = getUserPost(NTUID)//async function
-    //     setPostdata(resdata)
-    // })
+    useEffect(async ()=>{
+        let resdata = await getUserPost(NTUID)//async function
+        setPostdata(resdata)
+    }, [])
 
     async function refreshTable(){
         let res = await getUserPost(NTUID);
