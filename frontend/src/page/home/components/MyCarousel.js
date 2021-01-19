@@ -92,7 +92,7 @@ const MyCarousel = (props) => {
                 <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous}/>
                 <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
             </Carousel>
-            <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible}/>
+            <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} NTUID={props.NTUID}/>
       </>
     );
 }
@@ -100,6 +100,7 @@ const MyCarousel = (props) => {
 // 跳出需求單詳細資訊: (參考後端的Demand.js列的屬性表) _id, name, content, postDate, updateDate, tag, deadline, price, category, needSupplyCnt ...
 const Details =  (props)=> {
   const [visible, setVisible] = useState(false)
+
   useEffect(()=>{
     setVisible(props.detailsVisible)
   },[props.detailsVisible])
@@ -120,7 +121,7 @@ const Details =  (props)=> {
       <div visible={props.visible}>
           {props.visible}
           <Modal onCancel={handleCancel} onOk={handleOk} visible={visible} title="詳細情報" okText="確認" cancelText="取消">
-              <p>{`_id: ${props.item.postID}`}</p>
+              {/* <p>{`post id: ${props.item._id}`}</p> */}
               <p>{`來自: ${props.item.name}`}</p>
               <p>{`回報$$: ${props.item.price}`}</p>
               <section>
@@ -130,8 +131,9 @@ const Details =  (props)=> {
                   fontSize: '3vh'
                 }}>{props.item.content}</div>
               </section>
-              
-              <SupplyModal postID={props.item.postID}/>
+              <br></br>
+              <br></br>
+              <SupplyModal postID={props.item._id} NTUID={props.NTUID}/>
           </Modal>
       </div>
   );

@@ -5,7 +5,9 @@ import  {supply} from '../axios'
 //接單確認
 const SupplyModal = function (props) {
     const [visible, setVisible] = useState(false)
-  
+    useEffect(()=>{
+        console.log('SupplyModal item:',props)
+    },[])
   
     const showModal = () => {
         console.log('contract!')
@@ -13,8 +15,8 @@ const SupplyModal = function (props) {
     };
     const handleOk = async() => {
         setVisible(false);
-        let feedback = await supply(props.postID)
-        console.log('supply feedback:',feedback)
+        await supply({NTUID:props.NTUID,postID:props.postID})
+        // console.log('supply feedback:',feedback)
         
     };
     const handleCancel = () => {

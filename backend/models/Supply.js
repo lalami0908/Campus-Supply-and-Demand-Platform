@@ -3,14 +3,11 @@ const Schema = mongoose.Schema
 
 
 const SupplySchema = new Schema({
-    _id: String,
     NTUID: String, // 接單者的NTUID
-
-    postDate: Date,
+    applyDate: Date, //接單時間?
     demandId: String, // demand_id
-
-    isAccept: Boolean,
-    currentState: String,  // enum: 這個是?
+    isAccept: Boolean,//TODO 之後可以做需求方的同意
+    // currentState: String,  // enum: 這個是?
 });
 
 const Supply = mongoose.model('Supply', SupplySchema);

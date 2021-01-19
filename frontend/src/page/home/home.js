@@ -69,7 +69,7 @@ function Home(props) {
     <>
 
       <div className="carousel-display">
-        <MyCarousel posts={postdata}/>
+        <MyCarousel posts={postdata} NTUID={NTUID}/>
       </div>
       <div className="home-footer">
           <Marquee>

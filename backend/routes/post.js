@@ -134,25 +134,52 @@ router.post('/getUserPosts', async (req, res) => {
   })
 });
 
-router.get('/getUserSupplies', (req, res) => { 
-  res.send('getUserSupplies');
+router.post('/getUserSupplies', (req, res) => { 
   //TODO 抓DB資料
-  console.log(req.body.text);
+  console.log(req.body);
 
-  return res.json({userSupplies:[]})
+  Supply.find({NTUID:req.body.NTUID}).then((sups) => {
+    console.log('sups:',sups);
+    return res.json({userSupplies:sups});
+  })
 });
 
+router.post('/getIdPosts', (req, res) => { 
+  //TODO 抓DB資料
+  console.log('getIdPosts:',req.body);
+  Demand.findById(req.body.postID).then((uniquePost) => {
+    console.log(uniquePost);
+    return res.json({uniquePost:uniquePost});
+  })
+});
+
+//TODO
 router.put('/updateYourPost', (req, res) => { 
-	res.send('test3');
+
 	console.log(req.body.text);
 });
 
-router.get('/supplyPost', (req, res) => { 
-  res.send('supplyPost');
-  //TODO 修改DB資料，將需求單的state做更動
-  console.log(req.body.text);
+router.put('/supplyPost', async(req, res) => { 
+  console.log('supplyPost:',req.body);
+  await Demand.findByIdAndUpdate(req.body.postID,{state:'onMatching'},(err,docs)=>{
+    if (err){ 
+      console.log(err) 
+    } 
+    else{ 
+        console.log("Updated User : ", docs); 
+    } 
+  })//怎麼呼叫到原本DB裡面的supplyCnt?
 
-  return res.json({feedback:{ success: true, msg:'應徵成功'}})
+  // let newSupply = new Supply({ 
+  //   NTUID: req.body.NTUID,
+  //   applyDate: new Date(), 
+  //   demandId:  req.body.postID,
+  // })
+
+  await Supply.create({NTUID: req.body.NTUID,applyDate: new Date(),demandId:req.body.postID})
+  return res.json({ feedback:{ success: true, msg: '供給成功'}});
+   
+  // return res.json({feedback:{ success: true, msg:'應徵成功'}})
 });
 
 // router.post('/uploadImage', (req, res) => { 

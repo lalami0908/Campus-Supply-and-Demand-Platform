@@ -4,7 +4,6 @@ import CreateNewPostForm  from '../../component/creatNewPostForm.js';
 
 import { getUserPost } from '../../axios'
 import { Button } from 'antd';
-// import getUserPost from '../../axios/post.js';
 
 
 async function queryPost(NTUID){
@@ -33,24 +32,10 @@ function OwnDemand() {
 
     }
 
-    
-    // async function queryPost(){
-    //     let res = await getUserPost(NTUID);
-    //     console.log(res);
-    //     setPostdata(res);
-    // };
-   
-    // useEffect( async ()=>{
-    //     console.log("useEffect")
-    //     let resdata = await getUserPost(NTUID)//async function
-    //     console.log(resdata)
-    //     setPostdata(resdata);
-    // })
-
     return(
         <div>
             <h1>
-            OwnDemand TEST            
+            你刊登了這些需求           
             </h1>
             <Button onClick={refreshTable}>重新整理</Button>
             {/* <UploadImage></UploadImage> */}

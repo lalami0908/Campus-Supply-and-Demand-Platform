@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Tag } from 'antd'
 import {getAll, getTag} from '../../axios'
+import SupplyModal from '../../component/SupplyModal'
 import PostTable  from '../../component/postTable';
 const tags = {
     hot: '熱門',
@@ -9,23 +10,31 @@ const tags = {
     urgent: '緊急任務',
     all: '所有'
 }
-var posts = []
+
 function Search(props) {
     const [postdata, setPostdata] = useState([])
     console.log('Search props:',props)
-    console.log('Search props.location.pathname:',props.location.pathname)
     const NTUID = window.localStorage.getItem('NTUID')
     let paths = props.location.pathname.split('/')
     let tag = paths[paths.length - 1]
     useEffect(async()=>{
         if(tag==='all'){
-            setPostdata(await getAll(NTUID))
+            setPostdata(await getAll(NTUID))//重要!!set state是async function
         }else{
-            // setPostdata([])
             setPostdata(await getTag({tag:tag,NTUID:NTUID}))
         }
+        console.log('after set search:',postdata)
     },[])
-    
+
+    useEffect(()=>{
+        console.log('search postdata updated:',postdata)
+        if(postdata.length>0 && postdata[0].apply === undefined){
+            setPostdata(postdata.map(row=>{
+                return {apply: <SupplyModal postID={row._id} NTUID={NTUID}/>,...row}
+            }))
+        }
+
+    },[postdata])
 
     return(
         <>
