@@ -1,51 +1,55 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PostTable  from '../../component/postTable.js';
 import CreateNewPostForm  from '../../component/creatNewPostForm.js';
-
+import DemandDetail from '../../component/DemandDetail.js'
 import { getUserPost } from '../../axios'
 import { Button } from 'antd';
 // import getUserPost from '../../axios/post.js';
 
-
-async function queryPost(NTUID){
-    let res = await getUserPost(NTUID);
-    console.log(res);
-    return res;
-};
-
-
-
 function OwnDemand() {
     const [postdata, setPostdata] = useState([])
     const NTUID = window.localStorage.getItem('NTUID')
-    // let resdata = queryPost(NTUID) //async function
-    // setPostdata(resdata)
+    const [detailsVisible, setDetailsVisible] = useState(true)
+
+    function handleModalOpen () {
+
+        setDetailsVisible(true);
+        alert("open");
+    }
 
     useEffect(async ()=>{
         let resdata = await getUserPost(NTUID)//async function
+        if(resdata.length > 0){
+            resdata.forEach(function(item, i) {
+                resdata.title = <a onClick={ handleModalOpen } className="nav-link">123</a>;
+            });
+        }
+
+
         setPostdata(resdata)
     }, [])
 
+    // 讓新增需求單也能刷新 table
     async function refreshTable(){
         let res = await getUserPost(NTUID);
+        if(res.length > 0){
+            res.forEach(function(item, i) {
+                var titleText = item.title
+                item['title'] = <a onClick={ handleModalOpen} className="nav-link">  
+                    <DemandDetail detailsVisible={detailsVisible} item = {item} onChange={setDetailsVisible}></DemandDetail>  
+                    { titleText }   
+                    </a>
+                   
+              
+            });
+        }
+
         console.log("refreshTable: ", res);
         setPostdata(res)
-
     }
 
-    
-    // async function queryPost(){
-    //     let res = await getUserPost(NTUID);
-    //     console.log(res);
-    //     setPostdata(res);
-    // };
    
-    // useEffect( async ()=>{
-    //     console.log("useEffect")
-    //     let resdata = await getUserPost(NTUID)//async function
-    //     console.log(resdata)
-    //     setPostdata(resdata);
-    // })
+
 
     return(
         <div>
