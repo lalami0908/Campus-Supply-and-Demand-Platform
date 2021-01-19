@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS, GET_TAG_POSTS, UPDATE_YOUR_POST,SUPPLY_POST} from '../common/APIpath'
+import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS, GET_TAG_POSTS, UPDATE_YOUR_POST,SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION} from '../common/APIpath'
 
 const instance = axios.create({ baseURL: BASE_URL })
 const imageInstance = axios.create({ baseURL: BASE_URL,  headers: {'Content-Type': 'multipart/form-data' } })
@@ -64,3 +64,15 @@ export const supply = async (postID) => {
   return feedback
 }
   
+
+//TODO
+export const uploadImage = async (image) => {
+  console.log('uploadImage:',image)
+  await instance.post(UPLOAD_IMAGE_ACTION, image)
+}
+
+//TODO
+export const deleteImage = async (image) => {
+  console.log('deleteImage:',image)
+  await instance.delete(DELETE_IMAGE_ACTION, image)
+}

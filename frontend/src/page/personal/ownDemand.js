@@ -5,8 +5,14 @@ import PostTable  from '../../component/postTable.js';
 import CreateNewPostForm  from '../../component/creatNewPostForm.js';
 // import FormModal from '../../component/FormModal.js';
 import  UploadImage   from '../../component/UploadImage.js';
-
+import getUserPost from '../../axios'
 function OwnDemand() {
+    const [postdata, setPostdata] = useState([])
+    const NTUID = window.localStorage.getItem('NTUID')
+    // useEffect(()=>{
+    //     let resdata = getUserPost(NTUID)//async function
+    //     setPostdata(resdata)
+    // })
 
     return(
         <div>
@@ -15,7 +21,7 @@ function OwnDemand() {
             </h1>
             {/* <UploadImage></UploadImage> */}
             <CreateNewPostForm></CreateNewPostForm>
-            <PostTable></PostTable>
+            <PostTable editable={true} postdata={postdata}/>
  
         </div>
        

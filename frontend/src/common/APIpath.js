@@ -22,7 +22,7 @@ export const SUPPLY_POST = '/post/supplyPost';
 
 /*===================================================================*/
 // 上傳照片
-export const UPLOAD_IMAGE_ACTION = 'http://localhost:4000/post/uploadImage';
+export const UPLOAD_IMAGE_ACTION = '/post/uploadImage';
 
-export const DELETE_IMAGE_ACTION = 'http://localhost:4000/post/deleteImage';
+export const DELETE_IMAGE_ACTION = '/post/deleteImage';
 
