@@ -28,7 +28,7 @@ function OwnDemand() {
 
     async function refreshTable(){
         let res = await getUserPost(NTUID);
-        console.log(res);
+        console.log("refreshTable: ", res);
         setPostdata(res)
 
     }

@@ -27,12 +27,12 @@ export const getTag = async (tag,NTUID) => {
 }
 //TODO
 export const getUserPost = async (NTUID) => {
-  console.log("get user Posts");
+  console.log("axios: get user Posts by NTUID", NTUID);
   const {
-    data: { userPostsResult }
+    data: { userPosts }
   } = await instance.post( GET_USER_POSTS,  { NTUID: NTUID}).catch((err) => console.error(err));
-  console.log("userPosts:", userPostsResult);
-  return userPostsResult
+  console.log("userPosts:", userPosts);
+  return userPosts
 }
 //TODO
 export const getUserSupplies = async (NTUID) => {

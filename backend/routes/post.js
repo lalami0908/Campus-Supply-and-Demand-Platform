@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
-<<<<<<< HEAD
 const mongoose = require('mongoose');
-=======
 const path = require('path')
->>>>>>> bd2f9fb12e99a9856f44954bbd9a5806f6c99434
 
 // const Demand = require('../models/Demand')
 // const Supply = require('../models/Supply')
@@ -34,7 +31,7 @@ router.post('/addNewPost', (req, res) => {
    
     // 前端有擋，後端也要檢查空值
     if(!newPostForm.title || !newPostForm.NTUID || !newPostForm.content || !newPostForm.deadline || !newPostForm.price || !newPostForm.category){
-      return res.json({ addNewPostResult:{ success: false, msg: '新增需求失敗'}});
+      return res.json({ addNewPostResult:{ success: false, msg: '新增需求失敗，需求單位填寫完整'}});
     } 
     //
     // 補上表單空值
@@ -116,12 +113,14 @@ router.get('/getTagPosts', (req, res) => {
 
   return res.json({tagPosts:[]})
 });
-router.get('/getUserPosts', async (req, res) => { 
-  res.send('getUserPosts');
-  //TODO 抓DB資料
+router.post('/getUserPosts', async (req, res) => { 
+  console.log("getUserPosts");
   console.log(req.body);
-  let findOwnPost = await Demand.find({NTUID:req.body.NTUID})
-  return res.json({userPosts:findOwnPost})
+  console.log(req.body.NTUID);
+  Demand.find({NTUID:req.body.NTUID}).then((posts) => {
+    console.log(posts);
+    return res.json({userPosts:posts});
+  })
 });
 
 router.get('/getUserSupplies', (req, res) => { 
