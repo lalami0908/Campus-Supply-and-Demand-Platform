@@ -17,14 +17,16 @@ function Search(props) {
     const NTUID = window.localStorage.getItem('NTUID')
     let paths = props.location.pathname.split('/')
     let tag = paths[paths.length - 1]
-    // useEffect(()=>{
-    //     if(tag==='all'){
-    //         postdata = getAll(NTUID)
-    //     }else{
-    //         postdata = getTag(tag)
-    //     }
-    // },[])
+    useEffect(async()=>{
+        if(tag==='all'){
+            setPostdata(await getAll(NTUID))
+        }else{
+            // setPostdata([])
+            setPostdata(await getTag({tag:tag,NTUID:NTUID}))
+        }
+    },[])
     
+
     return(
         <>
             <h1 style={{

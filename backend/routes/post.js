@@ -42,6 +42,7 @@ router.post('/addNewPost', (req, res) => {
       newPostForm.needSupplyCnt = 1;
     }
     // 處理 tag
+    newPostForm.tag = 0 //init!
     //這段用來產生tag (熱門、最新、緊急、高報酬 分別對應8 4 2 1)
     if(newPostForm.NTUID.substring(1, 3)==='09'){//TODO:熱門的判定方法，或留給server黑箱收廣告費好了
       //09優先 友善新生XD
@@ -96,28 +97,35 @@ router.post('/addNewPost', (req, res) => {
     
 });
 
-router.get('/getAllPosts', (req, res) => { 
-    res.send('getAllPosts');
-    //TODO 抓DB資料
-  console.log(req.body);
-  Demand.find().then((posts) => {
-    //{ 'NTUID': req.body.NTUID } 濾掉自己的post
+router.post('/getAllPosts', async (req, res) => { 
+  console.log('req.body:',req.body);
+  await Demand.find({state:'onDemand'}).then((posts) => {
+    //濾掉自己的post
+    console.log('posts:',posts)
     return res.json({allPosts:posts.filter(post=>post.NTUID!==req.body.NTUID)})
   })
   
 });
-router.get('/getTagPosts', (req, res) => { 
-  res.send('getTagPosts');
-  //TODO 抓DB資料
-  console.log(req.body.text);
-
-  return res.json({tagPosts:[]})
+const tagValue = {
+  hot: 8,
+  current: 4,
+  urgent: 2,
+  highPayment: 1 
+}
+router.post('/getTagPosts',  async (req, res) => { 
+  console.log('req.body:',req.body);
+  let tag = tagValue[req.body.tag]
+  await Demand.find({state:'onDemand'}).then((posts) => {
+    console.log('posts:',posts)
+    //濾掉自己的post
+    return res.json({tagPosts:posts.filter(post=>post.NTUID!==req.body.NTUID&&((post.tag&tag)===tag))})
+  })
 });
 router.post('/getUserPosts', async (req, res) => { 
   console.log("getUserPosts");
-  console.log(req.body);
+  console.log('req.body:',req.body);
   console.log(req.body.NTUID);
-  Demand.find({NTUID:req.body.NTUID}).then((posts) => {
+  Demand.find({NTUID:req.body.NTUID,state:'onDemand'}).then((posts) => {
     console.log(posts);
     return res.json({userPosts:posts});
   })

@@ -17,11 +17,11 @@ export const addNewPost = async (newPost) => {  //
   return addNewPostResult
 }
 //TODO
-export const getTag = async (tag,NTUID) => {
+export const getTag = async (params) => {
   console.log("get Tag Posts");
   const {
     data: { tagPosts }
-  } = await instance.get( GET_TAG_POSTS, {tag:tag,NTUID:NTUID}).catch((err) => console.error(err));
+  } = await instance.post( GET_TAG_POSTS, {...params}).catch((err) => console.error(err));
   console.log("tagPosts:", tagPosts);
   return tagPosts
 }
@@ -39,7 +39,7 @@ export const getUserSupplies = async (NTUID) => {
   console.log("get user Supplies");
   const {
     data: { userSupplies }
-  } = await instance.get( GET_USER_SUPPLIES, NTUID).catch((err) => console.error(err));
+  } = await instance.get( GET_USER_SUPPLIES, { NTUID: NTUID}).catch((err) => console.error(err));
   console.log("userSupplies:", userSupplies);
   return userSupplies
 }
@@ -48,7 +48,7 @@ export const getAll = async (NTUID) => {
   console.log("getAllPosts");
   const {
     data: { allPosts }
-  } = await instance.get( GET_ALL_POSTS, NTUID).catch((err) => console.error(err));
+  } = await instance.post( GET_ALL_POSTS, { NTUID: NTUID}).catch((err) => console.error(err));
   console.log("allPosts:", allPosts);
   return allPosts
 }

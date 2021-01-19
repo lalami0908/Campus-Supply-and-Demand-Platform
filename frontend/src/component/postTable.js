@@ -125,7 +125,7 @@ export default function PostTable(props) {
                     <MaterialTable
                     title={'點擊各需求單標題進行接單'}
                     columns={columns}
-                    data={mockData}//改成 props.postdata
+                    data={props.postdata}//改成 props.postdata
                     icons={tableIcons}
                     />  
                 )
