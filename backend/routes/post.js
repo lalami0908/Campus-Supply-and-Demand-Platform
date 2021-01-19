@@ -61,6 +61,14 @@ router.get('/getUserPosts', (req, res) => {
   return res.json({userPosts:[]})
 });
 
+router.get('/getUserSupplies', (req, res) => { 
+  res.send('getUserSupplies');
+  //TODO 抓DB資料
+  console.log(req.body.text);
+
+  return res.json({userSupplies:[]})
+});
+
 router.put('/updateYourPost', (req, res) => { 
 	res.send('test3');
 	console.log(req.body.text);

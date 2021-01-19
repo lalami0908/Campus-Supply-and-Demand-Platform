@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS, GET_TAG_POSTS, UPDATE_YOUR_POST,SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION} from '../common/APIpath'
-
+import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS, GET_TAG_POSTS} from '../common/APIpath'
+import {UPDATE_YOUR_POST,SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION,GET_USER_SUPPLIES} from '../common/APIpath'
 const instance = axios.create({ baseURL: BASE_URL })
 const imageInstance = axios.create({ baseURL: BASE_URL,  headers: {'Content-Type': 'multipart/form-data' } })
 
@@ -32,7 +32,15 @@ export const getUserPost = async (NTUID) => {
   console.log("userPosts:", userPosts);
   return userPosts
 }
-
+//TODO
+export const getUserSupplies = async (NTUID) => {
+  console.log("get user Supplies");
+  const {
+    data: { userSupplies }
+  } = await instance.get( GET_USER_SUPPLIES, NTUID).catch((err) => console.error(err));
+  console.log("userSupplies:", userSupplies);
+  return userSupplies
+}
 //TODO
 export const getAll = async (NTUID) => {
   console.log("getAllPosts");

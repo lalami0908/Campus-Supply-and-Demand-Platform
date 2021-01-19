@@ -13,6 +13,8 @@ export const GET_ALL_POSTS = '/post/getAllPosts';
 export const GET_TAG_POSTS = '/post/getTagPosts';
 // 拿取特定用戶(NTUID)刊登的需求單
 export const GET_USER_POSTS = '/post/getUserPosts';
+// 拿取特定用戶(NTUID)接單的資訊
+export const GET_USER_SUPPLIES = '/post/getUserSupplies';
 // 新增一張需求單
 export const ADD_NEW_POST = '/post/addNewPost';
 // 更改一張需求單
