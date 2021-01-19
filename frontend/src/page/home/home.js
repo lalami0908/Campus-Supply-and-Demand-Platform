@@ -56,7 +56,8 @@ function Home(props) {
   useEffect(async ()=>{
     //這邊要從後端動態拿post資料
     // post =  await getAll(NTUID)
-    setPostdata(await getAll(NTUID))
+    var getData = await getAll(NTUID)
+    setPostdata(getData)
     console.log('home post:',postdata)
     let now = Date.now();
     const today = new Date(now);

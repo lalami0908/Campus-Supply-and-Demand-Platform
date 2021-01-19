@@ -45,7 +45,6 @@ const MyCarousel = (props) => {
         <CarouselItem
           onExiting={() => setAnimating(true)}
           onExited={() => setAnimating(false)}
-          key={item.src}
         >  
             <div style={{
                 // 
@@ -64,9 +63,8 @@ const MyCarousel = (props) => {
               console.log("testtest")
               setDetailsVisible(true)
               console.log("detailsVisible:",detailsVisible)
-            }}><img src={item.src} alt={item.altText} style={{
-
-          }}/></button>
+            }}>{ (item.imgPath)? (<img src={item.imgPath[0]} alt={item.altText} style={{}}/>):(<p>no picture</p>) }
+          </button>
           
           {/* <CarouselCaption captionText={item.caption} captionHeader={item.caption} /> */}
         </CarouselItem>
@@ -78,7 +76,8 @@ const MyCarousel = (props) => {
             <div className='home-title'>
                 <span className='from' style={{
                     backgroundImage: nameURL
-                }}>{`是來自${name}的請求...`}</span>
+                }}>{`是來自${name}的請求...`}</span> 
+                {/* TODO: name */}
                 <span className='post-title'><div>{`!~${title}~!`}</div></span>
             </div>
             <Carousel
@@ -120,8 +119,8 @@ const Details =  (props)=> {
       <div visible={props.visible}>
           {props.visible}
           <Modal onCancel={handleCancel} onOk={handleOk} visible={visible} title="詳細情報" okText="確認" cancelText="取消">
-              <p>{`_id: ${props.item.postID}`}</p>
-              <p>{`來自: ${props.item.name}`}</p>
+              {/* <p>{`_id: ${props.item.postID}`}</p> */}
+              <p>{`來自: ${props.item.NTUID}`}</p>
               <p>{`回報$$: ${props.item.price}`}</p>
               <section>
                 {'詳細說明:'}
@@ -130,7 +129,8 @@ const Details =  (props)=> {
                   fontSize: '3vh'
                 }}>{props.item.content}</div>
               </section>
-              
+              {(props.item.imgPath)?(props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
+              :(<p>no picture</p>)}
               <SupplyModal postID={props.item.postID}/>
           </Modal>
       </div>

@@ -9,24 +9,26 @@ import { Button } from 'antd';
 function OwnDemand() {
     const [postdata, setPostdata] = useState([])
     const NTUID = window.localStorage.getItem('NTUID')
-    const [detailsVisible, setDetailsVisible] = useState(true)
+    const [detailsVisible, setDetailsVisible] = useState(false)
+    const [activeIndex, setActiveIndex] = useState(0)
 
-    function handleModalOpen () {
-
+    function handleModalOpen (i) {
+      
+        console.log("i", i.target.id);
+        setActiveIndex(i.target.id);
         setDetailsVisible(true);
-        alert("open");
-    }
 
+    }
     useEffect(async ()=>{
-        let resdata = await getUserPost(NTUID)//async function
-        if(resdata.length > 0){
-            resdata.forEach(function(item, i) {
-                resdata.title = <a onClick={ handleModalOpen } className="nav-link">123</a>;
+        let res = await getUserPost(NTUID)//async function
+        if(res.length > 0){
+            res.forEach(function(item, i) {
+                var titleText = item.title
+                item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i}> { titleText } </a>         
             });
         }
-
-
-        setPostdata(resdata)
+        console.log("setPostdata", res);
+        setPostdata(res)
     }, [])
 
     // 讓新增需求單也能刷新 table
@@ -36,21 +38,14 @@ function OwnDemand() {
             res.forEach(function(item, i) {
                 var titleText = item.title
                 item['title'] = <a onClick={ handleModalOpen} className="nav-link">  
-                    <DemandDetail detailsVisible={detailsVisible} item = {item} onChange={setDetailsVisible}></DemandDetail>  
+                  
                     { titleText }   
                     </a>
-                   
-              
             });
         }
-
         console.log("refreshTable: ", res);
         setPostdata(res)
     }
-
-   
-
-
     return(
         <div>
             <h1>
@@ -60,9 +55,8 @@ function OwnDemand() {
             {/* <UploadImage></UploadImage> */}
             <CreateNewPostForm handleAddNewPostAndRefreshTable={refreshTable}></CreateNewPostForm>
             <PostTable editable={true} postdata={postdata}/>
- 
-        </div>
-       
+            <DemandDetail detailsVisible={detailsVisible} item = {postdata[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  
+        </div>     
     )
 }
 

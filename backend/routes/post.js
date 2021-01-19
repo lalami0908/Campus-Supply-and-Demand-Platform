@@ -101,7 +101,8 @@ router.post('/addNewPost', (req, res) => {
 });
 
 router.post('/getAllPosts', async (req, res) => { 
-  console.log('req.body:',req.body);
+  console.log('getAllPosts');
+  // console.log('req.body:',req.body);
   await Demand.find({state:'onDemand'}).then((posts) => {
     //濾掉自己的post
     console.log('posts:',posts)
