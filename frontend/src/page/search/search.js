@@ -65,6 +65,7 @@ function Search(props) {
     },[])
 
     const refreshPostTable = async ()=>{
+        console.log('refreshPostTable...')
         if(tag==='all'){
             let res = await getAll(NTUID)
             if(res.length > 0){
@@ -73,6 +74,7 @@ function Search(props) {
                     item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
                 });
             }
+            console.log('test refreshPostTable:',res)
             setPostdata(res);
             // setPostdata(await getAll(NTUID))//重要!!set state是async function
         }else{

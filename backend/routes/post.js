@@ -175,7 +175,11 @@ router.put('/updateYourPost', auth.required, (req, res) => {
 
 // 刪除需求
 router.post('/deleteYourPost', auth.required, (req, res) => { 
-  console.log('getIdPost:', req.body.postID);
+  // console.log('getPostId:', req.body.postID);
+  // Supply.find({demandId:postID}).then((sups) => {
+    
+  //   return res.json({userSupplies:sups});
+  // })
 
 });
 

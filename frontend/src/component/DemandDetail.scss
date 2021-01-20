@@ -1,0 +1,38 @@
+.ChatBoard-title{
+    color: darken($color: #103110, $amount: 0);
+    font-style: italic;
+    // style={{
+    //     color: 'green',
+    //     fontStyle: 'italic',
+    //     fontSize: '10vh',
+    // }}
+}
+.ChatBoard{
+    position: relative;
+    width: 35vw;
+    height: auto;
+    border: 0.3vh #275227 groove;
+    padding-bottom: 1vh;
+    .msg-row{
+        border-bottom: 0.2vh;
+        border-bottom-style: dashed;
+        .msg-data{
+            position: relative;
+            left: 0.3vw;
+            width: 15vw;
+            height: auto;
+            display:inline;
+        }
+        .msg-date{
+            color: crimson;
+            position: relative;
+            right: 0;
+            border-left: 10vw;
+            
+            
+        }
+    }
+     
+}
+
+

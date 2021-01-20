@@ -1,6 +1,8 @@
 import React, { useState , useEffect} from 'react';
 import { Button, Modal, Form, Input } from 'antd';
-import  { getMessage, addNewMessage, deletePost } from '../axios'
+
+import  { getMessage, addNewMessage,getName, deletePost } from '../axios'
+import './DemandDetail.scss'
 
 const { confirm } = Modal;
 
@@ -105,16 +107,24 @@ const DemandDetail =  (props)=> {
                     (props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
                         :(<p>no picture</p>)}
                     
-                    <h3>留言板：</h3>
+                    <h3 className="ChatBoard-title" >留言板：</h3>
+                    <section className='ChatBoard'>
+                        {(messagedata.length !=0 )
+                        ?(messagedata.map((item) => { 
+                        // TODO: 應該要顯示name但message沒帶name
+                            return(
+                                <p className='msg-row'>
+                                    <div className='msg-data'>{ `${item.NTUID}: ${item.content}` }</div> 
+                                    <div className='msg-date'>{item.msgDate}</div>
+                                </p>
+                            ) 
+                        }))
+                        :(<p>(小助手提示~尚未有人留言)</p>)}  
+                    </section>
                     {/* {(props.item.message)?
                     (props.item.message.map((item) => { return <p>{ item }</p>}))
                         :(<p>尚未有人留言</p>)}   */}
-                    {(messagedata.length !=0 )?
-                    (messagedata.map((item) => { 
-                    // TODO: 應該要顯示name但message沒帶name
-                        return <p>{ `${item.NTUID}: ${item.content}` } 
-                        </p>}))
-                        :(<p>尚未有人留言</p>)}  
+
 
                     <Input.TextArea  value={inputValue} onChange={(e) => setInputValue(e.target.value)}></Input.TextArea>
                     <Button onClick={handleMsgSubmit}>送出留言</Button>                    

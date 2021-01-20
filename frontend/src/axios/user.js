@@ -11,7 +11,7 @@ export const getName = async (NTUID) => {
     console.log("getName");
     const {
       data: { findUser }
-    } = await instance.get( GET_NAME,  NTUID).catch((err) => console.error(err));
+    } = await instance.get( GET_NAME,  { params: NTUID }).catch((err) => console.error(err));
     console.log("findUser", findUser);
     return findUser
   }
