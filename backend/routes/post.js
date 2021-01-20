@@ -145,13 +145,16 @@ router.post('/getUserSupplies', (req, res) => {
   })
 });
 
-router.post('/getIdPosts', (req, res) => { 
-  //TODO 抓DB資料
-  console.log('getIdPosts:',req.body);
+router.post('/getIdPost', (req, res) => { 
+  console.log('getIdPost:',req.body);
   Demand.findById(req.body.postID).then((uniquePost) => {
     console.log(uniquePost);
     return res.json({uniquePost:uniquePost});
   })
+});
+router.post('/getIdPosts', (req, res) => { 
+  console.log('getIdPosts ids:',req.body.postIDs);
+  Demand.find().then((posts) => res.json({idPosts:posts.filter(post=>req.body.postIDs.includes(post._id.toString()))}))
 });
 
 //TODO

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS,GET_ID_POSTS, GET_TAG_POSTS} from '../common/APIpath'
+import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS,GET_ID_POST,GET_ID_POSTS, GET_TAG_POSTS} from '../common/APIpath'
 import {UPDATE_YOUR_POST,SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION,GET_USER_SUPPLIES} from '../common/APIpath'
 const instance = axios.create({ baseURL: BASE_URL })
 // const imageInstance = axios.create({ baseURL: BASE_URL,  headers: {'Content-Type': 'multipart/form-data' } })
@@ -39,10 +39,20 @@ export const getIdPost = async (postID) => {
   console.log("axios: get user Posts by id", postID);
   const {
     data: { uniquePost }
-  } = await instance.post( GET_ID_POSTS,  { postID: postID}).catch((err) => console.error(err));
+  } = await instance.post( GET_ID_POST,  { postID: postID}).catch((err) => console.error(err));
   console.log("uniquePost:", uniquePost);
   return uniquePost
 }
+//TODO
+export const getIdPosts = async (postIDs) => {
+  console.log("axios: get user Posts by ids", postIDs);
+  const {
+    data: { idPosts }
+  } = await instance.post( GET_ID_POSTS,  { postIDs: postIDs}).catch((err) => console.error(err));
+  console.log("get idPosts:", idPosts);
+  return idPosts
+}
+
 //TODO
 export const getUserSupplies = async (NTUID) => {
   console.log("get user Supplies");
