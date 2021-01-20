@@ -10,7 +10,7 @@ const DemandDetail =  (props)=> {
     const [visible, setVisible] = useState(false)
     const [inputValue, setInputValue] = useState("")
     const [messagedata, setMessagedata] = useState([])
-
+    const NTUID = localStorage.getItem('NTUID')
 
     useEffect( async ()=>{
         console.log("useEffect1");
@@ -65,7 +65,7 @@ const DemandDetail =  (props)=> {
         var newmessage = await addNewMessage(
             {
                 demand_id: props.item._id,
-                NTUID:  localStorage.getItem('NTUID'),
+                NTUID:  NTUID,
                 name: localStorage.getItem('name'),
                 content: inputValue,
             }
@@ -88,10 +88,11 @@ const DemandDetail =  (props)=> {
     return (
         <div className="DemandDetail">
             {/* cancelButtonProps={{ style: { display: 'none' } }} */}
-            <Modal class="DemandDetail" onCancel={handleCloseModal} onOk={handleOk} visible={visible} title="詳細情報" okText="確認" cancelButtonProps={{ style: { display: 'none' } }} >
+            <Modal class="DemandDetail" width={'40vw'} onCancel={handleCloseModal} onOk={handleOk} visible={visible} title="詳細情報" okText="確認" cancelButtonProps={{ style: { display: 'none' } }} >
                 {(props.item)?(
                 <div>
                     <p>{`需求單號: ${props.item._id}`}</p>
+                    <p>{`需求方: ${props.item.name}`}</p>
                     <p>{`需求標題: ${props.item.title.props.children[1]}`}</p>
                     <p>{`需求內容: ${props.item.content}`}</p>
                     <p>{`報酬金額: ${props.item.price}`}</p>
@@ -106,12 +107,12 @@ const DemandDetail =  (props)=> {
                     <h3 className="ChatBoard-title" >留言板：</h3>
                     <section className='ChatBoard'>
                         {(messagedata.length !=0 )
-                        ?(messagedata.map((item) => { 
+                        ?(messagedata.map((msgItem) => { 
                         // TODO: 應該要顯示name但message沒帶name
                             return(
                                 <p className='msg-row'>
-                                    <div className='msg-data'>{ `${item.NTUID}: ${item.content}` }</div> 
-                                    <div className='msg-date'>{item.msgDate}</div>
+                                    <div className='msg-data'>{ `${msgItem.NTUID===props.item.NTUID?('*Post owner*-'+msgItem.NTUID):msgItem.NTUID}: ${msgItem.content}` }</div> 
+                                    <div className='msg-date'>{msgItem.msgDate}</div>
                                 </p>
                             ) 
                         }))
