@@ -136,7 +136,8 @@ export default class UploadImage extends Component {
       <div className="UploadImage"  id="UploadImage">
         <Upload
           listType='picture-card'
-          action={ UPLOAD_IMAGE_ACTION } 
+          action={ UPLOAD_IMAGE_ACTION }
+          headers={{ 'Authorization':  'Token ' +   localStorage.getItem('token')}}
           onChange={this.handleChange}
           beforeUpload={beforeUpload}
           onPreview={this.showPreview}

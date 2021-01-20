@@ -1,7 +1,10 @@
 import axios from 'axios'
 import {ADD_DEMAND_MESSAGE, GET_DEMAND_MESSAGE, BASE_URL} from '../common/APIpath'
 
-const instance = axios.create({ baseURL: BASE_URL })
+const instance = axios.create({ 
+  baseURL: BASE_URL,
+  headers: { 'Authorization':  'Token ' +   localStorage.getItem('token')}
+})
 
 
 export const addNewMessage = async (newMessage) => {  //
