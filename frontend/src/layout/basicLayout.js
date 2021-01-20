@@ -35,7 +35,9 @@ export default function BasicLayout(props){
                     <span style={{ fontSize: 14 }}>你有需求</span>
                     <p className="typing">讓台大人幫你</p>
                 </div>
-
+                <title className='welcome'>
+                    歡迎你~~{localStorage.getItem('name')}
+                </title>
                 <div className="loginout-button">
                     <LoginOut onSubmit={navigate2Login}>登出</LoginOut>
                 </div>
