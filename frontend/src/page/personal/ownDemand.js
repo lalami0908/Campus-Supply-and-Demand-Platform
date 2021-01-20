@@ -13,6 +13,7 @@ function OwnDemand() {
     const [activeIndex, setActiveIndex] = useState(0)
 
     function handleModalOpen (i) {
+        alert(i.target.id);
         console.log("i", i);
         console.log("activeIndex", i.target.id);
         setActiveIndex(i.target.id);
@@ -27,7 +28,7 @@ function OwnDemand() {
         if(res.length > 0){
             res.forEach(function(item, i) {
                 var titleText = item.title
-                item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} key={item._id}> { titleText } </a>         
+                item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
             });
         }
         console.log("setPostdata", res);
@@ -42,11 +43,12 @@ function OwnDemand() {
         if(res.length > 0){
             res.forEach(function(item, i) {
                 var titleText = item.title
-                item['title'] = <a onClick={ handleModalOpen} className="nav-link"> { titleText } </a>
+                item['title'] = <a onClick={ handleModalOpen} className="nav-link"  id={i} > { titleText } </a>
             });
         }
         console.log("refreshTable: ", res);
         setPostdata(res)
+       
     }
     return(
         <div>
