@@ -9,17 +9,29 @@ const { confirm } = Modal;
 const DemandDetail =  (props)=> {
     const [visible, setVisible] = useState(false)
     const [inputValue, setInputValue] = useState("")
+    const [messagedata, setMessagedata] = useState([])
 
 
-    useEffect(()=>{
+    useEffect( async ()=>{
+        console.log("useEffect1");
         setVisible(props.detailsVisible)
-        console.log("useEffect", `${props.item}`);
+        console.log(visible);
+ 
+        
     },[props.detailsVisible])
     
-    useEffect(()=>{
-      if(!visible){
-        props.onChange(visible)
-      }
+    useEffect(async ()=>{
+        if(!visible){
+            props.onChange(visible)
+        }
+        // 打開取回留言
+        if(visible){
+            let res = await getMessage(props.item._id) 
+            if(res.success){
+                setMessagedata(res.messages);
+            }
+            console.log("setMessagedata", messagedata);
+        }
     },[visible])
     
     const handleOk = () => {
@@ -50,9 +62,6 @@ const DemandDetail =  (props)=> {
     };
         
     const handleMsgSubmit = async (msg) => {
-         // TODO: 送出留言
-        alert(props.item._id);
-        alert(inputValue);
         var newmessage = await addNewMessage(
             {
                 demand_id: props.item._id,
@@ -62,6 +71,15 @@ const DemandDetail =  (props)=> {
             }
         );
         console.log("addNewMessageResult back data:", newmessage);
+        // 前端顯示訊息
+        alert(newmessage.msg)
+        if(newmessage.success){
+            let res = await getMessage(props.item._id) 
+            if(res.success){
+                setMessagedata(res.messages);
+            }
+            console.log("setMessagedata", messagedata);
+        }
     };
 
     
@@ -72,7 +90,7 @@ const DemandDetail =  (props)=> {
             <Modal class="DemandDetail" onCancel={handleCloseModal} onOk={handleOk} visible={visible} title="詳細情報" okText="確認" cancelButtonProps={{ style: { display: 'none' } }} >
                 {(props.item)?(
                 <div>
-                    <p>{`需求標題: ${props.item._id}`}</p>
+                    <p>{`需求單號: ${props.item._id}`}</p>
                     <p>{`需求標題: ${props.item.title.props.children[1]}`}</p>
                     <p>{`需求內容: ${props.item.content}`}</p>
                     <p>{`報酬金額: ${props.item.price}`}</p>
@@ -85,8 +103,14 @@ const DemandDetail =  (props)=> {
                         :(<p>no picture</p>)}
                     
                     <h3>留言板：</h3>
-                    {(props.item.message)?
+                    {/* {(props.item.message)?
                     (props.item.message.map((item) => { return <p>{ item }</p>}))
+                        :(<p>尚未有人留言</p>)}   */}
+                    {(messagedata.length !=0 )?
+                    (messagedata.map((item) => { 
+                    // TODO: 應該要顯示name但message沒帶name
+                        return <p>{ `${item.NTUID}: ${item.content}` } 
+                        </p>}))
                         :(<p>尚未有人留言</p>)}  
 
                     <Input.TextArea  value={inputValue} onChange={(e) => setInputValue(e.target.value)}></Input.TextArea>

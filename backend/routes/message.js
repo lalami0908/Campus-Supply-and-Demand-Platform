@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 const Message = mongoose.model('Message');
+const Demand = mongoose.model('Demand');
 
 
 router.post('/addMessage', (req, res) => { 
@@ -17,11 +18,16 @@ router.post('/addMessage', (req, res) => {
 		content: newMessageForm.content,
 		msgDate: new Date(),
 	});
+
+
+
+	/***** relational database schema ***/
 	newMessage.save().then((addedNewMessage) => { 
 		console.log("新增留言成功,新留言: ");
 		console.log(addedNewMessage);
 		return res.json({ addNewMessageResult:{ success: true, msg: '新增留言成功', newMessage: addedNewMessage}});
 	});
+
 
 });
 
@@ -30,7 +36,7 @@ router.post('/getMessage', (req, res) => {
 	const { demand_id } = req.body;
 	console.log("getMessage by demand_id: ", demand_id);
 	// TODO: 有找：有訊息/沒訊息/找的時候出錯？
-	Message.find({_id: req.body.demand_id}).then((messages) => {
+	Message.find({demandId: req.body.demand_id}).then((messages) => {
 		console.log("取回留言: ")
 		console.log('getMessage:',messages)
 		return res.json({ getMessageResult: { success: true, messages: messages} });
