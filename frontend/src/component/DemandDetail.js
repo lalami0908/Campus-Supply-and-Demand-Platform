@@ -5,7 +5,7 @@ import  { getMessage, addNewMessage } from '../axios'
 const { confirm } = Modal;
 
 
-/** 點下去看到的明細頁 */
+/** 點下去看到的明細頁 應該叫 PostDetail */
 const DemandDetail =  (props)=> {
     const [visible, setVisible] = useState(false)
     const [inputValue, setInputValue] = useState("")
@@ -116,7 +116,7 @@ const DemandDetail =  (props)=> {
 
                     <Input.TextArea  value={inputValue} onChange={(e) => setInputValue(e.target.value)}></Input.TextArea>
                     <Button onClick={handleMsgSubmit}>送出留言</Button>                    
-                    <Button onClick={handleCancelDemand} type="danger">取消需求</Button>    
+                    {(props.canCancelDemand)?(<Button onClick={handleCancelDemand} type="danger">取消需求</Button>):(<></>)}
                 </div>
                 
                 ):(<p>取得需求單資訊錯誤，請重新整理</p>)}

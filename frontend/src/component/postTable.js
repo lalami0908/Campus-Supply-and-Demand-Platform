@@ -40,6 +40,7 @@ function PostTable(props) {
         <div className = "materialTable">
           <br/><br/>
             {
+                // 你的需求
                 (props.editable)?(            
                 <MaterialTable
 
@@ -53,18 +54,20 @@ function PostTable(props) {
                     data={props.postdata}
                     icons={tableIcons}
                     editable={{
-                        onRowAdd: (newData) => {
+                        // onRowAdd: (newData) => {
         
                             
-                        },
+                        // },
                         onRowUpdate: (newData, oldData) =>{
                         
                         },
                         onRowDelete: (oldData) =>{
+                            console.log("oldData",oldData);
                        
                         },
                     }}
                 />):(
+                    // 搜尋頁面
                     <MaterialTable
                     title={'點擊各需求單標題進行接單'}
                     columns={columns}

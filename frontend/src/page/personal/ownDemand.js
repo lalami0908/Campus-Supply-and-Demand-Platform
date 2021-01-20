@@ -59,7 +59,7 @@ function OwnDemand() {
             {/* <UploadImage></UploadImage> */}
             <CreateNewPostForm handleAddNewPostAndRefreshTable={refreshTable}></CreateNewPostForm>
             <PostTable editable={true} postdata={postdata}/>
-            <DemandDetail detailsVisible={detailsVisible} item = {postdata[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  
+            <DemandDetail canCancelDemand={true} detailsVisible={detailsVisible} item = {postdata[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  
         </div>     
     )
 }
