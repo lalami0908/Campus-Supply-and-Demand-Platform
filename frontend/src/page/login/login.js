@@ -5,6 +5,14 @@ import  {register, login, resetPassword,genPost} from '../../axios'
 // import {userStore} from '../../store/userStore'
 import { navigate } from '../../common/utils';
 
+function toHome(res){
+    localStorage.setItem('token', res.user.token)
+    localStorage.setItem('NTUID', res.user.NTUID)
+    localStorage.setItem('userId', res.user._id)
+    localStorage.setItem('name', res.user.name)  
+    navigate('/home');
+}
+
 async function handleLogin(values){
     console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
     let res = await login(values)
@@ -12,10 +20,7 @@ async function handleLogin(values){
     console.log('res:',res)
     if(res.success){  
         // 登入成功直接導向主頁
-        localStorage.setItem('token', res.user.token)
-        localStorage.setItem('NTUID', res.user.NTUID)
-        localStorage.setItem('userId', res.user._id)  
-        navigate('/home');
+        toHome(res)
     } 
     // 登入失敗停在此頁
 }
@@ -44,10 +49,7 @@ async function handleRegister(values){
     alert(res.msg);
     if(res.success){  
         // 註冊成功也直接導向主頁
-        localStorage.setItem('token', res.user.token)
-        localStorage.setItem('NTUID', res.user.NTUID)
-        localStorage.setItem('userId', res.user._id)  
-        navigate('/home');
+        toHome(res)
     } else {
         // 註冊失敗停在此頁
     }
@@ -107,6 +109,27 @@ function LoginForm(props){
     const text = props.text;
     return (
         <Form onSubmit={handleSubmit} className="login-form">
+            {
+                (props.text==='註冊')&&(
+                    <Form.Item>
+                    {
+                        getFieldDecorator('name', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '請輸入你的暱稱！',
+                                },
+                            ],
+                        })(
+                            <Input
+                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                placeholder="username"
+                            />,
+                        )
+                    }
+                    </Form.Item>
+                )
+            }
             <Form.Item>
                 {
                     getFieldDecorator('NTUID', {

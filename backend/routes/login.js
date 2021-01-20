@@ -31,7 +31,11 @@ router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
     if(!req.body.password) {
         return res.json({ registerResult:{ success: false, msg: '註冊錯誤：密碼為必填' }});
     }
-    
+    User.find({ 'name': req.body.name }).then((user) => {
+        if (user.length != 0){
+            return res.json({ registerResult:{ success:false, msg:'註冊錯誤：該用戶名已被註冊'}})
+        } 
+    })   
  
     User.find({ 'NTUID': req.body.NTUID }).then((user) => {
         if (user.length != 0){
@@ -45,7 +49,7 @@ router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
                 return res.json({ registerResult: { success:false, msg:'註冊錯誤：學號不合法'}})
             }
             
-            const newUser = new User({ NTUID : req.body.NTUID });
+            const newUser = new User({ NTUID : req.body.NTUID, name : req.body.name });
             newUser.setPassword(req.body.password);
         
             // 如果註冊後倒回登入頁面
@@ -81,6 +85,7 @@ router.post('/login', auth.optional, (req, res, next) => {  // req.body:  NTUID,
     
     // 還沒註冊
     User.find({ 'NTUID': user.NTUID }).then((findUser) => {
+        console.log('findUser:',findUser)
         if (findUser.length == 0){
             return res.json({ loginResult: { success: false, msg:'使用者尚未註冊，請先註冊'} });
         }else {

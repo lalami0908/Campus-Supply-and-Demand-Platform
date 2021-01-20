@@ -7,6 +7,8 @@ export const REGISTER = '/login/register';
 export const LOGIN = '/login/login';
 // 重設密碼
 export const RESET_PASSWORD = '/login/resetPassword';
+// 用學號抓用戶暱稱
+export const GET_NAME = '/user/getName'
 // 拿取所有需求單(除了自己刊登的)
 export const GET_ALL_POSTS = '/post/getAllPosts';
 // 拿取特定標籤的需求單(除了自己刊登的)
