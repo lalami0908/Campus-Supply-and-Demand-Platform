@@ -134,6 +134,7 @@ const Details =  (props)=> {
               <br></br>
               {(props.item.imgPath)?(props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
               :(<p>no picture</p>)}
+              <br></br>  
               <SupplyModal postID={props.item.postID} NTUID={props.NTUID}/>
           </Modal>
       </div>
