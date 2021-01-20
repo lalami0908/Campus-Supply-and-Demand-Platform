@@ -1,10 +1,7 @@
 // import express from 'express';
 const express = require("express");
 const router = express.Router();
-
-// const User = require('./models/User')
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+import {User } from '../models'
 
 const passport = require('passport');
 const auth = require('../config/auth');
@@ -60,7 +57,9 @@ router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
         
             // 註冊後直接進入主頁
             newUser.save().then((user) => { 
+                // user.name = req.body.name 
                 user.token = user.generateJwt();
+                console.log('user.toAuthJson():',user.toAuthJson())
                 return res.json({ registerResult: { success: true, msg:'註冊成功！', user: user.toAuthJson()} })
             });
         }

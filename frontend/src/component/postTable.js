@@ -47,7 +47,7 @@ function PostTable(props) {
                     // columns={columns}
                     // data={props.postdata}//改成 props.postdata
 
-                    title={'username刊登的需求單'}
+                    title={`${localStorage.getItem('name')}刊登的需求單`}
                     columns={columns.slice(1)}
                    // data={mockData.slice(1)}//改成 props.postdata
                     data={props.postdata}

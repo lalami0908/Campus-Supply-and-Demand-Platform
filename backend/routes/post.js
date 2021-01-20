@@ -1,12 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require('mongoose');
 const path = require('path')
+import {Demand,Supply,User } from '../models'
 
-// const Demand = require('../models/Demand')
-// const Supply = require('../models/Supply')
-const Demand = mongoose.model('Demand');
-const Supply = mongoose.model('Supply');
 
 const multer = require('multer')
 const upload = multer({
@@ -22,8 +18,6 @@ const upload = multer({
     }
   })
 })
-
-
 
 router.post('/addNewPost', (req, res) => { 
     console.log("addNewPost");
