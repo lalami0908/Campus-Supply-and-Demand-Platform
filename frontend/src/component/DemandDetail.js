@@ -113,12 +113,21 @@ const DemandDetail =  (props)=> {
                         {(messagedata.length !=0 )
                         ?(messagedata.map((msgItem) => { 
                         // TODO: 應該要顯示name但message沒帶name
-                            return(
-                                <p className='msg-row'>
-                                    <div className='msg-data'>{ `${msgItem.NTUID===props.item.NTUID?('*Post owner*-'+msgItem.NTUID):msgItem.NTUID}: ${msgItem.content}` }</div> 
-                                    <div className='msg-date'>{msgItem.msgDate}</div>
-                                </p>
-                            ) 
+                            if(msgItem.NTUID==='====！系統留言！'){
+                                return(
+                                    <p className='msg-row'>
+                                        <div className='msg-data'>{ `${msgItem.NTUID}: ${msgItem.content}` }</div> 
+                                        <div className='msg-date'>{msgItem.msgDate}</div>
+                                    </p>
+                                )
+                            }else{
+                                return(
+                                    <p className='msg-row'>
+                                        <div className='msg-data'>{ `${msgItem.NTUID===props.item.NTUID?('*Post owner*-'+msgItem.name):msgItem.name}: ${msgItem.content}` }</div> 
+                                        <div className='msg-date'>{msgItem.msgDate}</div>
+                                    </p>
+                                ) 
+                            }
                         }))
                         :(<p>(小助手提示~尚未有人留言)</p>)}  
                     </section>

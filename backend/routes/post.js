@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const path = require('path')
-import {Demand,Supply,BASE_URL } from '../models'
+import {Demand,Supply,Message,BASE_URL,SYSTEM_MSG } from '../models'
 const auth = require('../config/auth');
-const mongoose = require('mongoose');
-const Message = mongoose.model('Message');
+
 
 
 const multer = require('multer')
@@ -215,9 +214,9 @@ router.put('/supplyPost', auth.required, async(req, res) => {
       .then((supply)=>{
         let newSystemMessage = new Message({
           demandId: demand._id,
-          NTUID: "====！系統留言！",
-          name: "====！系統留言！",
-          content: `${req.body.NTUID } 已申請接受該需求 ====`,
+          NTUID: SYSTEM_MSG,
+          name: SYSTEM_MSG,
+          content: `${req.body.name } 已申請接受該需求 ====`,
           msgDate: new Date(),
          });
          newSystemMessage.save().then((addedNewMessage) => { 

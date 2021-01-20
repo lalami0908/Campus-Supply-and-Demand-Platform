@@ -7,7 +7,11 @@ const MessageSchema = new Schema({
     demandId: {//將messages歸到每一張需求單底下的留言板
 		type: String,
 		required: [true, 'demandId field is required.']
-    },
+	},
+	name: {
+		type: String,
+		required: [true, 'user name field is required.']
+	},
     NTUID: {
 		type: String,
 		required: [true, 'NTUID field is required.']
