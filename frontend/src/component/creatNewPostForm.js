@@ -17,10 +17,17 @@ function getBase64(img, callback) {
     reader.readAsDataURL(img);
 }
 
-
+var date = new Date()
+var y = date.getFullYear()
+var m = date.getMonth()+1 < 10?'0'+(date.getMonth()+1):date.getMonth()+1
+var d = date.getDate()
+var nowFormat = `${y}-${m}-${d}`
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
   // eslint-disable-next-line
+
+
+
   class extends React.Component {
     constructor(props) {
         super(props);
@@ -94,13 +101,14 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 <Form.Item label="內容">
                 {getFieldDecorator('content', {
                     rules: [{ required: true, message: '內容為必填' }],
-                })(<Input type="textarea" />)}
+                })(<textarea  rows="4" cols="64"/>)}
                 </Form.Item>
 
                 <Form.Item label="截止日期">
+
                 {getFieldDecorator('deadline', {
                     rules: [{ required: false, message: '截止日期為必填' }],
-                })(<Input type="date" />)}
+                })(<Input type="date" min={nowFormat}/>)}
                 </Form.Item>
 
                 <Form.Item label="類別">
@@ -156,6 +164,7 @@ class CreateNewPostForm extends React.Component {
         return;
       } else {
         values['NTUID'] = localStorage.getItem('NTUID');
+        // values.postDate = nowFormat
         console.log('Received values of form: ', values);
 
         let res = await addNewPost(values);

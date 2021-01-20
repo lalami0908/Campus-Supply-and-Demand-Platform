@@ -46,7 +46,12 @@ router.post('/addNewPost', (req, res) => {
     // if(){
     //   newPost.tag | 4
     // }
-    if(parseInt(Math.abs(newPostForm.postDate - newPostForm.deadline) / 1000 / 60 / 60 / 24)<=3){//3天內
+    const postNow = new Date()
+    const d = newPostForm.deadline.split('-')
+    const postDeadline= new Date(d[0],d[1]-1,d[2],23,59,59); 
+    console.log(`newPostForm.postDate:${postNow},newPostForm.deadline:${postDeadline}`)
+    console.log('check data distance:',Math.abs(postNow - postDeadline))
+    if(parseInt(Math.abs(postNow- postDeadline) / 1000 / 60 / 60 / 24)<=3){//3天內
       newPostForm.tag = newPostForm.tag | 2
     }
     if(newPostForm.price > 918){//TODO:之後server端寫個高效能的排序一下，別每次add new就重新排序，例如可以維護一個只跟價格有關的資料結構
@@ -76,7 +81,7 @@ router.post('/addNewPost', (req, res) => {
 
       name: newPostForm.name,
         
-      postDate: new Date(),
+      postDate: postNow,
       tag: newPostForm.tag,
       state: 'onDemand',
       isOpen: true,
