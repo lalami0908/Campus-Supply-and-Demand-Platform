@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path')
 import {Demand,Supply,Message,BASE_URL,SYSTEM_MSG } from '../models'
 const auth = require('../config/auth');
-
+const fs = require('fs');
 
 
 const multer = require('multer')
@@ -23,7 +23,6 @@ const upload = multer({
 
 // 新增需求
 router.post('/addNewPost', auth.required, (req, res) => { 
-    console.log("addNewPost");
     const { newPostForm } = req.body;
    
     // 前端有擋，後端也要檢查空值
@@ -37,7 +36,9 @@ router.post('/addNewPost', auth.required, (req, res) => {
     if(!newPostForm.needSupplyCnt){
       newPostForm.needSupplyCnt = 1;
     }
-
+    if(!newPostForm.price){
+      newPostForm.price = 0;
+    }
     // 處理 tag
     newPostForm.tag = 0 //init!
     //這段用來產生tag (熱門、最新、緊急、高報酬 分別對應8 4 2 1)
@@ -52,8 +53,8 @@ router.post('/addNewPost', auth.required, (req, res) => {
     const postNow = new Date()
     const d = newPostForm.deadline.split('-')
     const postDeadline= new Date(d[0],d[1]-1,d[2],23,59,59); 
-    console.log(`newPostForm.postDate:${postNow},newPostForm.deadline:${postDeadline}`)
-    console.log('check data distance:',Math.abs(postNow - postDeadline))
+    
+
     if(parseInt(Math.abs(postNow- postDeadline) / 1000 / 60 / 60 / 24)<=3){//3天內
       newPostForm.tag = newPostForm.tag | 2
     }
@@ -63,12 +64,12 @@ router.post('/addNewPost', auth.required, (req, res) => {
     // newPostForm['tag'] = 4;
 
     var imgPath = [];
-    console.log('newPostForm.fileList:',newPostForm.fileList)
+
     if(newPostForm.fileList.length > 0){
-      console.log('testing item.url')
+ 
       newPostForm.fileList.forEach(function(item, i) {
         imgPath.push(item.url);
-        console.log('item.url:',item.url)
+
       });
     }else{
       imgPath.push(BASE_URL+'public/uploads/0.jpg');
@@ -105,8 +106,6 @@ router.post('/addNewPost', auth.required, (req, res) => {
 });
 // 查詢需求：主頁取得所有post資料
 router.post('/getAllPosts', auth.required, async (req, res) => { 
-  console.log('getAllPosts');
-  // console.log('req.body:',req.body);
   await Demand.find({state:'onDemand'}).then((posts) => {
     //濾掉自己的post
     let canSupplyPosts = posts.filter(post=>post.NTUID!==req.body.NTUID)
@@ -122,23 +121,16 @@ const tagValue = {
   highPayment: 1 
 }
 router.post('/getTagPosts', auth.required,  async (req, res) => { 
-  console.log('req.body:',req.body);
   let tag = tagValue[req.body.tag]
   await Demand.find({state:'onDemand'}).then((posts) => {
-    console.log('posts:',posts)
     //濾掉自己的post
     return res.json({tagPosts:posts.filter(post=>post.NTUID!==req.body.NTUID&&((post.tag&tag)===tag))})
   })
 });
 
-// 我的需求頁面
+// 我的需求頁面 自己的所有狀態的需求單
 router.post('/getUserPosts', auth.required, async (req, res) => { 
-  console.log("getUserPosts");
-  console.log('req.body:',req.body);
-  console.log(req.body.NTUID);
-  // 關了應該也還要看得到吧？TODO:顯示需求單狀態
   Demand.find({NTUID:req.body.NTUID}).then((posts) => {
-    console.log(posts);
     return res.json({userPosts: posts});
   })
 });
@@ -146,29 +138,23 @@ router.post('/getUserPosts', auth.required, async (req, res) => {
 // 取得使用者供給
 router.post('/getUserSupplies', auth.required, (req, res) => { 
   //TODO 抓DB資料
-  console.log(req.body);
   Supply.find({NTUID:req.body.NTUID}).then((sups) => {
-    console.log('sups:',sups);
     return res.json({userSupplies:sups});
   })
 });
 
 router.post('/getIdPost', auth.required, (req, res) => { 
-  console.log('getIdPost:',req.body);
   Demand.findById(req.body.postID).then((uniquePost) => {
-    console.log(uniquePost);
     return res.json({uniquePost:uniquePost});
   })
 });
 
 router.post('/getIdPosts', auth.required, (req, res) => { 
-  console.log('getIdPosts ids:',req.body.postIDs);
   Demand.find().then((posts) => res.json({idPosts:posts.filter(post=>req.body.postIDs.includes(post._id.toString()))}))
 });
 
 // TODO:編輯需求
 router.put('/updateYourPost', auth.required, (req, res) => { 
-
 	console.log(req.body.text);
 });
 
@@ -283,25 +269,28 @@ router.put('/supplyPost', auth.required, async(req, res) => {
           return res.json({ feedback:{ success: true, msg: '接單成功'}});
         });
       })
-   
-
     });
   })
 });
 
 
 
-router.post('/deleteImage', auth.required, (req, res) => { 
-    console.log(req);
-    console.log(req.body);
 
-    res.send('deleteImage');
+router.delete('/deleteImage', auth.required, (req, res,next) => { 
+    const { url } = req.body;
+    fs.unlink(url, (err) => {
+      if (err) return next(err)
+      console.log("刪除圖片");
+      console.log(url);
+      res.json({deleteImageResult:{success: true, msg: '刪除圖片成功'}});
+    })
+
 });
 
 
 router.post('/uploadImage', auth.required, upload.single('file'), (req, res) => {
     const { file: { filename, path } } = req
-    console.log("uploadImageRoute");
+    console.log("上傳圖片");
     console.log(req.file);
     res.setHeader('Access-Control-Allow-Headers', 'x-requested-with');
     res.json({

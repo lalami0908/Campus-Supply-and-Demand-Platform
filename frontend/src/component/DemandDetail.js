@@ -3,7 +3,7 @@ import { Button, Modal, Form, Input } from 'antd';
 
 import  { getMessage, addNewMessage,getName, deletePost } from '../axios'
 import './DemandDetail.scss'
-
+import SupplyModal from './SupplyModal'
 const { confirm } = Modal;
 
 
@@ -14,12 +14,8 @@ const DemandDetail =  (props)=> {
     const [messagedata, setMessagedata] = useState([])
     const NTUID = localStorage.getItem('NTUID')
 
-    useEffect( async ()=>{
-        console.log("useEffect1");
+    useEffect( async ()=>{  
         setVisible(props.detailsVisible)
-        console.log(visible);
- 
-        
     },[props.detailsVisible])
     
     useEffect(async ()=>{
@@ -32,7 +28,7 @@ const DemandDetail =  (props)=> {
             if(res.success){
                 setMessagedata(res.messages);
             }
-            console.log("setMessagedata", messagedata);
+            // console.log("setMessagedata", messagedata);
         }
     },[visible])
     
@@ -49,7 +45,7 @@ const DemandDetail =  (props)=> {
             okType: 'danger',
             cancelText: '不要取消',
             async onOk() {
-                // 點開明細頁厚的取消需求
+                // 點開明細頁面的取消需求
                 alert( props.item._id);
                 let res =  await deletePost(props.item._id);
                 alert( res.msg);
@@ -59,7 +55,7 @@ const DemandDetail =  (props)=> {
                 setVisible(false)
             },
             onCancel() {
-              console.log('Cancel');
+            
             },
           });
        
@@ -77,16 +73,14 @@ const DemandDetail =  (props)=> {
                 content: inputValue,
             }
         );
-        console.log("addNewMessageResult back data:", newmessage);
-        // 前端顯示訊息
-        // alert(newmessage.msg)
+        
         if(newmessage.success){
             let res = await getMessage(props.item._id) 
             if(res.success){
                 setMessagedata(res.messages);
                 setInputValue("");
             }
-            console.log("setMessagedata", messagedata);
+        
         }
     };
 
@@ -100,7 +94,10 @@ const DemandDetail =  (props)=> {
                 <div>
                     <p>{`需求單號: ${props.item._id}`}</p>
                     <p>{`需求方: ${props.item.name}`}</p>
-                    <p>{`需求標題: ${props.item.title.props.children[1]}`}</p>
+                    {/* 主頁的明細沒有被取代成超連結 */}
+                    {(props.isHome)?
+                    ( <p>{`需求標題: ${props.item.title}`}</p> ):
+                    ( <p>{`需求標題: ${props.item.title.props.children[1]}`}</p> )}
                     <p>{`需求內容: ${props.item.content}`}</p>
                     <p>{`報酬金額: ${props.item.price}`}</p>
                     <p>{`刊登時間: ${props.item.postDate}`}</p>
@@ -111,6 +108,8 @@ const DemandDetail =  (props)=> {
                     (props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
                         :(<p>no picture</p>)}
                     
+                    {/* 主頁的明細不顯示留言板 */}
+                    {(props.isHome)?(<></>):(<div className='AllChatBoard'> 
                     <h3 className="ChatBoard-title" >留言板：</h3>
                     <section className='ChatBoard'>
                         {(messagedata.length !=0 )
@@ -134,14 +133,21 @@ const DemandDetail =  (props)=> {
                         }))
                         :(<p>(小助手提示~尚未有人留言)</p>)}  
                     </section>
+                   
+
                     {/* {(props.item.message)?
                     (props.item.message.map((item) => { return <p>{ item }</p>}))
                         :(<p>尚未有人留言</p>)}   */}
 
 
                     <Input.TextArea  value={inputValue} onChange={(e) => setInputValue(e.target.value)}></Input.TextArea>
-                    <Button onClick={handleMsgSubmit}>送出留言</Button>                    
+                    <Button onClick={handleMsgSubmit}>送出留言</Button>               
+                    </div>)}
+
+                    {/* 你的需求頁面-明細功能鍵: 可以取消需求 */}
                     {(props.canCancelDemand)?(<Button onClick={handleCancelDemand} type="danger">取消需求</Button>):(<></>)}
+                     {/* 主頁-明細功能鍵: 可以申請接單 */}
+                    {(props.isHome)?(<div>  <br></br> <SupplyModal postID={props.item._id} onSupply={props.onSupply}/></div>):(<></>)}
                 </div>
                 
                 ):(<p>取得需求單資訊錯誤，請重新整理</p>)}

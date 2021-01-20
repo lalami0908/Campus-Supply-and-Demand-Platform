@@ -35,12 +35,13 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     state = {
         loading: false,
         imageUrl: '',
-        fileInfoList: [{ status: '', uid: 0, url: '',}]
+        fileList: [{ status: '', uid: 0, url: '',}]
     };
     
-    handleChange = (info) => {  
-        // console.log("handleChange", info)
-        this.setState({ fileInfoList: info  })
+    handleChange = (info) => {
+
+      // console.log("info",info);  
+      this.setState({ fileList: info  })
       
     };
 
@@ -107,13 +108,13 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 <Form.Item label="截止日期">
 
                 {getFieldDecorator('deadline', {
-                    rules: [{ required: false, message: '截止日期為必填' }],
+                    rules: [{ required: true, message: '截止日期為必填' }],
                 })(<Input type="date" min={nowFormat}/>)}
                 </Form.Item>
 
                 <Form.Item label="類別">
                 {getFieldDecorator('category', {
-                    rules: [{ required: false, message: '類別為必選' }],
+                    rules: [{ required: true, message: '類別為必選' }],
                 })(selectCategory)}
                 </Form.Item>
 
@@ -125,11 +126,11 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
 
                 <Form.Item label="需求人數">
                 {getFieldDecorator('needSupplyCnt', {
-                    rules: [{ required: false, message: '需求人數為必填' }],
+                    rules: [{ required: true, message: '需求人數為必填' }],
                 })(<InputNumber min={1} max={5} initialValue={1}  />)}
                 </Form.Item>
 
-                <Form.Item label="圖片上傳">
+                <Form.Item label="圖片上傳(image/jpeg) ">
                 {getFieldDecorator('fileList',{onChange:this.handleChange}
                 )(<UploadImage isInit={true}></UploadImage>)}
                 </Form.Item>
@@ -166,13 +167,12 @@ class CreateNewPostForm extends React.Component {
         values['NTUID'] = localStorage.getItem('NTUID');
         values.name = localStorage.getItem('name')
         // values.postDate = nowFormat
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
 
         let res = await addNewPost(values);
         // 前端顯示是新增結果
         alert(res.msg);
-        console.log("res", res);
-        console.log("success", res.success);
+    
         if(res.success){
           form.resetFields();
           this.setState({ visible: false });

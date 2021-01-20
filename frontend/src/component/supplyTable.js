@@ -23,15 +23,15 @@ export default function SupplyTable(props) {
                     data={props.postdata}
                     icons={tableIcons}
                     editable={{
-                        onRowAdd: (newData) => {
+                        // onRowAdd: (newData) => {
         
                             
-                        },
-                        onRowUpdate: (newData, oldData) =>{
+                        // },
+                        // onRowUpdate: (newData, oldData) =>{
                         
-                        },
+                        // },
                         onRowDelete: async (oldData) =>{
-                            console.log("deleteSupply",oldData);
+                     
                             let res = await deleteSupply( { deleteSupplyForm : { demandId: oldData._id, NTUID: localStorage.getItem('NTUID')}} );
                             if(res.success){
                                 props.refreshTable();

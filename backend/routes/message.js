@@ -5,8 +5,6 @@ import {Message, Demand, User,SYSTEM_MSG} from '../models'
 
 router.post('/addMessage', auth.required, (req, res) => { 
 	const { newMessageForm } = req.body;
-	console.log('addMessage:');
-	console.log(newMessageForm);
 
 	let newMessage = new Message({ 
 		demandId: newMessageForm.demand_id,
@@ -16,9 +14,6 @@ router.post('/addMessage', auth.required, (req, res) => {
 		msgDate: new Date(),
 	});
 
-
-
-	/***** relational database schema ***/
 	newMessage.save().then((addedNewMessage) => { 
 		console.log("新增留言成功,新留言: ");
 		console.log(addedNewMessage);
@@ -31,7 +26,7 @@ router.post('/addMessage', auth.required, (req, res) => {
 
 router.post('/getMessage', auth.required, (req, res) => { 
 	const { demand_id } = req.body;
-	console.log("getMessage by demand_id: ", demand_id);
+
 	// TODO: 有找：有訊息/沒訊息/找的時候出錯？
 	Message.find({demandId: req.body.demand_id}).then(async (messages) => {
 		console.log("取回留言: ")

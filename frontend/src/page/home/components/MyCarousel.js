@@ -11,13 +11,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './MyCarousel.scss'
 import nameURL from '../../../assets/images/name.jpg'
 import SupplyModal from '../../../component/SupplyModal'
+import DemandDetail from '../../../component/DemandDetail.js'
+
 const MyCarousel = (props) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
     const [title, setTitle] = useState('');
     const [name, setName] = useState('');
     const [detailsVisible, setDetailsVisible] = useState(false)
-    console.log('MyCarousel props.onSupply:',props.onSupply)
+    // console.log('MyCarousel props.onSupply:',props.onSupply)
     //init: 從後端抓所有的需求單
     useEffect(()=>{
       if(props.posts.length>0){
@@ -50,7 +52,7 @@ const MyCarousel = (props) => {
           onExited={() => setAnimating(false)}
         >  
             <div style={{
-                // 
+               
             }}>
                 {/* {item.name} */}
             </div>
@@ -63,9 +65,9 @@ const MyCarousel = (props) => {
               position: 'relative',
               left: '26vw'
             }}  onClick={()=>{
-              console.log("testtest")
+              
               setDetailsVisible(true)
-              console.log("detailsVisible:",detailsVisible)
+        
             }}>{ (item.imgPath)? (<img src={item.imgPath[0]} alt={item.altText} style={{}}/>):(<p>no picture</p>) }
           </button>
           
@@ -80,7 +82,7 @@ const MyCarousel = (props) => {
                 <span className='from' style={{
                     backgroundImage: nameURL
                 }}>{`是來自${name}的請求...`}</span> 
-                {/* TODO: name */}
+              
                 <span className='post-title'><div>{`!~${title}~!`}</div></span>
             </div>
             <Carousel
@@ -96,7 +98,8 @@ const MyCarousel = (props) => {
             </Carousel>
             {
               (props.posts.length != 0)?
-              ( <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} onSupply={props.onSupply}/>)
+              // ( <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} onSupply={props.onSupply}/>)
+              ( <DemandDetail isHome={true} onSupply={props.onSupply} detailsVisible={detailsVisible} item = {props.posts[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  )
               :(
                 <h1>再等等，目前線上暫無任何需求哦!</h1>
               )
@@ -105,55 +108,6 @@ const MyCarousel = (props) => {
       </>
     );
 }
-  
-// 跳出需求單詳細資訊: (參考後端的Demand.js列的屬性表) _id, name, content, postDate, updateDate, tag, deadline, price, category, needSupplyCnt ...
-const Details =  (props)=> {
-  const [visible, setVisible] = useState(false)
-
-  useEffect(()=>{
-    setVisible(props.detailsVisible)
-  },[props.detailsVisible])
-  useEffect(()=>{
-    if(!visible){
-      props.onChange(visible)
-    }
-  },[visible])
-  const handleOk = () => {
-      setVisible(false);
-      props.onSubmit()
-  };
-  const handleCancel = () => {
-      setVisible(false)
-  };
-
-  return (
-      <div visible={props.visible}>
-          {props.visible}
-          <Modal onCancel={handleCancel} onOk={handleOk} visible={visible} title="詳細情報" okText="確認" cancelText="取消">
-              {/* <p>{`post id: ${props.item._id}`}</p> */}
-              {(props.item)?(    
-              <div>         
-                <p>{`來自: ${props.item.name}`}</p>
-                <p>{`回報$$: ${props.item.price}`}</p>
-                <section>
-                  {'詳細說明:'}
-                  <br></br>
-                  <div style={{
-                    fontSize: '3vh'
-                  }}>{props.item.content}</div>
-                </section>
-            
-                <br></br>
-                {(props.item.imgPath)?(props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
-                :(<p>no picture</p>)}
-                <br></br>
-                <SupplyModal postID={props.item._id} onSupply={props.onSupply}/>
-                </div>):(<p></p>)}
-          </Modal>
-      </div>
-  );
-};
-
 
 
 export default MyCarousel;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Upload, Icon, Modal,message } from 'antd'
 import { BASE_URL, UPLOAD_IMAGE_ACTION, DELETE_IMAGE_ACTION } from '../common/APIpath';
+import  { deleteImage } from '../axios'
 // import { PlusOutlined } from '@ant-design/icons'
 
 
@@ -21,34 +22,17 @@ export default class UploadImage extends Component {
   state = {
     loading: false,
     imageUrl: '',
-    stateFileList: [],
 
+    imageUploadNow: 0,
+    imageUploadLimit: 3,
     previewVisible: false,
     previewImage: '',
     previewImageName: ''
   };
 
   
-
-  componentWillUnmount() {
-    console.log("componentDidMount")
-    this.setState({
-      stateFileList: []
-    })
-  }
-
   // 顯示圖片
   showPreview = file => {
-    // console.log("showFile",file)
-    // console.log(this.props.isInit)
-    // var path = ""
-    // if(file.url){
-    //   path = BASE_URL
-    //   path+= file.response.data.url
-    // } else {
-    //   path = file.thumbUrl
-    // }
-   
     this.setState({
       previewVisible: true,
       previewImage: file.url,
@@ -63,61 +47,48 @@ export default class UploadImage extends Component {
     })
   }
 
-
-  
   // 保留必要屬性
   optimizeFileList = (data, fileList) => {
     const { name, url } = data
+    // fileList = fileList.slice(-3);
     const file = fileList.pop()
     const { uid } = file
     const newFile = { uid, name, url: `${BASE_URL}${url}` }
-    fileList.push(newFile)
-
-    
+    fileList.push(newFile)    
   }
   
   handleChange = ({ file, fileList }) => {
-    // console.log("fileList",fileList)
-    // console.log("state",this.state.stateFileList)
     const { status, response } = file
     // 上傳成功
     if (status === 'done') {
       const { ok, message: msg, data } = response
       if (ok) {
-    
         this.optimizeFileList(data, fileList)
-        
+        this.setState({imageUploadNow: fileList.filter(file => file.status !== "removed").length})
+  
         // onChange 方法
         this.props.onChange(fileList)
-      
         message.success(msg)
       } else {
         message.error(msg)
       }
     }
-    //this.setState({ fileList })
-    this.setState({
-      stateFileList: fileList
-    })
-    // console.log(this.state.fileList)
   }
 
 
   handleRemove = async file => {
     // 有 url -> 上傳到server了
     const { url } = file
+    // console.log(fileList);
     if (url) {
-      const path = url.replace(`${BASE_URL}/`, '')
-      const response = await fetch(DELETE_IMAGE_ACTION, {
-        method: 'delete',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ path })
-      })
-      const { ok, message: msg } = await response.json()
-      if (ok) {
-        message.success(msg)
+      const path = url.replace(`${BASE_URL}`, '')
+      let res = await deleteImage(path);
+    
+      if (res.success) {
+        message.success(res.msg)
+        this.setState({imageUploadNow: this.state.imageUploadNow -1})
       } else {
-        message.error(msg)
+        message.error(res.msg)
         return false
       }
     }
@@ -125,7 +96,7 @@ export default class UploadImage extends Component {
 
   render() {
     const uploadButton = (
-      <div>
+      <div> 
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
         <div className="ant-upload-text">上傳</div>
       </div>
@@ -134,16 +105,20 @@ export default class UploadImage extends Component {
  
     return (
       <div className="UploadImage"  id="UploadImage">
+        <p>{`上限 ${this.state.imageUploadLimit} 張`}</p>
+        
         <Upload
           listType='picture-card'
           action={ UPLOAD_IMAGE_ACTION }
           headers={{ 'Authorization':  'Token ' +   localStorage.getItem('token')}}
           onChange={this.handleChange}
+          onRemove={this.handleRemove}
           beforeUpload={beforeUpload}
           onPreview={this.showPreview}
-          // fileList={this.state.stateFileList}
         >
-        {this.state.imageUrl && this.state.isOpen ? <img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton} 
+        {this.state.imageUrl && this.state.isOpen ? 
+            (<img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> ): 
+            ( this.state.imageUploadNow >= 3 ? null : uploadButton)} 
         </Upload>
         <Modal 
           visible={previewVisible}

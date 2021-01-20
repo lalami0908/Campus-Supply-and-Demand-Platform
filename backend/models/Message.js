@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 // Creating a schema, sort of like working with an ORM
 const MessageSchema = new Schema({
-
-    demandId: {//將messages歸到每一張需求單底下的留言板
+	//將messages歸到每一張需求單底下的留言板
+    demandId: { 
 		type: String,
 		required: [true, 'demandId field is required.']
 	},

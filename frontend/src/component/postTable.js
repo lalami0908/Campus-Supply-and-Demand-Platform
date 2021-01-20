@@ -54,11 +54,11 @@ function PostTable(props) {
         
                             
                         // },
-                        onRowUpdate: (newData, oldData) =>{
+                        // onRowUpdate: (newData, oldData) =>{
                         
-                        },
+                        // },
                         onRowDelete: async (oldData) =>{
-                            console.log("deletePost",oldData);
+                     
                             let res = await deletePost(oldData._id);
                             if(res.success){
                                 props.handleAddNewPostAndRefreshTable();

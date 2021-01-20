@@ -20,15 +20,11 @@ const dbOptions = {
 mongoose.connect(process.env.MONGO_URL, dbOptions) .then(res => {
 console.log('mongo db connection created') })
 
-
-
-
-
 const db = mongoose.connection;
 
 // ** mongoDB Model
 
-const ChatRoom = require('./models/ChatRoom')
+
 const Demand = require('./models/Demand')
 const Message = require('./models/Message')
 const Supply = require('./models/Supply')
@@ -45,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Passport.js
-// https://medium.com/%E9%BA%A5%E5%85%8B%E7%9A%84%E5%8D%8A%E8%B7%AF%E5%87%BA%E5%AE%B6%E7%AD%86%E8%A8%98/%E7%AD%86%E8%A8%98-%E9%80%8F%E9%81%8E-passport-js-%E5%AF%A6%E4%BD%9C%E9%A9%97%E8%AD%89%E6%A9%9F%E5%88%B6-11cf478f421e
+
 app.use(session({
     secret: 'passport-tutorial',
     cookie: { maxAge: 60000 },
@@ -57,13 +53,13 @@ require('./config/passport');
 
 
 // ** express && router
-const homeRouter = require('./routes/home');
+// const homeRouter = require('./routes/home');
 const userRouter = require('./routes/user');
 const loginRouter = require('./routes/login');
 const postRouter = require('./routes/post');
 const messageRouter = require('./routes/message');
 
-app.use('/', homeRouter);
+// app.use('/', homeRouter);
 app.use('/user', userRouter);
 app.use('/login',loginRouter);
 app.use('/post',postRouter);
@@ -72,11 +68,6 @@ app.use('/message',messageRouter);
 const path = require('path')
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
-
-app.post('/post-test', (req, res) => {
-    console.log('Got body:', req.body);
-    res.sendStatus(200);
-});
 
 app.post('/user', (req, res) => { 
 	res.send('POST HTTP method on user resource');

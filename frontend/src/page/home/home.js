@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Input, message, Tag } from 'antd'
-// import Carousel from 'react-grid-carousel'
-// import Carousel from './Carousel'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
 import './home.scss'
 import {getAll} from '../../axios'
 import MyCarousel from './components/MyCarousel'
@@ -12,7 +8,7 @@ import want1 from '../../assets/images/test_wanted/test_wanted_1.jpg'
 import want2 from '../../assets/images/test_wanted/test_wanted_2.jpg'
 import want3 from '../../assets/images/test_wanted/test_wanted_3.jpg'
 
-const post = [
+const mockPost = [
   {
     src: want1,
     altText: 'Wanted 1',
@@ -49,29 +45,19 @@ const post = [
 ];
 
 function Home(props) {
-  const [postdata, setPostdata] = useState(post)
-  console.log('Home props:',props)
+  const [postdata, setPostdata] = useState(mockPost)
   const NTUID = window.localStorage.getItem('NTUID')
-  console.log('window.localStorage:',window.localStorage.getItem('NTUID'))
 
   const refreshPostTable = async ()=>{
-    //這邊要從後端動態拿post資料
-    // post =  await getAll(NTUID)
+    // 從後端動態拿post資料
     var getData = await getAll(NTUID)
     setPostdata(getData)
-    console.log('home post:',postdata)
-    let now = Date.now();
-    const today = new Date(now);
-    console.log('now:',now)
-    console.log('today:',today.toDateString())
   }
 
   useEffect(refreshPostTable,[])
 
-
   return(
     <>
-
       <div className="carousel-display">
         <MyCarousel posts={postdata} onSupply={refreshPostTable}/>
       </div>
@@ -87,8 +73,6 @@ function Home(props) {
           </div>
       </div>
     </>
-
   )
 }
-
 export default Home

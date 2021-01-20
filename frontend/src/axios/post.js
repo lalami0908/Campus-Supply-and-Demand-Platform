@@ -9,69 +9,78 @@ const instance = axios.create({
 // uploadImage through action in UI
 
 export const addNewPost = async (newPost) => {  //
-  console.log('addNewPostAxios',newPost)
+  // console.log('addNewPostAxios',newPost)
+  var notRemovedFileList = []
   if(!newPost.fileList){
     newPost.fileList=[]
+  } else { 
+    newPost.fileList.forEach(element => {
+    if(element.status !== "removed"){
+      notRemovedFileList.push(element);
+    }
+    newPost.fileList = notRemovedFileList;
+  });
   }
+
   const {
     data: { addNewPostResult }//succeed or not
   } = await instance.post( ADD_NEW_POST, { newPostForm:  newPost } ).catch((err) => console.error(err));
-  console.log('post return data:',addNewPostResult)
+  // console.log('post return data:',addNewPostResult)
   return addNewPostResult
 }
-//TODO
+
 export const getTag = async (params) => {
-  console.log("get Tag Posts");
+  // console.log("get Tag Posts");
   const {
     data: { tagPosts }
   } = await instance.post( GET_TAG_POSTS, {...params}).catch((err) => console.error(err));
-  console.log("tagPosts:", tagPosts);
+  // console.log("tagPosts:", tagPosts);
   return tagPosts
 }
 
 export const getUserPost = async (NTUID) => {
-  console.log("axios: get user Posts by NTUID", NTUID);
+  // console.log("axios: get user Posts by NTUID", NTUID);
   const {
     data: { userPosts }
   } = await instance.post( GET_USER_POSTS,  { NTUID: NTUID}).catch((err) => console.error(err));
-  console.log("userPosts:", userPosts);
+  // console.log("userPosts:", userPosts);
   return userPosts
 }
-//TODO
+
 export const getIdPost = async (postID) => {
-  console.log("axios: get user Posts by id", postID);
+  // console.log("axios: get user Posts by id", postID);
   const {
     data: { uniquePost }
   } = await instance.post( GET_ID_POST,  { postID: postID}).catch((err) => console.error(err));
-  console.log("uniquePost:", uniquePost);
+  // console.log("uniquePost:", uniquePost);
   return uniquePost
 }
-//TODO
+
 export const getIdPosts = async (postIDs) => {
-  console.log("axios: get user Posts by ids", postIDs);
+  // console.log("axios: get user Posts by ids", postIDs);
   const {
     data: { idPosts }
   } = await instance.post( GET_ID_POSTS,  { postIDs: postIDs}).catch((err) => console.error(err));
-  console.log("get idPosts:", idPosts);
+  // console.log("get idPosts:", idPosts);
   return idPosts
 }
 
-//TODO
+
 export const getUserSupplies = async (NTUID) => {
-  console.log("get user Supplies");
+  // console.log("get user Supplies");
   const {
     data: { userSupplies }
   } = await instance.post( GET_USER_SUPPLIES,{ NTUID: NTUID}).catch((err) => console.error(err));
   console.log("userSupplies:", userSupplies);
   return userSupplies
 }
-//TODO
+
 export const getAll = async (NTUID) => {
-  console.log("getAllPosts");
+  // console.log("getAllPosts");
   const {
     data: { allPosts }
   } = await instance.post( GET_ALL_POSTS, { NTUID: NTUID}).catch((err) => console.error(err));
-  console.log("allPosts:", allPosts);
+  // console.log("allPosts:", allPosts);
   return allPosts
 }
 
@@ -86,9 +95,9 @@ export const updatePost = async (content) => {
     return postResult
 }
   
-//TODO
+
 export const deletePost = async (postID) => {
-  console.log("axios: deletePost by id", postID);
+  // console.log("axios: deletePost by id", postID);
   const {
     data: { deletePostResult }
   } = await instance.post(DELETE_YOUR_POST, { postID: postID })
@@ -96,9 +105,9 @@ export const deletePost = async (postID) => {
   return deletePostResult
 }
   
-//TODO
+
 export const deleteSupply = async (deleteSupplyForm) => {
-  console.log("axios: deleteSupply by id", deleteSupplyForm);
+  // console.log("axios: deleteSupply by id", deleteSupplyForm);
   const {
     data: { deleteSupplyResult }
   } = await instance.post(DELETE_YOUR_SUPPLY, deleteSupplyForm)
@@ -106,7 +115,7 @@ export const deleteSupply = async (deleteSupplyForm) => {
   return deleteSupplyResult
 }
 
-//TODO
+
 export const supply = async (params) => {
   console.log("supply!!");
   const {
@@ -117,14 +126,11 @@ export const supply = async (params) => {
 }
 /***************************************************** */
 
-//TODO
-// export const uploadImage = async (image) => {
-//   console.log('uploadImage:',image)
-//   await instance.post(UPLOAD_IMAGE_ACTION, image)
-// }
 
-//TODO
-export const deleteImage = async (image) => {
-  console.log('deleteImage:',image)
-  await instance.delete(DELETE_IMAGE_ACTION, image)
+export const deleteImage = async (url) => {
+  console.log('deleteImage:',url)
+  const {
+    data: { deleteImageResult }
+  } = await instance.delete(DELETE_IMAGE_ACTION, { data: { url: url} })
+  return deleteImageResult
 }
