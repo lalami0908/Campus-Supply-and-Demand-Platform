@@ -98,14 +98,15 @@ router.post('/addNewPost', (req, res) => {
   
     
 });
-
+// 主頁取得所有post資料
 router.post('/getAllPosts', async (req, res) => { 
   console.log('getAllPosts');
   // console.log('req.body:',req.body);
   await Demand.find({state:'onDemand'}).then((posts) => {
     //濾掉自己的post
-    console.log('取得所有不屬於自己，且狀態開啟的需求單',posts)
-    return res.json({allPosts:posts.filter(post=>post.NTUID!==req.body.NTUID)})
+    let canSupplyPosts = posts.filter(post=>post.NTUID!==req.body.NTUID)
+    console.log('取得所有不屬於自己，且狀態開啟的需求單',canSupplyPosts)
+    return res.json({ allPosts: canSupplyPosts})
   })
   
 });
@@ -166,26 +167,31 @@ router.put('/updateYourPost', (req, res) => {
 });
 
 router.put('/supplyPost', async(req, res) => { 
-  console.log('supplyPost:',req.body);
-  await Demand.findByIdAndUpdate(req.body.postID,{state:'onMatching'},(err,docs)=>{
-    if (err){ 
-      console.log(err) 
+  console.log('嘗試接單，獲得參數：');
+  console.log('supplyPostID:',req.body.postID);
+  console.log('NTUID:',req.body.NTUID);
+  await Demand.findById(req.body.postID).then(async (post) =>{
+    console.log('找到需求單：', post);
+    let stateChange = post.state;
+    console.log('需求單當前狀態為：', stateChange);
+    if(post.supplyList.length+1 >=post.needSupplyCnt){
+      stateChange = 'onMatching';
+      console.log("需求單更新為 onMatching"); 
     } 
-    else{ 
-        console.log("Updated User : ", docs); 
-    } 
-  })//怎麼呼叫到原本DB裡面的supplyCnt?
+    await Demand.findByIdAndUpdate(post._id, 
+      { supplyList: [...post.supplyList, req.body.NTUID], 
+        supplyCnt: post.supplyCnt+1,
+        state: stateChange
+      },(err,docs)=>{
+        if (err){ console.log(err) }
+      }
+    ).then(async (demand)=>{
+      console.log("需求單更新成功", demand); 
+      await Supply.create({ NTUID: req.body.NTUID ,applyDate: new Date(), demandId:req.body.postID} )
+      return res.json({ feedback:{ success: true, msg: '接單成功'}});
 
-  // let newSupply = new Supply({ 
-  //   NTUID: req.body.NTUID,
-  //   applyDate: new Date(), 
-  //   demandId:  req.body.postID,
-  // })
-
-  await Supply.create({NTUID: req.body.NTUID,applyDate: new Date(),demandId:req.body.postID})
-  return res.json({ feedback:{ success: true, msg: '供給成功'}});
-   
-  // return res.json({feedback:{ success: true, msg:'應徵成功'}})
+    });
+  })
 });
 
 // router.post('/uploadImage', (req, res) => { 
