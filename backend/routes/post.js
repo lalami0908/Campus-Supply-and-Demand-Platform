@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require('path')
-import {Demand,Supply,User } from '../models'
+import {Demand,Supply } from '../models'
 
 
 const multer = require('multer')
@@ -25,16 +25,16 @@ router.post('/addNewPost', (req, res) => {
    
     // 前端有擋，後端也要檢查空值
     if(!newPostForm.title || !newPostForm.NTUID || !newPostForm.content || !newPostForm.deadline || !newPostForm.price || !newPostForm.category){
-      return res.json({ addNewPostResult:{ success: false, msg: '新增需求失敗，需求單位填寫完整'}});
+      var invailmsg = "新增需求失敗，需求單未填寫完整";
+      console.log(invailmsg);
+      return res.json({ addNewPostResult:{ success: false, msg: invailmsg}});
     } 
     //
     // 補上表單空值
     if(!newPostForm.needSupplyCnt){
       newPostForm.needSupplyCnt = 1;
     }
-    if(!newPostForm.needSupplyCnt){
-      newPostForm.needSupplyCnt = 1;
-    }
+
     // 處理 tag
     newPostForm.tag = 0 //init!
     //這段用來產生tag (熱門、最新、緊急、高報酬 分別對應8 4 2 1)
@@ -128,6 +128,7 @@ router.post('/getUserPosts', async (req, res) => {
     return res.json({userPosts:posts});
   })
 });
+
 
 router.post('/getUserSupplies', (req, res) => { 
   //TODO 抓DB資料

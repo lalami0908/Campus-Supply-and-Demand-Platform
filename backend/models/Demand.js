@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 
+
 // Method: 
 // add a new demand
 
@@ -55,6 +56,7 @@ const DemandSchema = new Schema({
     isOpen: Boolean, // Method: demander close post(在想有沒有需要，可以關掉之後就直接從DB砍了)
     supplyCnt: Number,
     supplyList: [String],
+    // messageList: [Message],
 
 
     // confirmTransaction: [String], //supply_id // Method: set score for the confirmed supply

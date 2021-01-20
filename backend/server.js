@@ -61,11 +61,13 @@ const homeRouter = require('./routes/home');
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const postRouter = require('./routes/post');
+const messageRouter = require('./routes/message');
 
 app.use('/', homeRouter);
 app.use('/users', usersRouter);
 app.use('/login',loginRouter);
 app.use('/post',postRouter);
+app.use('/message',messageRouter);
 
 const path = require('path')
 app.use('/public', express.static(path.join(__dirname, 'public')))

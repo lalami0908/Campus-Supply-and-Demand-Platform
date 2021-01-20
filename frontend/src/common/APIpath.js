@@ -25,6 +25,10 @@ export const ADD_NEW_POST = '/post/addNewPost';
 export const UPDATE_YOUR_POST = '/post/updateYourPost';
 // 需求單接單
 export const SUPPLY_POST = '/post/supplyPost';
+// 對需求單送出留言
+export const ADD_DEMAND_MESSAGE = '/message/addMessage';
+// 取得需求單留言
+export const GET_DEMAND_MESSAGE = '/message/getMessage';
 
 /*===================================================================*/
 // 上傳照片 這裡是用
