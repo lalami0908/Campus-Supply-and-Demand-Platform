@@ -108,13 +108,13 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 <Form.Item label="截止日期">
 
                 {getFieldDecorator('deadline', {
-                    rules: [{ required: false, message: '截止日期為必填' }],
+                    rules: [{ required: true, message: '截止日期為必填' }],
                 })(<Input type="date" min={nowFormat}/>)}
                 </Form.Item>
 
                 <Form.Item label="類別">
                 {getFieldDecorator('category', {
-                    rules: [{ required: false, message: '類別為必選' }],
+                    rules: [{ required: true, message: '類別為必選' }],
                 })(selectCategory)}
                 </Form.Item>
 
@@ -126,7 +126,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
 
                 <Form.Item label="需求人數">
                 {getFieldDecorator('needSupplyCnt', {
-                    rules: [{ required: false, message: '需求人數為必填' }],
+                    rules: [{ required: true, message: '需求人數為必填' }],
                 })(<InputNumber min={1} max={5} initialValue={1}  />)}
                 </Form.Item>
 

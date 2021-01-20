@@ -37,7 +37,9 @@ router.post('/addNewPost', auth.required, (req, res) => {
     if(!newPostForm.needSupplyCnt){
       newPostForm.needSupplyCnt = 1;
     }
-
+    if(!newPostForm.price){
+      newPostForm.price = 0;
+    }
     // 處理 tag
     newPostForm.tag = 0 //init!
     //這段用來產生tag (熱門、最新、緊急、高報酬 分別對應8 4 2 1)

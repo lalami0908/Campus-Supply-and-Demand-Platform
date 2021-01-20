@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Form, Input, Icon, Checkbox, Modal } from 'antd'
+import { Button, Form, Input, Icon, Checkbox, Modal, message } from 'antd'
 import './login.scss';
 import  {register, login, resetPassword,genPost} from '../../axios'
 // import {userStore} from '../../store/userStore'

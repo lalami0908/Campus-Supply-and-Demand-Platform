@@ -11,6 +11,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './MyCarousel.scss'
 import nameURL from '../../../assets/images/name.jpg'
 import SupplyModal from '../../../component/SupplyModal'
+import DemandDetail from '../../../component/DemandDetail.js'
+
 const MyCarousel = (props) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
@@ -50,7 +52,7 @@ const MyCarousel = (props) => {
           onExited={() => setAnimating(false)}
         >  
             <div style={{
-                // 
+               
             }}>
                 {/* {item.name} */}
             </div>
@@ -96,7 +98,8 @@ const MyCarousel = (props) => {
             </Carousel>
             {
               (props.posts.length != 0)?
-              ( <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} onSupply={props.onSupply}/>)
+              // ( <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} onSupply={props.onSupply}/>)
+              ( <DemandDetail isHome={true} onSupply={props.onSupply} detailsVisible={detailsVisible} item = {props.posts[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  )
               :(
                 <h1>再等等，目前線上暫無任何需求哦!</h1>
               )
