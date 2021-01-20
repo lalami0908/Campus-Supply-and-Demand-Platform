@@ -26,7 +26,7 @@ router.post('/addNewPost', (req, res) => {
     const { newPostForm } = req.body;
    
     // 前端有擋，後端也要檢查空值
-    if(!newPostForm.title || !newPostForm.NTUID || !newPostForm.content || !newPostForm.deadline || !newPostForm.price || !newPostForm.category){
+    if(!newPostForm.title || !newPostForm.NTUID || !newPostForm.content || !newPostForm.deadline  || !newPostForm.category){
       var invailmsg = "新增需求失敗，需求單未填寫完整";
       console.log(invailmsg);
       return res.json({ addNewPostResult:{ success: false, msg: invailmsg}});
@@ -178,6 +178,11 @@ router.put('/supplyPost', async(req, res) => {
     console.log('找到需求單：', post);
     let stateChange = post.state;
     console.log('需求單當前狀態為：', stateChange);
+    // 檢查是否已申請接單
+    if(post.supplyList.includes(req.body.NTUID)){
+      console.log("接單失敗，已申請過接單"); 
+      return res.json({ feedback:{ success: false, msg: '接單失敗，已申請過接單'}});
+    }
     if(post.supplyList.length+1 >=post.needSupplyCnt){
       stateChange = 'onMatching';
       console.log("需求單更新為 onMatching"); 

@@ -18,6 +18,7 @@ const SupplyModal = function (props) {
         await props.onSupply()
         let feedback = await supply({NTUID:props.NTUID,postID:props.postID})
         console.log('supply feedback:',feedback)
+        alert(feedback.msg)
         
         
     };
