@@ -16,7 +16,7 @@ export default function SupplyTable(props) {
           <br/><br/>
             {     
                 <MaterialTable
-                    title={'username接下的需求單'}
+                    title={`${localStorage.getItem('name')}接下的需求單`}
                     columns={columns}
                     data={props.postdata}
                     icons={tableIcons}

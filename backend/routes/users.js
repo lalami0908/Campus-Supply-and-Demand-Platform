@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 // import bodyParser from 'body-parser';
 // import cors from 'cors' 
-const User = mongoose.model('User');
+import {User } from '../models'
 
 router.post('/users', (req, res) => { 
 	res.send('POST HTTP method on users resource');
