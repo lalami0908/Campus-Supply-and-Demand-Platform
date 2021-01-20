@@ -27,6 +27,8 @@ export const ADD_NEW_POST = '/post/addNewPost';
 export const UPDATE_YOUR_POST = '/post/updateYourPost';
 // 刪除一張需求單
 export const DELETE_YOUR_POST = '/post/deleteYourPost';
+// 刪除一張供給
+export const DELETE_YOUR_SUPPLY = '/post/deleteYourSupply';
 // 需求單接單
 export const SUPPLY_POST = '/post/supplyPost';
 // 對需求單送出留言

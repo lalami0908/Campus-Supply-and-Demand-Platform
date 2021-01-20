@@ -48,18 +48,24 @@ function OwnDemand() {
         }
         console.log("refreshTable: ", res);
         setPostdata(res)
-       
     }
     return(
         <div>
             <h1>
-            你刊登了這些需求           
+            你刊登了這些需求            
             </h1>
-            <Button onClick={refreshTable}>重新整理</Button>
+           
             {/* <UploadImage></UploadImage> */}
             <CreateNewPostForm handleAddNewPostAndRefreshTable={refreshTable}></CreateNewPostForm>
-            <PostTable editable={true} postdata={postdata}/>
-            <DemandDetail canCancelDemand={true} detailsVisible={detailsVisible} item = {postdata[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  
+            <PostTable editable={true} postdata={postdata}
+                        handleAddNewPostAndRefreshTable={refreshTable}/>
+            <DemandDetail canCancelDemand={true} 
+                        detailsVisible={detailsVisible} 
+                        item = {postdata[activeIndex]} 
+                        onChange={setDetailsVisible}
+                        handleAddNewPostAndRefreshTable={refreshTable}>
+            </DemandDetail>  
+            <Button onClick={refreshTable}>重新整理</Button>
         </div>     
     )
 }

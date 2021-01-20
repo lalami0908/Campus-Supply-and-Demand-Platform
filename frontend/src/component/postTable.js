@@ -2,6 +2,7 @@ import React, { useState,ussEffect } from 'react';
 import MaterialTable from 'material-table';
 import SupplyModal from './SupplyModal'
 import {tableIcons} from '../common/constant'
+import  { deletePost } from '../axios'
 
 
 function PostTable(props) {
@@ -44,13 +45,8 @@ function PostTable(props) {
                 (props.editable)?(            
                 <MaterialTable
 
-                    // title={props.title}
-                    // columns={columns}
-                    // data={props.postdata}//改成 props.postdata
-
                     title={`${localStorage.getItem('name')}刊登的需求單`}
                     columns={columns.slice(1)}
-                   // data={mockData.slice(1)}//改成 props.postdata
                     data={props.postdata}
                     icons={tableIcons}
                     editable={{
@@ -61,9 +57,13 @@ function PostTable(props) {
                         onRowUpdate: (newData, oldData) =>{
                         
                         },
-                        onRowDelete: (oldData) =>{
-                            console.log("oldData",oldData);
-                       
+                        onRowDelete: async (oldData) =>{
+                            console.log("deletePost",oldData);
+                            let res = await deletePost(oldData._id);
+                            if(res.success){
+                                props.handleAddNewPostAndRefreshTable();
+                            }
+                            alert(res.msg);
                         },
                     }}
                 />):(

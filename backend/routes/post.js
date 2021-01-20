@@ -140,7 +140,7 @@ router.post('/getUserPosts', auth.required, async (req, res) => {
   // 關了應該也還要看得到吧？TODO:顯示需求單狀態
   Demand.find({NTUID:req.body.NTUID}).then((posts) => {
     console.log(posts);
-    return res.json({userPosts:posts});
+    return res.json({userPosts: posts});
   })
 });
 
@@ -175,12 +175,70 @@ router.put('/updateYourPost', auth.required, (req, res) => {
 
 // 刪除需求
 router.post('/deleteYourPost', auth.required, (req, res) => { 
-  // console.log('getPostId:', req.body.postID);
-  // Supply.find({demandId:postID}).then((sups) => {
-    
-  //   return res.json({userSupplies:sups});
-  // })
+  var { postID } = req.body;
+  console.log('deleteYourPost:', postID);
+  Message.deleteMany({ demandId:postID }, function (err, msgs) {
+    if (err) { 
+      return res.json({ deletePostResult:{ success: false, msg: '刪除留言失敗'}});
+    }
+    console.log("刪除留言:", msgs);
+  });
+  Supply.deleteMany({ demandId:postID }, function (err, sups) {
+    if (err) { 
+      return res.json({ deletePostResult:{ success: false, msg: '刪除需求失敗'}});
+    }
+    console.log("刪除供給:", sups);
+  });
+  Demand.deleteOne({ _id:postID }, function (err, demand) {
+    if (err) { 
+      return res.json({ deletePostResult:{ success: false, msg: '刪除需求失敗'}});
+    }
+    console.log("刪除需求:", demand);
+  });
 
+  return res.json({ deletePostResult:{ success: true, msg: '刪除需求成功'}});
+  
+});
+
+// 刪除供給
+router.post('/deleteYourSupply', auth.required,async (req, res) => { 
+  var { deleteSupplyForm } = req.body;
+  console.log('deleteYourPost:', deleteSupplyForm.supplyId);
+
+  await Supply.findOne({ demandId: deleteSupplyForm.demandId, NTUID: deleteSupplyForm.NTUID})
+  .then( async (supply) =>{
+    await Demand.findById(supply.demandId).then(async (demand) =>{
+      var newSupplyList = []
+      demand.supplyList.forEach(function(item, i) {
+          if(item != supply.NTUID){
+            newSupplyList.push(item);
+          }
+      });
+      var stateChange = demand.state;
+      if(newSupplyList.length < demand.needSupplyCnt){
+        stateChange = "onDemand";
+      }
+      await Demand.findByIdAndUpdate(demand._id, 
+        { supplyList: newSupplyList, 
+          supplyCnt: newSupplyList.length,
+          state: stateChange
+        },(err,docs)=>{
+          if (err){ console.log(err) }
+        }).then(async (demand)=>{
+          console.log("更新需求:", demand);
+          await Supply.deleteOne({ demandId: deleteSupplyForm.demandId, NTUID: deleteSupplyForm.NTUID}, 
+            function (err, sups) {
+            if (err) { 
+              return res.json({ deleteSupplyResult:{ success: false, msg: '刪除供給失敗'}});
+            }
+            console.log("刪除供給:", sups);
+          });
+        });
+    });
+  });
+
+  return res.json({ deleteSupplyResult:{ success: true, msg: '刪除供給成功'}});
+  
 });
 
 
