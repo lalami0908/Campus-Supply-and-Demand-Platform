@@ -25,7 +25,7 @@ const DemandDetail =  (props)=> {
             props.onChange(visible)
         }
         // 打開取回留言
-        if(visible){
+        if(visible && props.item){
             let res = await getMessage(props.item._id) 
             if(res.success){
                 setMessagedata(res.messages);
