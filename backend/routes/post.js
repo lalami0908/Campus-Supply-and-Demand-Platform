@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require('path')
-import {Demand,Supply } from '../models'
+import {Demand,Supply,BASE_URL } from '../models'
 
 
 const multer = require('multer')
@@ -67,6 +67,8 @@ router.post('/addNewPost', (req, res) => {
         imgPath.push(item.url);
         console.log('item.url:',item.url)
       });
+    }else{
+      imgPath.push(BASE_URL+'public/uploads/0.jpg');
     }
 
     let newPost = new Demand({ 

@@ -164,6 +164,7 @@ class CreateNewPostForm extends React.Component {
         return;
       } else {
         values['NTUID'] = localStorage.getItem('NTUID');
+        values.name = localStorage.getItem('name')
         // values.postDate = nowFormat
         console.log('Received values of form: ', values);
 

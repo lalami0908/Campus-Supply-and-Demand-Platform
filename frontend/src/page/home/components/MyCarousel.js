@@ -141,13 +141,13 @@ const Details =  (props)=> {
                     fontSize: '3vh'
                   }}>{props.item.content}</div>
                 </section>
-                <br></br>
+            
                 <br></br>
                 {(props.item.imgPath)?(props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
                 :(<p>no picture</p>)}
+                <br></br>
                 <SupplyModal postID={props.item._id} NTUID={props.NTUID}/>
                 </div>):(<p></p>)}
-
           </Modal>
       </div>
   );
