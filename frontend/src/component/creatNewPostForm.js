@@ -120,7 +120,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 <Form.Item label="價格">
                 {getFieldDecorator('price', {
                     rules: [{ required: false, message: '不含價格填零' }],
-                })(<InputNumber min={0}  initialValue={0}  />)}
+                })(<InputNumber min={0}  />)}
                 </Form.Item>
 
                 <Form.Item label="需求人數">
