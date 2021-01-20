@@ -12,7 +12,7 @@ router.post('/users', (req, res) => {
  router.get('/users/getName', async (req, res) => { 
 	
 	console.log('getName:',req.body);
-    return res.json({ findUser: await User.findOne({NTUID:req.body.NTUID})})
+    return res.json({ findUser: (await User.findOne({NTUID:req.body.NTUID})).name})
     
  });
 
