@@ -1,7 +1,10 @@
 import axios from 'axios'
 import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS,GET_ID_POST,GET_ID_POSTS, GET_TAG_POSTS} from '../common/APIpath'
-import {UPDATE_YOUR_POST,SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION,GET_USER_SUPPLIES} from '../common/APIpath'
-const instance = axios.create({ baseURL: BASE_URL })
+import {UPDATE_YOUR_POST, DELETE_YOUR_POST, SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION,GET_USER_SUPPLIES} from '../common/APIpath'
+const instance = axios.create({ 
+  baseURL: BASE_URL,
+  headers: { 'Authorization':  'Token ' +   localStorage.getItem('token')}
+})
 // const imageInstance = axios.create({ baseURL: BASE_URL,  headers: {'Content-Type': 'multipart/form-data' } })
 // uploadImage through action in UI
 
@@ -83,6 +86,16 @@ export const updatePost = async (content) => {
     return postResult
 }
   
+//TODO
+export const deletePost = async (postID) => {
+  console.log("axios: deletePost by id", postID);
+  const {
+    data: { deletePostResult }
+  } = await instance.post(DELETE_YOUR_POST, { postID: postID })
+
+  return deletePostResult
+}
+
 //TODO
 export const supply = async (params) => {
   console.log("supply!!");

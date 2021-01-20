@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const path = require('path')
 import {Demand,Supply,BASE_URL } from '../models'
+const auth = require('../config/auth');
 const mongoose = require('mongoose');
 const Message = mongoose.model('Message');
 
@@ -21,7 +22,8 @@ const upload = multer({
   })
 })
 
-router.post('/addNewPost', (req, res) => { 
+// 新增需求
+router.post('/addNewPost', auth.required, (req, res) => { 
     console.log("addNewPost");
     const { newPostForm } = req.body;
    
@@ -102,8 +104,8 @@ router.post('/addNewPost', (req, res) => {
   
     
 });
-// 主頁取得所有post資料
-router.post('/getAllPosts', async (req, res) => { 
+// 查詢需求：主頁取得所有post資料
+router.post('/getAllPosts', auth.required, async (req, res) => { 
   console.log('getAllPosts');
   // console.log('req.body:',req.body);
   await Demand.find({state:'onDemand'}).then((posts) => {
@@ -120,7 +122,7 @@ const tagValue = {
   urgent: 2,
   highPayment: 1 
 }
-router.post('/getTagPosts',  async (req, res) => { 
+router.post('/getTagPosts', auth.required,  async (req, res) => { 
   console.log('req.body:',req.body);
   let tag = tagValue[req.body.tag]
   await Demand.find({state:'onDemand'}).then((posts) => {
@@ -129,8 +131,9 @@ router.post('/getTagPosts',  async (req, res) => {
     return res.json({tagPosts:posts.filter(post=>post.NTUID!==req.body.NTUID&&((post.tag&tag)===tag))})
   })
 });
+
 // 我的需求頁面
-router.post('/getUserPosts', async (req, res) => { 
+router.post('/getUserPosts', auth.required, async (req, res) => { 
   console.log("getUserPosts");
   console.log('req.body:',req.body);
   console.log(req.body.NTUID);
@@ -141,36 +144,44 @@ router.post('/getUserPosts', async (req, res) => {
   })
 });
 
-
-router.post('/getUserSupplies', (req, res) => { 
+// 取得使用者供給
+router.post('/getUserSupplies', auth.required, (req, res) => { 
   //TODO 抓DB資料
   console.log(req.body);
-
   Supply.find({NTUID:req.body.NTUID}).then((sups) => {
     console.log('sups:',sups);
     return res.json({userSupplies:sups});
   })
 });
 
-router.post('/getIdPost', (req, res) => { 
+router.post('/getIdPost', auth.required, (req, res) => { 
   console.log('getIdPost:',req.body);
   Demand.findById(req.body.postID).then((uniquePost) => {
     console.log(uniquePost);
     return res.json({uniquePost:uniquePost});
   })
 });
-router.post('/getIdPosts', (req, res) => { 
+
+router.post('/getIdPosts', auth.required, (req, res) => { 
   console.log('getIdPosts ids:',req.body.postIDs);
   Demand.find().then((posts) => res.json({idPosts:posts.filter(post=>req.body.postIDs.includes(post._id.toString()))}))
 });
 
-//TODO
-router.put('/updateYourPost', (req, res) => { 
+// TODO:編輯需求
+router.put('/updateYourPost', auth.required, (req, res) => { 
 
 	console.log(req.body.text);
 });
 
-router.put('/supplyPost', async(req, res) => { 
+// 刪除需求
+router.post('/deleteYourPost', auth.required, (req, res) => { 
+  console.log('getIdPost:', req.body.postID);
+
+});
+
+
+// 接單功能
+router.put('/supplyPost', auth.required, async(req, res) => { 
   console.log('嘗試接單，獲得參數：');
   console.log('supplyPostID:',req.body.postID);
   console.log('NTUID:',req.body.NTUID);
@@ -217,15 +228,9 @@ router.put('/supplyPost', async(req, res) => {
   })
 });
 
-// router.post('/uploadImage', (req, res) => { 
-//     console.log(req);
-//     console.log(req.body);
-//     res.setHeader('Access-Control-Allow-Headers', 'x-requested-with');
-//     res.send('uploadImage');
-// });
 
 
-router.post('/deleteImage', (req, res) => { 
+router.post('/deleteImage', auth.required, (req, res) => { 
     console.log(req);
     console.log(req.body);
 
@@ -233,7 +238,7 @@ router.post('/deleteImage', (req, res) => {
 });
 
 
-router.post('/uploadImage', upload.single('file'), (req, res) => {
+router.post('/uploadImage', auth.required, upload.single('file'), (req, res) => {
     const { file: { filename, path } } = req
     console.log("uploadImageRoute");
     console.log(req.file);

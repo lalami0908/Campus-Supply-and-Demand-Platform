@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react';
 import { Button, Modal, Form, Input } from 'antd';
-import  { getMessage, addNewMessage } from '../axios'
+import  { getMessage, addNewMessage, deletePost } from '../axios'
 
 const { confirm } = Modal;
 
@@ -10,7 +10,7 @@ const DemandDetail =  (props)=> {
     const [visible, setVisible] = useState(false)
     const [inputValue, setInputValue] = useState("")
     const [messagedata, setMessagedata] = useState([])
-
+    const NTUID = localStorage.getItem('NTUID');
 
     useEffect( async ()=>{
         console.log("useEffect1");
@@ -39,16 +39,18 @@ const DemandDetail =  (props)=> {
         // props.onSubmit()
     };
     
-    const handleCancelDemand = () => {
+    const handleCancelDemand =  () => {
         confirm({
             title: '確定要取消需求嗎',
             content: '',
             okText: '確定取消',
             okType: 'danger',
             cancelText: '不要取消',
-            onOk() {
+            async onOk() {
                 // TODO: 取消需求
-              console.log('OK');
+              console.log('OK', props.item._id);
+              let res =  deletePost(props.item._id);
+              alert( res.msg);
               setVisible(false)
             },
             onCancel() {

@@ -14,14 +14,12 @@ const auth = {
     secret: 'WebProgrammingFinal',
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
-    algorithms: ['SHA512'],
   }),
   optional: jwt({
     secret: 'WebProgrammingFinal',
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
     credentialsRequired: false,
-    algorithms: ['SHA512'],
   }),
 };
 

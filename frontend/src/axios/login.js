@@ -1,7 +1,10 @@
 import axios from 'axios'
 import {BASE_URL, REGISTER, LOGIN, RESET_PASSWORD} from '../common/APIpath'
 
-const instance = axios.create({ baseURL: BASE_URL })
+const instance = axios.create({ 
+  baseURL: BASE_URL,
+  headers: { 'Authorization':  'Token ' +   localStorage.getItem('token')}
+})
 
 
 export const register = async (credential) => {  //credential:{NTU_ID, password}

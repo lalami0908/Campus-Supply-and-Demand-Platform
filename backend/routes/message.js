@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
-
+const auth = require('../config/auth');
 const Message = mongoose.model('Message');
 const Demand = mongoose.model('Demand');
 
 
-router.post('/addMessage', (req, res) => { 
+router.post('/addMessage', auth.required, (req, res) => { 
 	const { newMessageForm } = req.body;
 	console.log('addMessage:');
 	console.log(newMessageForm);
@@ -32,7 +32,7 @@ router.post('/addMessage', (req, res) => {
 });
 
 
-router.post('/getMessage', (req, res) => { 
+router.post('/getMessage', auth.required, (req, res) => { 
 	const { demand_id } = req.body;
 	console.log("getMessage by demand_id: ", demand_id);
 	// TODO: 有找：有訊息/沒訊息/找的時候出錯？

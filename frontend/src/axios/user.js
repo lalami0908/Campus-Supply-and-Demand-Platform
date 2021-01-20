@@ -2,7 +2,10 @@ import axios from 'axios'
 
 import {BASE_URL, GET_NAME } from '../common/APIpath'
 
-const instance = axios.create({ baseURL: BASE_URL })
+const instance = axios.create({ 
+  baseURL: BASE_URL,
+  headers: { 'Authorization':  'Token ' +   localStorage.getItem('token')}
+})
 
 export const getName = async (NTUID) => {
     console.log("getName");
