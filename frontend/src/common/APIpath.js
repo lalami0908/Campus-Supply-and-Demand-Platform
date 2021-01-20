@@ -14,6 +14,8 @@ export const GET_ALL_POSTS = '/post/getAllPosts';
 // 拿取特定標籤的需求單(除了自己刊登的)
 export const GET_TAG_POSTS = '/post/getTagPosts';
 // 拿取特定需求單
+export const GET_ID_POST = '/post/getIdPost';
+// 拿取特定幾張需求單
 export const GET_ID_POSTS = '/post/getIdPosts';
 // 拿取特定用戶(NTUID)刊登的需求單
 export const GET_USER_POSTS = '/post/getUserPosts';

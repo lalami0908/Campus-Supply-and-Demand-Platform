@@ -1,6 +1,5 @@
 // import express from 'express';
 const express = require("express");
-const mongoose = require('mongoose');
 const router = express.Router();
 // import bodyParser from 'body-parser';
 // import cors from 'cors' 

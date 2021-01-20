@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, message, Tag } from 'antd'
 import SupplyTable  from '../../component/supplyTable.js';
-import { getUserSupplies, getIdPost } from '../../axios'
+import { getUserSupplies, getIdPosts } from '../../axios'
 function OwnSupply() {
     const [postdata, setPostdata] = useState([])
     const [supplydata, setSupplydata] = useState([])
@@ -15,25 +15,28 @@ function OwnSupply() {
 
     useEffect( async ()=>{
         console.log('supplydata:',supplydata)
-        if(supplydata!==undefined && supplydata.length != 0){
+        if(supplydata!==undefined){
             let demandIds = supplydata.map(supply=>supply.demandId)
             console.log('debug demandIds:',demandIds)
 
-            for (let i = 0; i < demandIds.length; ++i){
+            // for (let i = 0; i < demandIds.length; ++i){
 
-               let uniquePost = await getIdPost(demandIds[i]) //= (async ()=>(
+            //    let uniquePost = await getIdPost(demandIds[i]) //= (async ()=>(
                     
-                // ))()
-                console.log('get uniquePost:',uniquePost)
-                // setPostdata(postdata.concat([uniquePost]))
-                setPostdata([...postdata, uniquePost]) 
-            }      
-            console.log('get useEffect2:',postdata)
+            //     // ))()
+            //     console.log('get uniquePost:',uniquePost)
+            //     console.log('get postdata:',postdata) 
+            //     setPostdata(postdata.concat([uniquePost]))
+            // }
+ 
+            setPostdata(await getIdPosts(demandIds))
+               
         }
+
     },[supplydata])
 
     useEffect(()=>{
-        console.log('postdata:',postdata)
+        console.log('modify postdata:',postdata)
     },[postdata])    
 
     return(
