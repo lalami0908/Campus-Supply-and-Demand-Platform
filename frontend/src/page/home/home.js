@@ -53,7 +53,8 @@ function Home(props) {
   console.log('Home props:',props)
   const NTUID = window.localStorage.getItem('NTUID')
   console.log('window.localStorage:',window.localStorage.getItem('NTUID'))
-  useEffect(async ()=>{
+
+  const refreshPostTable = async ()=>{
     //這邊要從後端動態拿post資料
     // post =  await getAll(NTUID)
     var getData = await getAll(NTUID)
@@ -63,14 +64,16 @@ function Home(props) {
     const today = new Date(now);
     console.log('now:',now)
     console.log('today:',today.toDateString())
-  },[])
+  }
+
+  useEffect(refreshPostTable,[])
 
 
   return(
     <>
 
       <div className="carousel-display">
-        <MyCarousel posts={postdata} NTUID={NTUID}/>
+        <MyCarousel posts={postdata} NTUID={NTUID} onSupply={refreshPostTable}/>
       </div>
       <div className="home-footer">
           <Marquee>

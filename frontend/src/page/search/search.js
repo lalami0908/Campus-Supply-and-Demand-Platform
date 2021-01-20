@@ -64,7 +64,7 @@ function Search(props) {
         setSupplydata(await getUserSupplies(NTUID))//async function
     },[])
 
-    useEffect(async ()=>{ 
+    const refreshPostTable = async ()=>{
         if(tag==='all'){
             let res = await getAll(NTUID)
             if(res.length > 0){
@@ -87,14 +87,16 @@ function Search(props) {
             // setPostdata(await getTag({tag:tag,NTUID:NTUID}))
         }
         console.log('after set search:',postdata)
-    },[supplydata])
+    }
+
+    useEffect(refreshPostTable,[supplydata])
 
 
     useEffect(()=>{
         console.log('search postdata updated:',postdata)
         if(postdata.length>0 && postdata[0].apply === undefined){
             setPostdata(postdata.map(row=>{
-                return {apply: <SupplyModal postID={row._id} NTUID={NTUID}/>,...row}
+                return {apply: <SupplyModal postID={row._id} NTUID={NTUID} onSupply={refreshPostTable}/>,...row}
             }))
         }
     },[postdata])
