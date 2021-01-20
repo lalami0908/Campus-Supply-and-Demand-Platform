@@ -16,9 +16,9 @@ import logoUrl from '../assets/images/logo.png'
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 export default function BasicLayout(props){
-    console.log('basic localStorage:',localStorage)
+    // console.log('basic localStorage:',localStorage)
     for (var i = 0; i < localStorage.length; i++){
-        console.log('basic storage:',localStorage.getItem(localStorage.key(i)))
+        // console.log('basic storage:',localStorage.getItem(localStorage.key(i)))
     }
     // const [showLoginOut, setShowLoginOut] = useState(false)
     return (
@@ -47,8 +47,8 @@ export default function BasicLayout(props){
                 {
                 // 記錄當前的路由
                     layoutRouter.map(({ path, router }) => {
-                        console.log(`path:${JSON.stringify(path)}, router:${JSON.stringify(router)}`)
-                        console.log('props.location:',props.location)
+                        // console.log(`path:${JSON.stringify(path)}, router:${JSON.stringify(router)}`)
+                        // console.log('props.location:',props.location)
                         return(
                         <Route key={path} path={`${path}`}>
                             <SwitchLayout history={props.history} location={props.location} path={path} key={path} permission={props.permission} router={router} />
@@ -66,7 +66,6 @@ export default function BasicLayout(props){
 const LoginOut = function (props) {
     const [visible, setVisible] = useState(false)
     const showModal = () => {
-        console.log('logout')
         setVisible(true)
     };
     const handleOk = () => {
@@ -90,7 +89,7 @@ const LoginOut = function (props) {
 };
 
 function SwitchLayout(props){
-    console.log('switch props:',props)
+    // console.log('switch props:',props)
     const [openKeys, setOpenKeys]  = useState([])
     const [selectedKeys, setSelectedKeys]  = useState([])
 
@@ -120,12 +119,12 @@ function SwitchLayout(props){
 
     function  gotoUrl(item, contentPath){
         const { history, location } = props;
-        console.log('history:',history)
-        console.log('location:',location)
+        // console.log('history:',history)
+        // console.log('location:',location)
         // eslint-disable-next-line no-param-reassign
         item.path = item.path.split(':')[0];
         if (location.pathname !== item.path) {
-            console.log('contentPath:',contentPath)
+            // console.log('contentPath:',contentPath)
             history.push(`/${ROUTE_PRE_FIX + contentPath}${item.path}`);
         }
     };

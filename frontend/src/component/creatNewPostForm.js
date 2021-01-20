@@ -40,7 +40,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     
     handleChange = (info) => {
 
-      console.log("info",info);  
+      // console.log("info",info);  
       this.setState({ fileList: info  })
       
     };
@@ -167,13 +167,12 @@ class CreateNewPostForm extends React.Component {
         values['NTUID'] = localStorage.getItem('NTUID');
         values.name = localStorage.getItem('name')
         // values.postDate = nowFormat
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
 
         let res = await addNewPost(values);
         // 前端顯示是新增結果
         alert(res.msg);
-        console.log("res", res);
-        console.log("success", res.success);
+    
         if(res.success){
           form.resetFields();
           this.setState({ visible: false });

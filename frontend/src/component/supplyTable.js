@@ -31,7 +31,7 @@ export default function SupplyTable(props) {
                         
                         // },
                         onRowDelete: async (oldData) =>{
-                            console.log("deleteSupply",oldData);
+                     
                             let res = await deleteSupply( { deleteSupplyForm : { demandId: oldData._id, NTUID: localStorage.getItem('NTUID')}} );
                             if(res.success){
                                 props.refreshTable();

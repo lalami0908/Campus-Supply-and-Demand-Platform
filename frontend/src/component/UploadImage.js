@@ -64,8 +64,8 @@ export default class UploadImage extends Component {
       const { ok, message: msg, data } = response
       if (ok) {
         this.optimizeFileList(data, fileList)
-        this.setState({imageUploadNow: fileList.length})
-        console.log(this.state.imageUploadNow);
+        this.setState({imageUploadNow: fileList.filter(file => file.status !== "removed").length})
+  
         // onChange 方法
         this.props.onChange(fileList)
         message.success(msg)
@@ -86,6 +86,7 @@ export default class UploadImage extends Component {
     
       if (res.success) {
         message.success(res.msg)
+        this.setState({imageUploadNow: this.state.imageUploadNow -1})
       } else {
         message.error(res.msg)
         return false

@@ -21,51 +21,20 @@ function Search(props) {
     const [detailsVisible, setDetailsVisible] = useState(false)
     const [activeIndex, setActiveIndex] = useState(0)
 
-    console.log('Search props:',props)
     let paths = props.location.pathname.split('/')
     let tag = paths[paths.length - 1]
 
     function handleModalOpen (i) {
-        // alert(i.target.id);
-        console.log("activeIndex", i.target.id);
         setActiveIndex(i.target.id);
         setDetailsVisible(true);
     }
 
-    // async function refreshPostTable(){
-    //     if(tag==='all'){
-    //         let res = await getAll(NTUID)
-    //         if(res.length > 0){
-    //             res.forEach(function(item, i) {
-    //                 var titleText = item.title
-    //                 item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
-    //             });
-    //         }
-    //         setPostdata(res);
-    //         // setPostdata(await getAll(NTUID))//重要!!set state是async function
-    //     }else{
-    //         let res = await getTag({tag:tag,NTUID:NTUID})
-    //         if(res.length > 0){
-    //             res.forEach(function(item, i) {
-    //                 var titleText = item.title
-    //                 item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
-    //             });
-    //         }
-    //         setPostdata(res);
-    //         // setPostdata(await getTag({tag:tag,NTUID:NTUID}))
-    //     }
-    //     console.log('after set search:',postdata)
-    // }
-    async function refreshSupply(){
-        setSupplydata(await getUserSupplies(NTUID))
-    }
   
     useEffect(async ()=>{ 
         setSupplydata(await getUserSupplies(NTUID))//async function
     },[])
 
     const refreshPostTable = async ()=>{
-        console.log('refreshPostTable...')
         if(tag==='all'||tag==='current' ){
             let res = await getAll(NTUID)
             if(res.length > 0){
@@ -78,16 +47,11 @@ function Search(props) {
             if(tag==='current'){
                 res = res.filter(post=>{
                     let now = new Date()
-                    console.log('post.postDate:',new Date(post.postDate))
-                    console.log('now:',now)
                     let time = parseInt(Math.abs(new Date(post.postDate)- now) / 1000 / 60 / 60)
-                    console.log('time:',time)
                     return time < 24
                 })
             }
-            console.log('test refreshPostTable:',res)
             setPostdata(res);
-            // setPostdata(await getAll(NTUID))//重要!!set state是async function
         }else{
             let res = await getTag({tag:tag,NTUID:NTUID})
             if(res.length > 0){
@@ -97,16 +61,13 @@ function Search(props) {
                 });
             }
             setPostdata(res);
-            // setPostdata(await getTag({tag:tag,NTUID:NTUID}))
         }
-        console.log('after set search:',postdata)
     }
 
     useEffect(refreshPostTable,[supplydata])
 
 
     useEffect(()=>{
-        console.log('search postdata updated:',postdata)
         if(postdata.length>0 && postdata[0].apply === undefined){
             setPostdata(postdata.map(row=>{
                 return {apply: <SupplyModal postID={row._id} NTUID={NTUID} onSupply={refreshPostTable}/>,...row}
@@ -122,7 +83,6 @@ function Search(props) {
                 {`${tags[tag]} 的需求單搜尋結果`}            
             </h1>
    
-            {/* 搬一個PostTable過來 */}
             <PostTable editable={false} postdata={postdata}/>
             <DemandDetail detailsVisible={detailsVisible} item = {postdata[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  
         </>

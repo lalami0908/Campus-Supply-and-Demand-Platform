@@ -8,18 +8,18 @@ const SupplyModal = function (props) {
     const NTUID = window.localStorage.getItem('NTUID')
     const name = window.localStorage.getItem('name')
     useEffect(()=>{
-        console.log('SupplyModal item:',props)
+        // console.log('SupplyModal item:',props)
     },[])
   
     const showModal = () => {
-        console.log('contract!')
+       
         setVisible(true)
     };
     const handleOk = async() => {
         setVisible(false);
 
         let feedback = await supply({NTUID:NTUID,name:name,postID:props.postID})
-        console.log('supply feedback:',feedback)
+        // console.log('supply feedback:',feedback)
         alert(feedback.msg)
         await props.onSupply()        
     };

@@ -14,10 +14,8 @@ const DemandDetail =  (props)=> {
     const [messagedata, setMessagedata] = useState([])
     const NTUID = localStorage.getItem('NTUID')
 
-    useEffect( async ()=>{
-        console.log("useEffect1");
+    useEffect( async ()=>{  
         setVisible(props.detailsVisible)
-        console.log(visible);       
     },[props.detailsVisible])
     
     useEffect(async ()=>{
@@ -30,7 +28,7 @@ const DemandDetail =  (props)=> {
             if(res.success){
                 setMessagedata(res.messages);
             }
-            console.log("setMessagedata", messagedata);
+            // console.log("setMessagedata", messagedata);
         }
     },[visible])
     
@@ -57,7 +55,7 @@ const DemandDetail =  (props)=> {
                 setVisible(false)
             },
             onCancel() {
-              console.log('Cancel');
+            
             },
           });
        
@@ -75,16 +73,14 @@ const DemandDetail =  (props)=> {
                 content: inputValue,
             }
         );
-        console.log("addNewMessageResult back data:", newmessage);
-        // 前端顯示訊息
-        // alert(newmessage.msg)
+        
         if(newmessage.success){
             let res = await getMessage(props.item._id) 
             if(res.success){
                 setMessagedata(res.messages);
                 setInputValue("");
             }
-            console.log("setMessagedata", messagedata);
+        
         }
     };
 

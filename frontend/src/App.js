@@ -21,17 +21,12 @@ function App() {
         <Route
           path="/"
           children={({ match }) => {
-            console.log("match:",match);
-            // if (!match.params) {
-            //   console.log("NO match.params");
-            //   return <Redirect to="/login" />;
-            // }
-            // eslint-disable-next-line prefer-destructuring
+         
             return (
               <Switch>
                 {
                   rootRouter.map(({ path, component, ...otherProps }) => {
-                    console.log('re-routing path:',path)
+                    // console.log('re-routing path:',path)
                     return(
                       <Route path={path} component={component} {...otherProps} key={path} />
                     )

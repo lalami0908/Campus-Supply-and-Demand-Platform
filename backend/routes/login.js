@@ -1,4 +1,3 @@
-// import express from 'express';
 const express = require("express");
 const router = express.Router();
 import {User } from '../models'
@@ -6,9 +5,7 @@ import {User } from '../models'
 const passport = require('passport');
 const auth = require('../config/auth');
 
-function checkIDlegal(NTUID){
-    console.log("NTUID:",NTUID)
-    
+function checkIDlegal(NTUID){    
     let re = /[rRbBdD][0-9]{2}[0-9AB][0-9]{5}/;
     if(typeof NTUID !== "string" || NTUID.length!==9 || !NTUID.match(re) ){
         return false
@@ -17,10 +14,9 @@ function checkIDlegal(NTUID){
     return true
 }
 
-//先註冊
-router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
-    console.log('registerRoute'); 
-    console.log('Got body:', req.body); 
+// 先註冊
+router.post('/register', (req, res, next) => {     
+    console.log('使用者註冊', req.body.NTUID); 
 
     if(!req.body.NTUID) {
         return res.json({ registerResult:{ success: false, msg: '註冊錯誤：學號為必填'}});
@@ -57,9 +53,7 @@ router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
         
             // 註冊後直接進入主頁
             newUser.save().then((user) => { 
-                // user.name = req.body.name 
                 user.token = user.generateJwt();
-                console.log('user.toAuthJson():',user.toAuthJson())
                 return res.json({ registerResult: { success: true, msg:'註冊成功！', user: user.toAuthJson()} })
             });
         }
@@ -67,12 +61,10 @@ router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
 });
 
 //登入
-router.post('/login', (req, res, next) => {  // req.body:  NTUID, password
+router.post('/login', (req, res, next) => {  
     const { user } = req.body;
 
-    console.log('loginRoute'); 
-    console.log('Got body:', req.body); 
-    console.log('Got user:', user); 
+    console.log('使用者登入', user); 
 
     // 繞過前端的必填才有可能到這裡
     if(!user.NTUID) {
@@ -84,13 +76,13 @@ router.post('/login', (req, res, next) => {  // req.body:  NTUID, password
     
     // 還沒註冊
     User.find({ 'NTUID': user.NTUID }).then((findUser) => {
-        console.log('findUser:',findUser)
+ 
         if (findUser.length == 0){
             return res.json({ loginResult: { success: false, msg:'使用者尚未註冊，請先註冊'} });
         }else {
-             // 驗證
+        // 驗證
         passport.authenticate('local', { session: false }, (err, passportUser, info) => {
-        console.log("authenticate");
+    
             if(err) {
                 return res.json({loginResult: { success: false, msg:'登入失敗：發生不明錯誤，請洽系統管理員'}});
             }

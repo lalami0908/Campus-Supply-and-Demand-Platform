@@ -13,9 +13,6 @@ function OwnSupply() {
     const [activeIndex, setActiveIndex] = useState(0)
 
     function handleModalOpen (i) {
-        // alert(i.target.id);
-        console.log("i", i);
-        console.log("activeIndex", i.target.id);
         setActiveIndex(i.target.id);
         setDetailsVisible(true);
     }
@@ -32,10 +29,9 @@ function OwnSupply() {
   
 
     useEffect( async ()=>{
-        console.log('supplydata:',supplydata)
         if(supplydata!==undefined){
             let demandIds = supplydata.map(supply=>supply.demandId)
-            console.log('debug demandIds:',demandIds)
+            // console.log('debug demandIds:',demandIds)
             let res = await getIdPosts(demandIds);
             if(res.length > 0){
                 res.forEach(function(item, i) {
@@ -43,7 +39,7 @@ function OwnSupply() {
                     item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
                 });
             }
-            console.log("setPostdata", res);
+            // console.log("setPostdata", res);
             setPostdata(res)
                
         }
@@ -51,7 +47,7 @@ function OwnSupply() {
     },[supplydata])
 
     useEffect(()=>{
-        console.log('modify postdata:',postdata)
+        // console.log('modify postdata:',postdata)
     },[postdata])    
 
     return(

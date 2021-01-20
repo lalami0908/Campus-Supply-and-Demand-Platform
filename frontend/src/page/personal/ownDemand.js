@@ -13,15 +13,10 @@ function OwnDemand() {
     const [activeIndex, setActiveIndex] = useState(0)
 
     function handleModalOpen (i) {
-        // alert(i.target.id);
-        console.log("i", i);
-        console.log("activeIndex", i.target.id);
         setActiveIndex(i.target.id);
         setDetailsVisible(true);
     }
     
-    // 不確定能不能抽層（？）
-
     // 取得所有 post 跟 message
     useEffect(async ()=>{
         let res = await getUserPost(NTUID)//async function
@@ -31,10 +26,7 @@ function OwnDemand() {
                 item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
             });
         }
-        console.log("setPostdata", res);
-        setPostdata(res)
-
-        
+        setPostdata(res)        
     }, [])
 
     // 讓新增需求單也能刷新 table (取得所有 post 跟 message)
@@ -46,7 +38,6 @@ function OwnDemand() {
                 item['title'] = <a onClick={ handleModalOpen} className="nav-link"  id={i} > { titleText } </a>
             });
         }
-        console.log("refreshTable: ", res);
         setPostdata(res)
     }
     return(

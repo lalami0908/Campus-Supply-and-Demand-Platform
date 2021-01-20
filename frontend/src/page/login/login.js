@@ -14,10 +14,10 @@ function toHome(res){
 }
 
 async function handleLogin(values){
-    console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
+    // console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
     let res = await login(values)
     alert(res.msg);
-    console.log('res:',res)
+
     if(res.success){  
         // 登入成功直接導向主頁
         toHome(res)
@@ -25,25 +25,8 @@ async function handleLogin(values){
     // 登入失敗停在此頁
 }
 async function handleRegister(values){
-    console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
-    // console.log('res:',res)
-    // console.log(`register response: ${JSON.stringify(res)}`)
-    // console.log("here");
+    // console.log(`JUST FOR DEBUG!! personal info:${ JSON.stringify(values)}`)
     
-
-     // *** 按下登入後打登入
-    // login
-    // let res = await login(values)
-    // if(res.success){
-    //     localStorage.setItem('token', res.user.token)
-    //     localStorage.setItem('NTUID', res.user.NTUID)
-    //     localStorage.setItem('userId', res.user._id)  
-    //     navigate('/home');
-    // } else {
-    //     alert(res.msg);
-    // }
-
-    // *** 按下登入後打註冊
     // register
     let res = await register(values)
     alert(res.msg);
@@ -96,7 +79,7 @@ export default function Login() {
 }
 
 function LoginForm(props){
-    console.log('LoginForm.props:',props)
+    // console.log('LoginForm.props:',props)
     const handleSubmit = (e) => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
@@ -186,7 +169,6 @@ const Register = function (props) {
     const [visible, setVisible] = useState(false)
 
     const showModal = () => {
-        console.log('register')
         setVisible(true)
     };
     const handleOk = () => {
