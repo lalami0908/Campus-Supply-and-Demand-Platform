@@ -41,7 +41,7 @@ const DemandDetail =  (props)=> {
         // props.onSubmit()
     };
     
-    const handleCancelDemand =  () => {
+    const handleCancelDemand =  async () => {
         confirm({
             title: '確定要取消需求嗎',
             content: '',
@@ -49,11 +49,14 @@ const DemandDetail =  (props)=> {
             okType: 'danger',
             cancelText: '不要取消',
             async onOk() {
-                // TODO: 取消需求
-              console.log('OK', props.item._id);
-              let res =  deletePost(props.item._id);
-              alert( res.msg);
-              setVisible(false)
+                // 點開明細頁厚的取消需求
+                alert( props.item._id);
+                let res =  await deletePost(props.item._id);
+                alert( res.msg);
+                if(res.success){
+                    props.handleAddNewPostAndRefreshTable();
+                }
+                setVisible(false)
             },
             onCancel() {
               console.log('Cancel');

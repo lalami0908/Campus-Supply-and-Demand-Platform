@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {BASE_URL, ADD_NEW_POST, GET_ALL_POSTS,GET_USER_POSTS,GET_ID_POST,GET_ID_POSTS, GET_TAG_POSTS} from '../common/APIpath'
-import {UPDATE_YOUR_POST, DELETE_YOUR_POST, SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION,GET_USER_SUPPLIES} from '../common/APIpath'
+import {UPDATE_YOUR_POST, DELETE_YOUR_POST,DELETE_YOUR_SUPPLY, SUPPLY_POST,UPLOAD_IMAGE_ACTION,DELETE_IMAGE_ACTION,GET_USER_SUPPLIES} from '../common/APIpath'
 const instance = axios.create({ 
   baseURL: BASE_URL,
   headers: { 'Authorization':  'Token ' +   localStorage.getItem('token')}
@@ -94,6 +94,16 @@ export const deletePost = async (postID) => {
   } = await instance.post(DELETE_YOUR_POST, { postID: postID })
 
   return deletePostResult
+}
+  
+//TODO
+export const deleteSupply = async (deleteSupplyForm) => {
+  console.log("axios: deleteSupply by id", deleteSupplyForm);
+  const {
+    data: { deleteSupplyResult }
+  } = await instance.post(DELETE_YOUR_SUPPLY, deleteSupplyForm)
+
+  return deleteSupplyResult
 }
 
 //TODO

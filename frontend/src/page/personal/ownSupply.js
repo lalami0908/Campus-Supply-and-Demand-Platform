@@ -22,29 +22,20 @@ function OwnSupply() {
 
     useEffect(async ()=>{
         setSupplydata(await getUserSupplies(NTUID))//async function
-        // resdata.map(async supply => {
-        //     supply.DemandID
-        // });
     }, [])
+
+    // 讓刪除供給單也能刷新 table 
+    async function refreshTable(){
+        setSupplydata(await getUserSupplies(NTUID));
+    }
+
+  
 
     useEffect( async ()=>{
         console.log('supplydata:',supplydata)
         if(supplydata!==undefined){
             let demandIds = supplydata.map(supply=>supply.demandId)
             console.log('debug demandIds:',demandIds)
-
-            // for (let i = 0; i < demandIds.length; ++i){
-
-            //    let uniquePost = await getIdPost(demandIds[i]) //= (async ()=>(
-                    
-            //     // ))()
-            //     console.log('get uniquePost:',uniquePost)
-            //     console.log('get postdata:',postdata) 
-            //     setPostdata(postdata.concat([uniquePost]))
-            // }
-           
-            // setPostdata(await getIdPosts(demandIds))
-
             let res = await getIdPosts(demandIds);
             if(res.length > 0){
                 res.forEach(function(item, i) {
@@ -69,8 +60,14 @@ function OwnSupply() {
         <h1>
             感謝你接下了這些需求，全台大學生的生活都靠你了            
         </h1>
-        <SupplyTable editable={true} postdata={postdata}/>
-        <DemandDetail  detailsVisible={detailsVisible} item = {postdata[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  
+        <SupplyTable  refreshTable= {refreshTable} 
+                    editable={true} 
+                    postdata={postdata}/>
+        <DemandDetail  detailsVisible={detailsVisible} 
+                item = {postdata[activeIndex]} 
+                onChange={setDetailsVisible}
+            
+        ></DemandDetail>  
         </div>
     )
 }

@@ -1,6 +1,8 @@
 import React, { useState,ussEffect } from 'react';
 import MaterialTable from 'material-table';
 import {tableIcons} from '../common/constant'
+import  { deleteSupply } from '../axios'
+
 export default function SupplyTable(props) {
 
     const  columns =  [
@@ -28,8 +30,13 @@ export default function SupplyTable(props) {
                         onRowUpdate: (newData, oldData) =>{
                         
                         },
-                        onRowDelete: (oldData) =>{
-                       
+                        onRowDelete: async (oldData) =>{
+                            console.log("deleteSupply",oldData);
+                            let res = await deleteSupply( { deleteSupplyForm : { demandId: oldData._id, NTUID: localStorage.getItem('NTUID')}} );
+                            if(res.success){
+                                props.refreshTable();
+                            }
+                            alert(res.msg);
                         },
                     }}
                 />
