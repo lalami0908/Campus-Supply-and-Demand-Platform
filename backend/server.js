@@ -33,7 +33,7 @@ const Demand = require('./models/Demand')
 const Message = require('./models/Message')
 const Supply = require('./models/Supply')
 const User = require('./models/User')
-
+const Personal = require('./models/Personal') 
 // express
 
 const app = express();
@@ -58,13 +58,13 @@ require('./config/passport');
 
 // ** express && router
 const homeRouter = require('./routes/home');
-const usersRouter = require('./routes/users');
+const userRouter = require('./routes/user');
 const loginRouter = require('./routes/login');
 const postRouter = require('./routes/post');
 const messageRouter = require('./routes/message');
 
 app.use('/', homeRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
 app.use('/login',loginRouter);
 app.use('/post',postRouter);
 app.use('/message',messageRouter);
@@ -78,8 +78,8 @@ app.post('/post-test', (req, res) => {
     res.sendStatus(200);
 });
 
-app.post('/users', (req, res) => { 
-	res.send('POST HTTP method on users resource');
+app.post('/user', (req, res) => { 
+	res.send('POST HTTP method on user resource');
 	console.log(req.body.text);
  });
 
@@ -88,9 +88,9 @@ app.post('/login', (req, res) => {
 	console.log(req.body.text);
 });
 
-app.put('/users/:userId', (req, res) => { 
+app.put('/user/:userId', (req, res) => { 
 	res.send(
-		`PUT HTTP method on users/${req.params.userId} resource`,
+		`PUT HTTP method on user/${req.params.userId} resource`,
 	);
 });
 

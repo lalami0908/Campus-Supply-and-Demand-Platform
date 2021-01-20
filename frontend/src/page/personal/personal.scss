@@ -1,0 +1,52 @@
+.personal{
+    position: relative;
+    border-radius: 1vh;
+    background-image: url('../../assets/images/sd.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    .personal-header{
+        .personal-name{
+            font-style: oblique;
+            font-weight: bolder;
+            font-size: 6vh;
+            color: darkblue;
+        }
+    }
+    .personal-main{
+        position: relative;
+        .personal-photo{
+            display: inline-flex;
+            position: relative;
+            width: 40vw;
+            height: 45vh; 
+            height: auto;
+            background-size: contain;
+            background-repeat: no-repeat;    
+        }
+        .personal-intro{
+            background-color:rgba($color: #eb4747, $alpha: 0.3);
+            font-size: 3vh;
+            display: inline-block;       
+            position: absolute;
+            // top: auto;
+            border: 0.2vh;
+            border-style:solid;
+            width: 30vw;
+            height: 45vh;            
+        }
+    }   
+    .personal-footer{
+        border-top: 0.4vh;
+        
+        color: darkslategray;
+        .personal-expert{
+            border-bottom: 0.2vh;
+            font-size: 3vh;
+        }
+        .personal-demand{
+            border-bottom: 0.2vh;
+            font-size: 3vh;
+        }
+    }
+
+}
