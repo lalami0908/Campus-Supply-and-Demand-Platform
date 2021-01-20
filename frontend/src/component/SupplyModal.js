@@ -5,6 +5,8 @@ import  {supply} from '../axios'
 //接單確認
 const SupplyModal = function (props) {
     const [visible, setVisible] = useState(false)
+    const NTUID = window.localStorage.getItem('NTUID')
+    const name = window.localStorage.getItem('name')
     useEffect(()=>{
         console.log('SupplyModal item:',props)
     },[])
@@ -16,7 +18,7 @@ const SupplyModal = function (props) {
     const handleOk = async() => {
         setVisible(false);
 
-        let feedback = await supply({NTUID:props.NTUID,postID:props.postID})
+        let feedback = await supply({NTUID:NTUID,name:name,postID:props.postID})
         console.log('supply feedback:',feedback)
         alert(feedback.msg)
         await props.onSupply()        

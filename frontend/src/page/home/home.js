@@ -73,7 +73,7 @@ function Home(props) {
     <>
 
       <div className="carousel-display">
-        <MyCarousel posts={postdata} NTUID={NTUID} onSupply={refreshPostTable}/>
+        <MyCarousel posts={postdata} onSupply={refreshPostTable}/>
       </div>
       <div className="home-footer">
           <Marquee>

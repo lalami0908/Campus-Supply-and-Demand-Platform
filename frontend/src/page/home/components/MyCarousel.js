@@ -16,7 +16,7 @@ const MyCarousel = (props) => {
     const [animating, setAnimating] = useState(false);
     const [title, setTitle] = useState('');
     const [name, setName] = useState('');
-    const [detailsVisible, setDetailsVisible] = useState(false);
+    const [detailsVisible, setDetailsVisible] = useState(false)
     console.log('MyCarousel props.onSupply:',props.onSupply)
     //init: 從後端抓所有的需求單
     useEffect(()=>{
@@ -96,7 +96,7 @@ const MyCarousel = (props) => {
             </Carousel>
             {
               (props.posts.length != 0)?
-              ( <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} NTUID={props.NTUID} onSupply={props.onSupply}/>)
+              ( <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} onSupply={props.onSupply}/>)
               :(
                 <h1>再等等，目前線上暫無任何需求哦!</h1>
               )
@@ -147,7 +147,7 @@ const Details =  (props)=> {
                 {(props.item.imgPath)?(props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
                 :(<p>no picture</p>)}
                 <br></br>
-                <SupplyModal postID={props.item._id} NTUID={props.NTUID} onSupply={props.onSupply}/>
+                <SupplyModal postID={props.item._id} onSupply={props.onSupply}/>
                 </div>):(<p></p>)}
           </Modal>
       </div>

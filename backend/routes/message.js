@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require('mongoose');
 const auth = require('../config/auth');
-const Message = mongoose.model('Message');
-const Demand = mongoose.model('Demand');
-
+import {Message, Demand, User,SYSTEM_MSG} from '../models'
 
 router.post('/addMessage', auth.required, (req, res) => { 
 	const { newMessageForm } = req.body;
@@ -36,10 +33,29 @@ router.post('/getMessage', auth.required, (req, res) => {
 	const { demand_id } = req.body;
 	console.log("getMessage by demand_id: ", demand_id);
 	// TODO: 有找：有訊息/沒訊息/找的時候出錯？
-	Message.find({demandId: req.body.demand_id}).then((messages) => {
+	Message.find({demandId: req.body.demand_id}).then(async (messages) => {
 		console.log("取回留言: ")
 		console.log('getMessage:',messages)
-		return res.json({ getMessageResult: { success: true, messages: messages} });
+		if(!messages.some(msg=>!msg.name)){
+			console.log("都有名字")
+			return res.json({ getMessageResult: { success: true, messages: messages} });
+		}
+		//這邊滿頭問號 但是會work
+		let promiseMessages = messages.map(async message=>{
+			let usr = await User.findOne({NTUID:message.NTUID})
+			console.log('find user:',usr)
+			return 	{name:usr.name,
+				demandId:message.demandId,
+				NTUID:message.NTUID,
+				content:message.content,
+				msgDate:message.msgDate
+			}
+		})
+		let results = await Promise.all(promiseMessages)
+		console.log('results:',results)
+		// console.log('promiseMessages:',promiseMessages)
+		return res.json({ getMessageResult: { success: true, messages: results} });
+
 	})
 
 });
