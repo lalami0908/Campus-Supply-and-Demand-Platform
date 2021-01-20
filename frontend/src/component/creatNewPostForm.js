@@ -8,7 +8,7 @@ import { BASE_URL, UPLOAD_IMAGE_ACTION, DELETE_IMAGE_ACTION } from '../common/AP
 import  { addNewPost } from '../axios'
 const { Option } = Select;
 const { Item } = Form
-
+const { TextArea } = Input;
 
 
 function getBase64(img, callback) {
@@ -101,7 +101,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 <Form.Item label="內容">
                 {getFieldDecorator('content', {
                     rules: [{ required: true, message: '內容為必填' }],
-                })(<textarea  rows="4" cols="64"/>)}
+                })(<TextArea   placeholder="請輸入需求內容" autoSize={{ minRows: 2, maxRows: 6 }} />)}
                 </Form.Item>
 
                 <Form.Item label="截止日期">

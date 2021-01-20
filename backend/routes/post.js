@@ -104,7 +104,7 @@ router.post('/getAllPosts', async (req, res) => {
   // console.log('req.body:',req.body);
   await Demand.find({state:'onDemand'}).then((posts) => {
     //濾掉自己的post
-    console.log('posts:',posts)
+    console.log('取得所有不屬於自己，且狀態開啟的需求單',posts)
     return res.json({allPosts:posts.filter(post=>post.NTUID!==req.body.NTUID)})
   })
   
@@ -124,11 +124,13 @@ router.post('/getTagPosts',  async (req, res) => {
     return res.json({tagPosts:posts.filter(post=>post.NTUID!==req.body.NTUID&&((post.tag&tag)===tag))})
   })
 });
+// 我的需求頁面
 router.post('/getUserPosts', async (req, res) => { 
   console.log("getUserPosts");
   console.log('req.body:',req.body);
   console.log(req.body.NTUID);
-  Demand.find({NTUID:req.body.NTUID,state:'onDemand'}).then((posts) => {
+  // 關了應該也還要看得到吧？TODO:顯示需求單狀態
+  Demand.find({NTUID:req.body.NTUID}).then((posts) => {
     console.log(posts);
     return res.json({userPosts:posts});
   })

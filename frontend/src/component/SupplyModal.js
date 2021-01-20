@@ -15,8 +15,8 @@ const SupplyModal = function (props) {
     };
     const handleOk = async() => {
         setVisible(false);
-        await supply({NTUID:props.NTUID,postID:props.postID})
-        // console.log('supply feedback:',feedback)
+        let feedback = await supply({NTUID:props.NTUID,postID:props.postID})
+        console.log('supply feedback:',feedback)
         
     };
     const handleCancel = () => {

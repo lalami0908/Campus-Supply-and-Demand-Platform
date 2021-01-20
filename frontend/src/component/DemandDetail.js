@@ -77,6 +77,7 @@ const DemandDetail =  (props)=> {
             let res = await getMessage(props.item._id) 
             if(res.success){
                 setMessagedata(res.messages);
+                setInputValue("");
             }
             console.log("setMessagedata", messagedata);
         }

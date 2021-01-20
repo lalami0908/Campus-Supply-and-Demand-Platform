@@ -3,6 +3,8 @@ import { Button, Input, message, Tag } from 'antd'
 import {getAll, getTag} from '../../axios'
 import SupplyModal from '../../component/SupplyModal'
 import PostTable  from '../../component/postTable';
+import DemandDetail from '../../component/DemandDetail.js'
+import { getUserSupplies, getIdPost } from '../../axios'
 const tags = {
     hot: '熱門',
     current: '近期刊登',
@@ -12,19 +14,81 @@ const tags = {
 }
 
 function Search(props) {
-    const [postdata, setPostdata] = useState([])
-    console.log('Search props:',props)
     const NTUID = window.localStorage.getItem('NTUID')
+    const [postdata, setPostdata] = useState([])
+    const [supplydata, setSupplydata] = useState([])
+    // 明細部分
+    const [detailsVisible, setDetailsVisible] = useState(false)
+    const [activeIndex, setActiveIndex] = useState(0)
+
+    console.log('Search props:',props)
     let paths = props.location.pathname.split('/')
     let tag = paths[paths.length - 1]
-    useEffect(async()=>{
+
+    function handleModalOpen (i) {
+        // alert(i.target.id);
+        console.log("activeIndex", i.target.id);
+        setActiveIndex(i.target.id);
+        setDetailsVisible(true);
+    }
+
+    // async function refreshPostTable(){
+    //     if(tag==='all'){
+    //         let res = await getAll(NTUID)
+    //         if(res.length > 0){
+    //             res.forEach(function(item, i) {
+    //                 var titleText = item.title
+    //                 item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
+    //             });
+    //         }
+    //         setPostdata(res);
+    //         // setPostdata(await getAll(NTUID))//重要!!set state是async function
+    //     }else{
+    //         let res = await getTag({tag:tag,NTUID:NTUID})
+    //         if(res.length > 0){
+    //             res.forEach(function(item, i) {
+    //                 var titleText = item.title
+    //                 item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
+    //             });
+    //         }
+    //         setPostdata(res);
+    //         // setPostdata(await getTag({tag:tag,NTUID:NTUID}))
+    //     }
+    //     console.log('after set search:',postdata)
+    // }
+    async function refreshSupply(){
+        setSupplydata(await getUserSupplies(NTUID))
+    }
+  
+    useEffect(async ()=>{ 
+        setSupplydata(await getUserSupplies(NTUID))//async function
+    },[])
+
+    useEffect(async ()=>{ 
         if(tag==='all'){
-            setPostdata(await getAll(NTUID))//重要!!set state是async function
+            let res = await getAll(NTUID)
+            if(res.length > 0){
+                res.forEach(function(item, i) {
+                    var titleText = item.title
+                    item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
+                });
+            }
+            setPostdata(res);
+            // setPostdata(await getAll(NTUID))//重要!!set state是async function
         }else{
-            setPostdata(await getTag({tag:tag,NTUID:NTUID}))
+            let res = await getTag({tag:tag,NTUID:NTUID})
+            if(res.length > 0){
+                res.forEach(function(item, i) {
+                    var titleText = item.title
+                    item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
+                });
+            }
+            setPostdata(res);
+            // setPostdata(await getTag({tag:tag,NTUID:NTUID}))
         }
         console.log('after set search:',postdata)
-    },[])
+    },[supplydata])
+
 
     useEffect(()=>{
         console.log('search postdata updated:',postdata)
@@ -33,7 +97,6 @@ function Search(props) {
                 return {apply: <SupplyModal postID={row._id} NTUID={NTUID}/>,...row}
             }))
         }
-
     },[postdata])
 
     return(
@@ -41,11 +104,12 @@ function Search(props) {
             <h1 style={{
                 fontSize: '5vh'
             }}>
-                {tags[tag]}            
+                {`${tags[tag]} 的需求單搜尋結果`}            
             </h1>
-            <h2>-的需求單搜尋結果</h2>
+   
             {/* 搬一個PostTable過來 */}
             <PostTable editable={false} postdata={postdata}/>
+            <DemandDetail detailsVisible={detailsVisible} item = {postdata[activeIndex]} onChange={setDetailsVisible}></DemandDetail>  
         </>
     )
 }
