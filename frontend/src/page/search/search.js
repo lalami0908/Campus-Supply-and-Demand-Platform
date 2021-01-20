@@ -66,13 +66,24 @@ function Search(props) {
 
     const refreshPostTable = async ()=>{
         console.log('refreshPostTable...')
-        if(tag==='all'){
+        if(tag==='all'||tag==='current' ){
             let res = await getAll(NTUID)
             if(res.length > 0){
                 res.forEach(function(item, i) {
                     var titleText = item.title
                     item['title'] = <a onClick={ handleModalOpen} className="nav-link" id={i} > { titleText } </a>         
                 });
+            }
+
+            if(tag==='current'){
+                res = res.filter(post=>{
+                    let now = new Date()
+                    console.log('post.postDate:',new Date(post.postDate))
+                    console.log('now:',now)
+                    let time = parseInt(Math.abs(new Date(post.postDate)- now) / 1000 / 60 / 60)
+                    console.log('time:',time)
+                    return time < 24
+                })
             }
             console.log('test refreshPostTable:',res)
             setPostdata(res);
