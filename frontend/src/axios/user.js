@@ -24,11 +24,11 @@ export const getName = async (NTUID) => {
     console.log("personalInfo", personalInfo);
     return personalInfo
 }
-export const setPersonalInfo = async (name) => {
-    console.log("getName");
+export const setPersonalInfo = async (info) => {
+    console.log("setPersonalInfo getName");
     const {
-      data: { personalInfo }
-    } = await instance.put( SET_PERSONAL_INFO,  { params: name }).catch((err) => console.error(err));
-    console.log("personalInfo", personalInfo);
-    return personalInfo
+      data: { personalInfoResult }
+    } = await instance.post( SET_PERSONAL_INFO,   info ).catch((err) => console.error(err));
+    console.log("setPersonalInfo personalInfoResult", personalInfoResult);
+    return personalInfoResult
 }

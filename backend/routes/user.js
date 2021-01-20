@@ -29,7 +29,6 @@ router.post('/users', (req, res) => {
 	console.log('getPersonalInfo req.query.name:',req.query.name)
 	await Personal.findOne({name:req.query.name}).then(info => {
 		console.log('info:',info)
-		console.log('info:',info)
 		if(info){
 			return res.json({personalInfo:info})
 		}else{
@@ -39,22 +38,44 @@ router.post('/users', (req, res) => {
 	})
 	return res.json({personalInfo:defaultInfo})
  });
- router.put('/modifyPersonalInfo', async (req, res) => { 
-	
+ router.post('/modifyPersonalInfo', async (req, res) => { 
+	console.log('modifyPersonalInfo req.body:',req.body)
 	await Personal.findOne({name:req.body.name}).then(async (info) => {
 		console.log('info:',info)
-		await Personal.findOneAndUpdate({name:info.name},
-		{ 
-			name: req.body.name, 
-			imgPath: req.body.imgPath,
-			introduction: req.body.introduction,
-			expertise: req.body.expertise,
-			demands: req.body.demands
-		},(err,docs)=>{
-			if (err){ console.log(err) }
-		}).then(info=>{
-			return res.json({personalInfo:info})
-		})
+		if(info){
+			await Personal.findOneAndUpdate({name:info.name},
+				{ 
+					name: req.body.name, 
+					imgPath: req.body.imgPath,
+					introduction: req.body.introduction,
+					expertise: req.body.expertise,
+					demands: req.body.demands
+				},(err,docs)=>{
+					if (err){ console.log(err) }
+				}).then(info=>{
+					return res.json({success:true, personalInfo:info})
+				})
+		}else{
+			let newInfo = { 
+				name: req.body.name,
+				imgPath: req.body.fileList[0].url,
+				introduction: req.body.intro,
+				expertise: req.body.expert,
+				demands: req.body.demand
+			}
+			console.log('newInfo:',newInfo)
+			Personal.create(newInfo).then((info) => { 
+				console.log("新增info成功 ");
+				console.log(info);
+				return res.json({ personalInfoResult:{ success: true, info:info}});
+			});
+		
+			/***** relational database schema ***/
+		
+
+
+		}
+
 		// return res.json({tagPosts:posts.filter(post=>post.NTUID!==req.body.NTUID&&((post.tag&tag)===tag))})
 	})
  });

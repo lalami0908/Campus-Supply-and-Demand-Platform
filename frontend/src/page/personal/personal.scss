@@ -18,9 +18,8 @@
             display: inline-flex;
             position: relative;
             width: 40vw;
-            height: 45vh; 
             height: auto;
-            background-size: contain;
+            background-size: auto;
             background-repeat: no-repeat;    
         }
         .personal-intro{
@@ -28,6 +27,7 @@
             font-size: 3vh;
             display: inline-block;       
             position: absolute;
+            right: 0;
             // top: auto;
             border: 0.2vh;
             border-style:solid;

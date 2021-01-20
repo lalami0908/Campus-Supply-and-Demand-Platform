@@ -4,7 +4,7 @@ import "react-popupbox/dist/react-popupbox.css"
 import {getPersonalInfo, setPersonalInfo} from '../../axios'
 import {BASE_URL} from '../../common/APIpath'
 import './personal.scss'
-
+import EditPersonalInfoForm from '../../component/EditPersonalInfoForm'
 function Personal(props) {
     const [info, setInfo] = useState({
       imgPath:`${BASE_URL}public/uploads/0.jpg`,
@@ -47,6 +47,7 @@ function Personal(props) {
               {info.demands}
             </Card>
           </section>
+          <EditPersonalInfoForm/>
         </Card>
     )
 
