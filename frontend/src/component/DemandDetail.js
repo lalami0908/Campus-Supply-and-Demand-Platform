@@ -49,7 +49,7 @@ const DemandDetail =  (props)=> {
             okType: 'danger',
             cancelText: '不要取消',
             async onOk() {
-                // 點開明細頁厚的取消需求
+                // 點開明細頁面的取消需求
                 alert( props.item._id);
                 let res =  await deletePost(props.item._id);
                 alert( res.msg);
