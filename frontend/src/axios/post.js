@@ -10,9 +10,18 @@ const instance = axios.create({
 
 export const addNewPost = async (newPost) => {  //
   console.log('addNewPostAxios',newPost)
+  var notRemovedFileList = []
   if(!newPost.fileList){
     newPost.fileList=[]
+  } else { 
+    newPost.fileList.forEach(element => {
+    if(element.status !== "removed"){
+      notRemovedFileList.push(element);
+    }
+    newPost.fileList = notRemovedFileList;
+  });
   }
+
   const {
     data: { addNewPostResult }//succeed or not
   } = await instance.post( ADD_NEW_POST, { newPostForm:  newPost } ).catch((err) => console.error(err));
@@ -107,6 +116,7 @@ export const deleteSupply = async (deleteSupplyForm) => {
 }
 
 //TODO
+
 export const supply = async (params) => {
   console.log("supply!!");
   const {
@@ -117,14 +127,14 @@ export const supply = async (params) => {
 }
 /***************************************************** */
 
-//TODO
-// export const uploadImage = async (image) => {
-//   console.log('uploadImage:',image)
-//   await instance.post(UPLOAD_IMAGE_ACTION, image)
-// }
+
 
 //TODO
-export const deleteImage = async (image) => {
-  console.log('deleteImage:',image)
-  await instance.delete(DELETE_IMAGE_ACTION, image)
+//axios.delete(url, { data: { foo: "bar" } });
+export const deleteImage = async (url) => {
+  console.log('deleteImage:',url)
+  const {
+    data: { deleteImageResult }
+  } = await instance.delete(DELETE_IMAGE_ACTION, { data: { url: url} })
+  return deleteImageResult
 }

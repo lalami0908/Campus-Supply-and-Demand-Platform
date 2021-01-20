@@ -67,7 +67,7 @@ router.post('/register', (req, res, next) => {     // req.body:  NTUID, password
 });
 
 //登入
-router.post('/login', auth.optional, (req, res, next) => {  // req.body:  NTUID, password
+router.post('/login', (req, res, next) => {  // req.body:  NTUID, password
     const { user } = req.body;
 
     console.log('loginRoute'); 

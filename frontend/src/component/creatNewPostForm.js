@@ -35,12 +35,13 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     state = {
         loading: false,
         imageUrl: '',
-        fileInfoList: [{ status: '', uid: 0, url: '',}]
+        fileList: [{ status: '', uid: 0, url: '',}]
     };
     
-    handleChange = (info) => {  
-        // console.log("handleChange", info)
-        this.setState({ fileInfoList: info  })
+    handleChange = (info) => {
+
+      console.log("info",info);  
+      this.setState({ fileList: info  })
       
     };
 
@@ -129,7 +130,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 })(<InputNumber min={1} max={5} initialValue={1}  />)}
                 </Form.Item>
 
-                <Form.Item label="圖片上傳">
+                <Form.Item label="圖片上傳(image/jpeg) ">
                 {getFieldDecorator('fileList',{onChange:this.handleChange}
                 )(<UploadImage isInit={true}></UploadImage>)}
                 </Form.Item>

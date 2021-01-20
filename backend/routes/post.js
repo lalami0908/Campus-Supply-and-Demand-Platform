@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path')
 import {Demand,Supply,Message,BASE_URL,SYSTEM_MSG } from '../models'
 const auth = require('../config/auth');
-
+const fs = require('fs');
 
 
 const multer = require('multer')
@@ -291,11 +291,18 @@ router.put('/supplyPost', auth.required, async(req, res) => {
 
 
 
-router.post('/deleteImage', auth.required, (req, res) => { 
-    console.log(req);
-    console.log(req.body);
 
-    res.send('deleteImage');
+router.delete('/deleteImage', auth.required, (req, res,next) => { 
+    const { url } = req.body;
+    console.log("deleteImage");
+    console.log(url);
+
+  
+    fs.unlink(url, (err) => {
+      if (err) return next(err)
+      res.json({deleteImageResult:{success: true, msg: '刪除圖片成功'}});
+    })
+
 });
 
 
