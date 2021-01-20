@@ -11,11 +11,9 @@ const MessageSchema = new Schema({
     NTUID: {
 		type: String,
 		required: [true, 'NTUID field is required.']
-    },
-    name: {
-		type: String,
-		required: [true, 'name field is required.']
-    },
+	},
+	// 留言不該包含 name ->使用者會更新
+    // name: String,
     content: {
 		type: String,
 		required: [true, 'content field is required.']
@@ -29,7 +27,7 @@ const MessageSchema = new Schema({
 })
 
 // Creating a table within database with the defined schema
-const Message = mongoose.model('message', MessageSchema)
+const Message = mongoose.model('Message', MessageSchema)
 
 // Exporting table for querying and mutating
 module.exports = Message

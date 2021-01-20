@@ -125,9 +125,6 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 {getFieldDecorator('fileList',{onChange:this.handleChange}
                 )(<UploadImage isInit={true}></UploadImage>)}
                 </Form.Item>
-
-                
-
             </Form>
           </Card> 
         </Modal>
@@ -136,13 +133,6 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
     }
   },
 );
-
-async function asyncAddNewPost(values){
-  let res = await addNewPost(values);
-  // 前端顯示是新增結果
-  // alert(res.msg);
-}
-
 class CreateNewPostForm extends React.Component {
   state = {
     visible: false,
@@ -155,23 +145,29 @@ class CreateNewPostForm extends React.Component {
   handleCancel = () => {
     this.setState({ visible: false });
   };
-  handleCreate = () => {
 
-    // call axios
+  /** 原本以為不能在這裡 async/await 拉出去 call axios */
+  handleCreate = () => {
+ 
     const { form } = this.formRef.props;
-    form.validateFields ((err, values) => {
+    // 前端新增的表單驗證
+    form.validateFields( async (err, values) => { //
       if (err) {
         return;
       } else {
         values['NTUID'] = localStorage.getItem('NTUID');
         console.log('Received values of form: ', values);
-        console.log('Received values of form: ', form);
 
-        form.resetFields();
-        this.setState({ visible: false });
- 
-        asyncAddNewPost(values);
-        this.props.handleAddNewPostAndRefreshTable();
+        let res = await addNewPost(values);
+        // 前端顯示是新增結果
+        alert(res.msg);
+        console.log("res", res);
+        console.log("success", res.success);
+        if(res.success){
+          form.resetFields();
+          this.setState({ visible: false });
+          this.props.handleAddNewPostAndRefreshTable(); // call ownDand.js: refreshTable
+        }
       }
     });
   };
@@ -192,17 +188,6 @@ class CreateNewPostForm extends React.Component {
           onCancel={this.handleCancel}
           onCreate={this.handleCreate}
         />
-        {/* <Modal
-          visible={this.state.visible}
-          title="建立屬於你自己的需求"
-          okText="新增"
-          onCancel={this.handleCancel}
-          cancelText="取消"
-          onOk={this.handleCreate}
-        >
-
-        </Modal> */}
-        {/* <UploadImage></UploadImage> */}
       </div>
     );
   }

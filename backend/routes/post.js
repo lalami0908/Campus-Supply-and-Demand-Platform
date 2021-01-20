@@ -2,9 +2,6 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
 const path = require('path')
-
-// const Demand = require('../models/Demand')
-// const Supply = require('../models/Supply')
 const Demand = mongoose.model('Demand');
 const Supply = mongoose.model('Supply');
 
@@ -31,16 +28,16 @@ router.post('/addNewPost', (req, res) => {
    
     // 前端有擋，後端也要檢查空值
     if(!newPostForm.title || !newPostForm.NTUID || !newPostForm.content || !newPostForm.deadline || !newPostForm.price || !newPostForm.category){
-      return res.json({ addNewPostResult:{ success: false, msg: '新增需求失敗，需求單位填寫完整'}});
+      var invailmsg = "新增需求失敗，需求單未填寫完整";
+      console.log(invailmsg);
+      return res.json({ addNewPostResult:{ success: false, msg: invailmsg}});
     } 
     //
     // 補上表單空值
     if(!newPostForm.needSupplyCnt){
       newPostForm.needSupplyCnt = 1;
     }
-    if(!newPostForm.needSupplyCnt){
-      newPostForm.needSupplyCnt = 1;
-    }
+
     // 處理 tag
     newPostForm.tag = 0 //init!
     //這段用來產生tag (熱門、最新、緊急、高報酬 分別對應8 4 2 1)
