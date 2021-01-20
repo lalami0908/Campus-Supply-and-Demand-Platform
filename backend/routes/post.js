@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const path = require('path')
 import {Demand,Supply,BASE_URL } from '../models'
+const mongoose = require('mongoose');
+const Message = mongoose.model('Message');
 
 
 const multer = require('multer')
@@ -190,7 +192,21 @@ router.put('/supplyPost', async(req, res) => {
     ).then(async (demand)=>{
       console.log("需求單更新成功", demand); 
       await Supply.create({ NTUID: req.body.NTUID ,applyDate: new Date(), demandId:req.body.postID} )
-      return res.json({ feedback:{ success: true, msg: '接單成功'}});
+      .then((supply)=>{
+        let newSystemMessage = new Message({
+          demandId: demand._id,
+          NTUID: "====！系統留言！",
+          name: "====！系統留言！",
+          content: `${req.body.NTUID } 已申請接受該需求 ====`,
+          msgDate: new Date(),
+         });
+         newSystemMessage.save().then((addedNewMessage) => { 
+          console.log("系統留言: ");
+          console.log(addedNewMessage);
+          return res.json({ feedback:{ success: true, msg: '接單成功'}});
+        });
+      })
+   
 
     });
   })
