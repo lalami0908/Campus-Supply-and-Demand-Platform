@@ -72,7 +72,7 @@ const DemandDetail =  (props)=> {
         );
         console.log("addNewMessageResult back data:", newmessage);
         // 前端顯示訊息
-        alert(newmessage.msg)
+        // alert(newmessage.msg)
         if(newmessage.success){
             let res = await getMessage(props.item._id) 
             if(res.success){

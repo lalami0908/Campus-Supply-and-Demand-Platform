@@ -200,7 +200,7 @@ const Register = function (props) {
             <Button type="primary" onClick={showModal}>
                 註冊
             </Button>
-            <Modal  visible={visible} title="目前僅開放台大生註冊"     cancelButtonProps={{ style: { display: 'none' } }}    okButtonProps={{ style: { display: 'none' } }}>
+            <Modal  visible={visible} title="目前僅開放台大生註冊"  onCancel={handleCancel}   cancelButtonProps={{ style: { display: 'none' } }}    okButtonProps={{ style: { display: 'none' } }}>
                 <WrappedLoginForm
                     onSubmit={values => handleRegister(values)}
                     text={'註冊'}

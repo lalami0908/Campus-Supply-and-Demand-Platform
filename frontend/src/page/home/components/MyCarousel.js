@@ -19,8 +19,10 @@ const MyCarousel = (props) => {
     const [detailsVisible, setDetailsVisible] = useState(false);
     //init: 從後端抓所有的需求單
     useEffect(()=>{
+      if(props.posts){
         setTitle(props.posts[activeIndex].title)
         setName(props.posts[activeIndex].name)
+      }
     },[activeIndex])
 
     const next = () => {
@@ -91,7 +93,14 @@ const MyCarousel = (props) => {
                 <CarouselControl direction="prev" directionText="Previous" onClickHandler={previous}/>
                 <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
             </Carousel>
-            <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} NTUID={props.NTUID}/>
+            {
+              (props.posts.length != 0)?
+              ( <Details item={props.posts[activeIndex]} detailsVisible={detailsVisible} onChange={setDetailsVisible} NTUID={props.NTUID}/>)
+              :(
+                <h1>暫無需求</h1>
+              )
+            }
+           
       </>
     );
 }
@@ -121,20 +130,24 @@ const Details =  (props)=> {
           {props.visible}
           <Modal onCancel={handleCancel} onOk={handleOk} visible={visible} title="詳細情報" okText="確認" cancelText="取消">
               {/* <p>{`post id: ${props.item._id}`}</p> */}
-              <p>{`來自: ${props.item.name}`}</p>
-              <p>{`回報$$: ${props.item.price}`}</p>
-              <section>
-                {'詳細說明:'}
+              {(props.item)?(    
+              <div>         
+                <p>{`來自: ${props.item.name}`}</p>
+                <p>{`回報$$: ${props.item.price}`}</p>
+                <section>
+                  {'詳細說明:'}
+                  <br></br>
+                  <div style={{
+                    fontSize: '3vh'
+                  }}>{props.item.content}</div>
+                </section>
                 <br></br>
-                <div style={{
-                  fontSize: '3vh'
-                }}>{props.item.content}</div>
-              </section>
-              <br></br>
-              <br></br>
-              {(props.item.imgPath)?(props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
-              :(<p>no picture</p>)}
-              <SupplyModal postID={props.item.postID} NTUID={props.NTUID}/>
+                <br></br>
+                {(props.item.imgPath)?(props.item.imgPath.map((item) => { return <img src={item} style={{width: "50%", height: "100%"}}/>}))
+                :(<p>no picture</p>)}
+                <SupplyModal postID={props.item._id} NTUID={props.NTUID}/>
+                </div>):(<p></p>)}
+
           </Modal>
       </div>
   );

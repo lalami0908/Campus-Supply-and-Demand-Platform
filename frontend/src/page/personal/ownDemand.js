@@ -13,7 +13,7 @@ function OwnDemand() {
     const [activeIndex, setActiveIndex] = useState(0)
 
     function handleModalOpen (i) {
-        alert(i.target.id);
+        // alert(i.target.id);
         console.log("i", i);
         console.log("activeIndex", i.target.id);
         setActiveIndex(i.target.id);

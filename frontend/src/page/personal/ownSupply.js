@@ -11,13 +11,11 @@ function OwnSupply() {
         // resdata.map(async supply => {
         //     supply.DemandID
         // });
-
-
     }, [])
 
     useEffect( async ()=>{
         console.log('supplydata:',supplydata)
-        if(supplydata!==undefined){
+        if(supplydata!==undefined && supplydata.length != 0){
             let demandIds = supplydata.map(supply=>supply.demandId)
             console.log('debug demandIds:',demandIds)
 
@@ -27,17 +25,17 @@ function OwnSupply() {
                     
                 // ))()
                 console.log('get uniquePost:',uniquePost)
-                setPostdata(postdata.concat([uniquePost]))
-            }
- 
-
-               
+                // setPostdata(postdata.concat([uniquePost]))
+                setPostdata([...postdata, uniquePost]) 
+            }      
+            console.log('get useEffect2:',postdata)
         }
-
     },[supplydata])
+
     useEffect(()=>{
         console.log('postdata:',postdata)
     },[postdata])    
+
     return(
         <div>
 
