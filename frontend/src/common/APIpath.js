@@ -1,6 +1,6 @@
 //把API PATH統一列在這裡方便查詢
 //server base URL
-export const BASE_URL = 'http://localhost:4000/';
+export const BASE_URL = 'http://34.72.121.154:4000/';
 // 註冊
 export const REGISTER = '/login/register';
 // 登入
@@ -42,7 +42,7 @@ export const GET_DEMAND_MESSAGE = '/message/getMessage';
 
 /*===================================================================*/
 // 上傳照片 這裡是用
-export const UPLOAD_IMAGE_ACTION = 'http://localhost:4000/post/uploadImage';
+export const UPLOAD_IMAGE_ACTION = 'http://34.72.121.154:4000/post/uploadImage';
 
 export const DELETE_IMAGE_ACTION = '/post/deleteImage';
 
