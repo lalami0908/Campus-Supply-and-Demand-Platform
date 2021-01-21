@@ -32,3 +32,16 @@ Github link: https://github.com/GeniusPudding/WebPorgrammingFinal
 使用之第三方套件、框架、程式碼:
 前端: react, ant design, reactstrap, Material UI, axios
 後端: node.js, mongo atlas, express, jwt(jsonwebtoken), passport, crypto
+
+大致分工:
+林: 前端主要架構規劃、React router頁面跳轉、axios API初步規格、接單功能、首頁輪播需求單、GCP佈署、前後端API開發
+王: 後端主要架構規劃、登入註冊驗證機制、圖片上傳功能、留言板、需求單列與點入詳情樣式、個人資訊頁面、前後端API開發
+
+如果此專題是之前作品/專題的延伸，請務必在此說明清楚 (無)
+(Optional) 
+課堂建議:
+當今前後端技術相當複雜，在一學期內從零開始掌握這些確實相當花心力與課餘時間，
+例如到了寫期末專題時也時常因為基本的css跟js問題而卡關許久
+既然本門課程內容如此豐富說不定能開成整年的課程(?
+
+
