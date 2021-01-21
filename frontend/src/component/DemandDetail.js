@@ -14,6 +14,8 @@ const DemandDetail =  (props)=> {
     const [messagedata, setMessagedata] = useState([])
     const NTUID = localStorage.getItem('NTUID')
 
+
+
     useEffect( async ()=>{  
         setVisible(props.detailsVisible)
     },[props.detailsVisible])

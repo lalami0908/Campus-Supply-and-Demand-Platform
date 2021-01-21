@@ -77,11 +77,16 @@ export const getUserSupplies = async (NTUID) => {
 
 export const getAll = async (NTUID) => {
   // console.log("getAllPosts");
-  const {
-    data: { allPosts }
-  } = await instance.post( GET_ALL_POSTS, { NTUID: NTUID}).catch((err) => console.error(err));
-  // console.log("allPosts:", allPosts);
-  return allPosts
+  try {
+    const {
+      data: { allPosts }
+    } = await instance.post( GET_ALL_POSTS, { NTUID: NTUID}).catch((err) => console.error(err));
+    // console.log("allPosts:", allPosts);
+    return allPosts
+  }
+  catch (e) {
+    alert("系統異常，請重新整理");
+  }
 }
 
 //TODO

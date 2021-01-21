@@ -20,7 +20,7 @@ function getBase64(img, callback) {
 var date = new Date()
 var y = date.getFullYear()
 var m = date.getMonth()+1 < 10?'0'+(date.getMonth()+1):date.getMonth()+1
-var d = date.getDate()
+var d = date.getDate()+1
 var nowFormat = `${y}-${m}-${d}`
 
 const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
@@ -127,7 +127,7 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 <Form.Item label="需求人數">
                 {getFieldDecorator('needSupplyCnt', {
                     rules: [{ required: true, message: '需求人數為必填' }],
-                })(<InputNumber min={1} max={5} initialValue={1}  />)}
+                })(<InputNumber min={1} max={10} initialValue={1}  />)}
                 </Form.Item>
 
                 <Form.Item label="圖片上傳(image/jpeg) ">

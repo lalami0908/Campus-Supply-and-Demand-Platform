@@ -19,21 +19,31 @@ export const register = async (credential) => {  //credential:{NTU_ID, password}
 }
 
 export const login = async (loginInfo) => {
-  console.log("loginAxios");
-  const {
-    data: { loginResult }
-  } = await instance.post( LOGIN,  { user: loginInfo} ).catch((err) => console.error(err));
-  // console.log("loginResult", loginResult);
-  return loginResult
+
+  try {
+    console.log("loginAxios");
+    const {
+      data: { loginResult }
+    } = await instance.post( LOGIN,  { user: loginInfo} ).catch((err) => console.error(err));
+    // console.log("loginResult", loginResult);
+    return loginResult
+  }
+  catch (e) {
+    alert("系統異常，請重新整理"); 
+  }
 }
 
 //TODO
 export const resetPassword = async (credential) => {
-    const {
-      data: { msg }
-    } = await instance.post(RESET_PASSWORD, { params: { credential }})
-  
-    return msg
-  }
+    try {
+      const {
+        data: { msg }
+      } = await instance.post(RESET_PASSWORD, { params: { credential }})
+      return msg
+    }
+    catch (e) {
+      alert("系統異常，請重新整理"); 
+    }
+}
   
   

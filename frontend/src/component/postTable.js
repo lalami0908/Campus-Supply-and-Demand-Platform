@@ -29,7 +29,6 @@ function PostTable(props) {
     const  columns =  [
         { title: '我要應徵', field: 'apply'},
         { title: '需求標題', field: 'title'},
-        { title: '需求內容', field: 'content' },
         { title: '報酬金額', field: 'price', type: 'numeric' },
         { title: '刊登時間', field: 'postDate', type:"datetime"},
         { title: '截止時間', field: 'deadline', type:"datetime"},

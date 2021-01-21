@@ -108,7 +108,7 @@ router.post('/addNewPost', auth.required, (req, res) => {
 router.post('/getAllPosts', auth.required, async (req, res) => { 
   await Demand.find({state:'onDemand'}).then((posts) => {
     //濾掉自己的post
-    let canSupplyPosts = posts.filter(post=>post.NTUID!==req.body.NTUID)
+    let canSupplyPosts = posts.filter(post=>post.NTUID!==req.body.NTUID && new Date(post.deadline) > new Date ())
     console.log('取得所有不屬於自己，且狀態開啟的需求單',canSupplyPosts)
     return res.json({ allPosts: canSupplyPosts})
   })
@@ -124,7 +124,7 @@ router.post('/getTagPosts', auth.required,  async (req, res) => {
   let tag = tagValue[req.body.tag]
   await Demand.find({state:'onDemand'}).then((posts) => {
     //濾掉自己的post
-    return res.json({tagPosts:posts.filter(post=>post.NTUID!==req.body.NTUID&&((post.tag&tag)===tag))})
+    return res.json({tagPosts:posts.filter(post=>post.NTUID!==req.body.NTUID&&((post.tag&tag)===tag)&& (new Date(post.deadline) > new Date ()))})
   })
 });
 
