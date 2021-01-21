@@ -74,7 +74,7 @@ function EditInfoForm(props){
               })(<Input />)}
               </Form.Item>
 
-              <Form.Item label="圖片上傳">
+              <Form.Item label="圖片上傳(上傳圖片請等待一下哦)">
               {getFieldDecorator('fileList',{onChange:handleChange}
               )(<UploadImage isPersonal={true} isInit={true}></UploadImage>)}
               </Form.Item>
