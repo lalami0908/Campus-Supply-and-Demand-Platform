@@ -51,7 +51,9 @@ function Home(props) {
   const refreshPostTable = async ()=>{
     // 從後端動態拿post資料
     var getData = await getAll(NTUID)
-    setPostdata(getData)
+    if(getData){
+      setPostdata(getData)
+    }
   }
 
   useEffect(refreshPostTable,[])
