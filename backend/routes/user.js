@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 // import bodyParser from 'body-parser';
 // import cors from 'cors' 
-import {User,Personal,BASE_URL } from '../models'
+import { User,Personal,BASE_URL } from '../models'
 
 router.post('/users', (req, res) => { 
 	res.send('POST HTTP method on users resource');
@@ -24,7 +24,7 @@ router.post('/users', (req, res) => {
 		expertise:'擅長什麼呢',
 		demands:  '有什麼大家能幫你的嗎'
 	}
-	console.log('getPersonalInfo req:',req)
+	// console.log('getPersonalInfo req:',req)
 	console.log('getPersonalInfo req.query:',req.query)
 	console.log('getPersonalInfo req.query.name:',req.query.name)
 	await Personal.findOne({name:req.query.name}).then(info => {
@@ -33,32 +33,41 @@ router.post('/users', (req, res) => {
 			return res.json({personalInfo:info})
 		}else{
 			return res.json({personalInfo:defaultInfo})
-		}
-		
+		}	
 	})
-	return res.json({personalInfo:defaultInfo})
+	// return res.json({personalInfo:defaultInfo})
  });
  router.post('/modifyPersonalInfo', async (req, res) => { 
 	console.log('modifyPersonalInfo req.body:',req.body)
+	var imgPath = "";
+	if(req.body.fileList.length > 0){
+		imgPath= req.body.fileList[0].url
+	  } else {
+		imgPath = BASE_URL+'public/uploads/0.jpg';
+	}
 	await Personal.findOne({name:req.body.name}).then(async (info) => {
-		console.log('info:',info)
+		console.log('找到使用者 info:',info);
 		if(info){
+			
 			await Personal.findOneAndUpdate({name:info.name},
 				{ 
 					name: req.body.name, 
-					imgPath: req.body.imgPath,
-					introduction: req.body.introduction,
-					expertise: req.body.expertise,
-					demands: req.body.demands
+					imgPath: imgPath,
+					introduction: req.body.intro,
+					expertise: req.body.expert,
+					demands: req.body.demand
 				},(err,docs)=>{
 					if (err){ console.log(err) }
 				}).then(info=>{
-					return res.json({success:true, personalInfo:info})
+					console.log("更新成功", info);
+					return res.json({ personalInfoResult: {success:true, personalInfo:info} })
 				})
-		}else{
+		} else {
+			console.log('找不到使用者 info:')
+
 			let newInfo = { 
 				name: req.body.name,
-				imgPath: req.body.fileList[0].url,
+				imgPath: imgPath,
 				introduction: req.body.intro,
 				expertise: req.body.expert,
 				demands: req.body.demand

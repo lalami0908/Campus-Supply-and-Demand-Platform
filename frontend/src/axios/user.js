@@ -25,7 +25,10 @@ export const getName = async (NTUID) => {
     return personalInfo
 }
 export const setPersonalInfo = async (info) => {
-    console.log("setPersonalInfo getName");
+    console.log("setPersonalInfo getName", info);
+    if(!info.fileList){
+      info.fileList=[]
+    }
     const {
       data: { personalInfoResult }
     } = await instance.post( SET_PERSONAL_INFO,   info ).catch((err) => console.error(err));

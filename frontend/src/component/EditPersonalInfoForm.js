@@ -76,7 +76,7 @@ function EditInfoForm(props){
 
               <Form.Item label="圖片上傳">
               {getFieldDecorator('fileList',{onChange:handleChange}
-              )(<UploadImage isInit={true}></UploadImage>)}
+              )(<UploadImage isPersonal={true} isInit={true}></UploadImage>)}
               </Form.Item>
               <Form.Item className="edit-form-button">
                 {getFieldDecorator('remember', {
@@ -104,7 +104,8 @@ const EditPersonalInfoForm = (props)=>{
     values = {name:localStorage.getItem('name'), ...values}
     let res = await setPersonalInfo(values)
     console.log('res:',res)
-    if(res && res.success){  
+    if(res.success){  
+      props.refreshTable(res);
       setVisible(false)
       return true
     } else {
@@ -116,6 +117,7 @@ const EditPersonalInfoForm = (props)=>{
     console.log('handleSucceed')
     form.resetFields();
     setVisible(false)
+    // props.refreshTable()
   }
 
   const showModal = () => {

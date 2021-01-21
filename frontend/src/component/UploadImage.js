@@ -19,6 +19,10 @@ function beforeUpload(file) {
   // return isJpgOrPng && isLt2M;
 }
 export default class UploadImage extends Component {
+  constructor(props) {
+    super(props);
+  };
+
   state = {
     loading: false,
     imageUrl: '',
@@ -29,6 +33,13 @@ export default class UploadImage extends Component {
     previewImage: '',
     previewImageName: ''
   };
+
+  componentDidMount(){
+    if(this.props.isPersonal){
+      this.setState({imageUploadLimit: 1});
+    }
+
+  }
 
   
   // 顯示圖片
@@ -118,7 +129,7 @@ export default class UploadImage extends Component {
         >
         {this.state.imageUrl && this.state.isOpen ? 
             (<img src={this.state.imageUrl} alt="avatar" style={{ width: '100%' }} /> ): 
-            ( this.state.imageUploadNow >= 3 ? null : uploadButton)} 
+            ( this.state.imageUploadNow >=  this.state.imageUploadLimit ? null : uploadButton)} 
         </Upload>
         <Modal 
           visible={previewVisible}

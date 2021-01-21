@@ -12,6 +12,19 @@ function Personal(props) {
       expertise:'擅長什麼呢',
       demands:  '有什麼大家能幫你的嗎'
     })
+
+  
+    async function refreshTable(getInfo){
+      console.log("getInfo", getInfo);
+      var newInfo = {
+        imgPath: getInfo.personalInfo.imgPath,
+        introduction: getInfo.personalInfo.introduction,
+        expertise: getInfo.personalInfo.expertise,
+        demands: getInfo.personalInfo.demands
+      }
+      setInfo(newInfo);
+    }
+
     const name = localStorage.getItem('name')
     useEffect(async()=>{
       let res = await getPersonalInfo(name)
@@ -47,7 +60,7 @@ function Personal(props) {
               {info.demands}
             </Card>
           </section>
-          <EditPersonalInfoForm/>
+          <EditPersonalInfoForm refreshTable={refreshTable}/>
         </Card>
     )
 
