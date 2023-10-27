@@ -1,4 +1,5 @@
 const jwt = require('express-jwt');
+const JWT_KEY = process.env.JWT_KEY
 
 const getTokenFromHeaders = (req) => {
   const { headers: { authorization } } = req;
@@ -11,12 +12,12 @@ const getTokenFromHeaders = (req) => {
 
 const auth = {
   required: jwt({
-    secret: 'WebProgrammingFinal',
+    secret: JWT_KEY,
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
   }),
   optional: jwt({
-    secret: 'WebProgrammingFinal',
+    secret: JWT_KEY,
     userProperty: 'payload',
     getToken: getTokenFromHeaders,
     credentialsRequired: false,

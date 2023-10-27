@@ -17,8 +17,30 @@ const dbOptions = {
     useUnifiedTopology: true
 };
 
-mongoose.connect(process.env.MONGO_URL, dbOptions) .then(res => {
-console.log('mongo db connection created') })
+let isConnected = false; 
+
+const connectWithRetry = () => {
+	mongoose.connect(process.env.MONGO_URL, dbOptions, (err) => {
+	  if (err) {
+		console.error('Failed to connect to the database with error: ', err);
+		console.log('Will wait 1 minutes and try again')
+		setTimeout(connectWithRetry, 1 * 60 * 1000);
+	  }
+	});
+  };
+  
+  mongoose.connection.on('connected', () => {
+	isConnected = true;
+	console.log('Connected to database');
+  });
+  
+  mongoose.connection.on('disconnected', () => {
+	isConnected = false;
+	console.log('Disconnected to database');
+  });
+  
+
+connectWithRetry();
 
 const db = mongoose.connection;
 

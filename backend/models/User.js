@@ -26,7 +26,7 @@ const UsersSchema = new Schema({
 
 
 // 設定密鑰
-const SECRET = 'WebProgrammingFinal'
+const SECRET = process.env.JWT_KEY
 
 
 UsersSchema.methods.setPassword = function(password) {

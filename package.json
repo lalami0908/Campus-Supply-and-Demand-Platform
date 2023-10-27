@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "react-responsive-carousel": "^3.2.11",
-    "react-smooth-marquee": "^1.0.0",
-    "reactstrap": "^8.8.1"
-  }
-}
